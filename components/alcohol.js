@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from '../styles/Home.module.css'
 
+const defaultDate = new Date().toISOString().substr(0, 10);
+
 class AlcoholForm extends React.Component {
     constructor(props) {
         super(props);
@@ -13,18 +15,25 @@ class AlcoholForm extends React.Component {
     }
 
     handleChange(event) {
-        console.log('event.target.quitDate', event.target.valueAsDate);
         this.setState({quitDate: event.target.valueAsDate});
     }
 
     handleSubmit(event) {
-        const date = new Date(this.state.quitDate)
-        const currentDate = new Date()
-        const timeDiff = currentDate.getTime() - date.getTime()
-        const daysDiff = timeDiff / (1000 * 3600 * 24);
-        const daysDiffRounded = Math.round(daysDiff * 100) / 100
+        fetch('/api/alcohol-tracker/alcohol',
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'applicaiton/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    quitDate: this.state.quitDate
+                })
+            })
+            .then(res => res.json())
+            .catch(error => console.log(error))
+            .then(response => console.log('Success', response))
 
-        this.setState({daysFree: daysDiffRounded})
         event.preventDefault();
     }
 
@@ -34,9 +43,8 @@ class AlcoholForm extends React.Component {
                 <div className={styles.card}>
                     <label>
                         Quit Date:
-                        <input type="date" onChange={this.handleChange}/>
+                        <input type="date" defaultValue={defaultDate} onChange={this.handleChange}/>
                     </label>
-                    <p >{this.state.daysFree} Days Alcohol FREE 🍻</p>
                     <br/>
                     <input type="submit" value="Save"/>
                 </div>
