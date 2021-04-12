@@ -34,14 +34,9 @@ const AlcoholHistory = () => {
     const calcDaysQuit = (quitDate) => {
         const date = new Date(quitDate)
         const currentDate = new Date()
-        console.log('date', date);
-        console.log('currentDate', currentDate);
         const timeDiff = currentDate.getTime() - date.getTime()
-        console.log('timeDiff', timeDiff);
         const daysDiff = timeDiff / (1000 * 3600 * 24);
-        console.log('daysDiff', daysDiff);
         const daysDiffRounded = Math.round(daysDiff * 100) / 100
-        console.log('daysDiffRounded', daysDiffRounded);
         return daysDiffRounded
     }
 
