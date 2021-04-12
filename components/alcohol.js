@@ -19,7 +19,7 @@ class AlcoholForm extends React.Component {
     }
 
     handleSubmit(event) {
-        fetch('/api/alcohol-tracker/alcohol',
+        fetch('/api/alcohol-tracker/add',
             {
                 method: 'POST',
                 headers: {
