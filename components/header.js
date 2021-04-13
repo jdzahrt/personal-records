@@ -22,7 +22,7 @@ export default function Header () {
                 className={styles.buttonPrimary}
                 onClick={(e) => {
                   e.preventDefault()
-                  signIn('google', { callbackUrl: 'https://personal-records.vercel.app/' })
+                  signIn()
                 }}
               >
                 Sign in
