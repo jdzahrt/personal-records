@@ -7,10 +7,12 @@ const defaultDate = new Date().toISOString().substr(0, 10);
 const AlcoholHistory = () => {
     const [alcoholHistory, setAlcoholHistory] = useState([])
     const [quitDate, setQuitDate] = useState([])
+    const [isLoading, setIsLoading] = useState(true);
 
     const fetchAlcoholHistory = async () => {
         const data = await fetch(`/api/alcohol-tracker/get-history`);
         const results = await data.json();
+        setIsLoading(false)
         setAlcoholHistory(results)
     }
 
@@ -74,20 +76,24 @@ const AlcoholHistory = () => {
                 </div>
             </form>
             <center><h1>Alcohol History List</h1></center>
-            {alcoholHistory.map((record) => (
-                <ul key={record._id}>
-                    <p>
-                        Quit on {moment(record.quitDate).format('MM-DD-YYYY')}
-                        .... {calcDaysQuit(moment(record.quitDate))} Days
-                        Alcohol
-                        FREE! 🍻
-                    </p>
-                    <button value={record._id} onClick={e => handleStop(e.target.value)}>STOP TRACKING</button>
-                    <button value={record._id} onClick={e => handleDelete(e.target.value)}>DELETE RECORD</button>
-                </ul>
-            ))}
+            {!isLoading ? alcoholHistory.map((record) => (
+                    <ul key={record._id}>
+                        <p>
+                            Quit on {moment(record.quitDate).format('MM-DD-YYYY')}
+                            .... {calcDaysQuit(moment(record.quitDate))} Days
+                            Alcohol
+                            FREE! 🍻
+                        </p>
+                        {/*<button value={record._id} onClick={e => handleStop(e.target.value)}>STOP TRACKING</button>*/}
+                        <button value={record._id} onClick={e => handleDelete(e.target.value)}>DELETE RECORD</button>
+                    </ul>
+                ))
+                : <div>Loading....
+                    <img src="/loading.svg" className={styles.loading}/>
+                </div>}
         </div>
     );
 };
+
 
 export default AlcoholHistory

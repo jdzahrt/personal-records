@@ -16,7 +16,8 @@ export default async (req, res) => {
 
             const insertPayload = {
                 email: user,
-                quitDate
+                quitDate,
+                active: true
             };
 
             const result = await alcoholCollection.insertOne(insertPayload);

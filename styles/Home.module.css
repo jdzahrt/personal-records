@@ -118,10 +118,13 @@
   height: 1em;
 }
 
+.loading {
+  height: 2em;
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;
     flex-direction: column;
   }
 }
-
