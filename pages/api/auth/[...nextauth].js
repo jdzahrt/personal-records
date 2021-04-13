@@ -107,7 +107,7 @@ export default NextAuth({
                 return Promise.resolve('/profile')
             }
 
-            return Promise.resolve('/api/auth/signin')
+            return Promise.resolve('/test')
         }
         // async session(session, user) { return session },
         // async jwt(token, user, account, profile, isNewUser) { return token }
