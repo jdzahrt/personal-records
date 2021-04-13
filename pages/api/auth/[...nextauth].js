@@ -104,7 +104,7 @@ export default NextAuth({
         // async redirect(url, baseUrl) { return baseUrl },
         redirect: async (url, _) => {
             if (url === '/api/auth/signin') {
-                return Promise.resolve(process.env.REDIRECT_URL)
+                return Promise.resolve('/profile')
             }
 
             return Promise.resolve('/api/auth/signin')
