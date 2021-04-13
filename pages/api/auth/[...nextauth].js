@@ -101,14 +101,14 @@ export default NextAuth({
     // https://next-auth.js.org/configuration/callbacks
     callbacks: {
         // async signIn(user, account, profile) { return true },
-        async redirect(url, baseUrl) { return baseUrl },
-        // redirect: async (url, _) => {
-        //     if (url === '/api/auth/signin') {
-        //         return Promise.resolve('/profile')
-        //     }
-        //
-        //     return Promise.resolve('/api/auth/signin')
-        // }
+        // async redirect(url, baseUrl) { return baseUrl },
+        redirect: async (url, _) => {
+            if (url === '/api/auth/signin') {
+                return Promise.resolve(process.env.REDIRECT_URL)
+            }
+
+            return Promise.resolve('/api/auth/signin')
+        }
         // async session(session, user) { return session },
         // async jwt(token, user, account, profile, isNewUser) { return token }
     },
