@@ -102,13 +102,6 @@ export default NextAuth({
     callbacks: {
         // async signIn(user, account, profile) { return true },
         // async redirect(url, baseUrl) { return baseUrl },
-        redirect: async (url, _) => {
-            if (url === '/api/auth/signin') {
-                return Promise.resolve('/profile')
-            }
-
-            return Promise.resolve('/api/auth/signin')
-        }
         // async session(session, user) { return session },
         // async jwt(token, user, account, profile, isNewUser) { return token }
     },
