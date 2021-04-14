@@ -22,7 +22,7 @@ export default function Home() {
                         <p>Take you to the page to track your drinks 🍻</p>
                     </a>
 
-                    <a href="https://nextjs.org/learn" className={styles.card}>
+                    <a href="/workout-tracker" className={styles.card}>
                         <h3>Workout Tracker &rarr;</h3>
                         <p>Take you to the page to track your personal workout records</p>
                     </a>
