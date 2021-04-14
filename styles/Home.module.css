@@ -128,3 +128,13 @@
     flex-direction: column;
   }
 }
+
+.active {
+  color: green;
+  text-decoration: none;
+}
+
+.inactive {
+  color: darkred;
+  text-decoration: none;
+}

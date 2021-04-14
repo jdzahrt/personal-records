@@ -14,7 +14,7 @@ export default async (req, res) => {
             const alcoholCollection = db.collection(collectionName);
 
             return await alcoholCollection.find({email: userEmail})
-                .sort({quitDate: -1}).toArray()
+                .sort({active: -1}).toArray()
         }
 
         const results = await getHistory();
