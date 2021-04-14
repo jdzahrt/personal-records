@@ -20,8 +20,20 @@ const AlcoholHistory = () => {
         fetchAlcoholHistory();
     }, [])
 
-    const handleStop = (id) => {
-        console.log(`Gonna update it to stop tracking ${id}`);
+    const handleStop = async (id) => {
+        await fetch(`/api/alcohol-tracker/update?id=${id}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'applicaiton/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .catch(error => console.log(error))
+            .then(response => console.log('Success', response))
+
+        await fetchAlcoholHistory();
     }
 
     const handleDelete = async (id) => {
@@ -33,13 +45,12 @@ const AlcoholHistory = () => {
         setQuitDate(event.target.value)
     }
 
-    const calcDaysQuit = (quitDate) => {
-        const date = new Date(quitDate)
-        const currentDate = new Date()
-        const timeDiff = currentDate.getTime() - date.getTime()
-        const daysDiff = timeDiff / (1000 * 3600 * 24);
-        const daysDiffRounded = Math.round(daysDiff * 100) / 100
-        return daysDiffRounded
+    const calcDaysQuit = (quitDate, endDate) => {
+        quitDate = moment(quitDate)
+        endDate = endDate ? moment(endDate) : null;
+        const currentDate = moment()
+
+        return endDate ? quitDate.diff(endDate, 'days') : currentDate.diff(quitDate, 'days');
     }
 
     const handleSubmit = async (event) => {
@@ -80,11 +91,22 @@ const AlcoholHistory = () => {
                     <ul key={record._id}>
                         <p>
                             Quit on {moment(record.quitDate).format('MM-DD-YYYY')}
-                            .... {calcDaysQuit(moment(record.quitDate))} Days
+                            .... {calcDaysQuit(moment(record.quitDate), record.endDate)} Days
                             Alcohol
                             FREE! 🍻
+                            <span className={record.active ? styles.active : styles.inactive}>
+                                {record.active ? 'ACTIVE' : <p>INACTIVE - Streak ended on {record.endDate}</p>}
+                            </span>
                         </p>
-                        {/*<button value={record._id} onClick={e => handleStop(e.target.value)}>STOP TRACKING</button>*/}
+                        {/*<p className={record.active ? styles.active : styles.inactive}>*/}
+                        {/*    /!*<span className={record.active ? styles.active : styles.inactive}>*!/*/}
+                        {/*    STATUS: {record.active ? 'ACTIVE' : `INACTIVE - Streak ended on ${record.endDate}`}*/}
+                        {/*    /!*</span>*!/*/}
+                        {/*</p>*/}
+                        {record.active ?
+                            <button value={record._id} onClick={e => handleStop(e.target.value)}>
+                                I DRANK...STOP TRACKING
+                            </button> : <></>}
                         <button value={record._id} onClick={e => handleDelete(e.target.value)}>DELETE RECORD</button>
                     </ul>
                 ))
