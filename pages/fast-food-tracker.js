@@ -1,11 +1,11 @@
 import styles from '../styles/Home.module.css';
 
-const WorkoutTracker = () => {
+const FastFoodTracker = () => {
     return (
         <div className={styles.container}>
             <main>
                 <h1 className={styles.title}>
-                    Coming soon..... 💪
+                    Coming soon..... 🍔
                 </h1>
                 <a href={'/'} className={styles.footer}>Home</a>
             </main>
@@ -13,4 +13,4 @@ const WorkoutTracker = () => {
     )
 }
 
-export default WorkoutTracker
+export default FastFoodTracker

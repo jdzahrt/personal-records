@@ -2,6 +2,7 @@ import {getMongoClient} from '../../../db/mongo';
 import {getSession} from 'next-auth/client'
 
 export default async (req, res) => {
+    // TODO: Handle users that are not signed in
     const session = await getSession({req})
     const user = session.user.email
     const {quitDate} = req.body

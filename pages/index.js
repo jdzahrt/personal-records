@@ -24,7 +24,12 @@ export default function Home() {
 
                     <a href="/workout-tracker" className={styles.card}>
                         <h3>Workout Tracker &rarr;</h3>
-                        <p>Take you to the page to track your personal workout records</p>
+                        <p>Take you to the page to track your personal workout records 💪</p>
+                    </a>
+
+                    <a href="/fast-food-tracker" className={styles.card}>
+                        <h3>Fast Food Tracker &rarr;</h3>
+                        <p>Take you to the page to track your fast food habits 🍔</p>
                     </a>
 
                     {/*<a*/}
