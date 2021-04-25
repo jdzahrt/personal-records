@@ -16,10 +16,6 @@ const AlcoholHistory = () => {
         setAlcoholHistory(results)
     }
 
-    useEffect(() => {
-        fetchAlcoholHistory();
-    }, [])
-
     const handleStop = async (id) => {
         await fetch(`/api/alcohol-tracker/update?id=${id}`,
             {
@@ -50,7 +46,7 @@ const AlcoholHistory = () => {
         endDate = endDate ? moment(endDate) : null;
         const currentDate = moment()
 
-        return endDate ? quitDate.diff(endDate, 'days') : currentDate.diff(quitDate, 'days');
+        return endDate ? endDate.diff(quitDate, 'days') : currentDate.diff(quitDate, 'days');
     }
 
     const handleSubmit = async (event) => {
@@ -74,6 +70,10 @@ const AlcoholHistory = () => {
         await fetchAlcoholHistory();
     }
 
+    useEffect(() => {
+        fetchAlcoholHistory();
+    }, [])
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -89,7 +89,7 @@ const AlcoholHistory = () => {
             <center><h1>Alcohol History List</h1></center>
             {!isLoading ? alcoholHistory.map((record) => (
                     <ul key={record._id}>
-                        <p>
+                        <div>
                             Quit on {moment(record.quitDate).format('MM-DD-YYYY')}
                             .... {calcDaysQuit(moment(record.quitDate), record.endDate)} Days
                             Alcohol
@@ -97,12 +97,7 @@ const AlcoholHistory = () => {
                             <span className={record.active ? styles.active : styles.inactive}>
                                 {record.active ? 'ACTIVE' : <p>INACTIVE - Streak ended on {record.endDate}</p>}
                             </span>
-                        </p>
-                        {/*<p className={record.active ? styles.active : styles.inactive}>*/}
-                        {/*    /!*<span className={record.active ? styles.active : styles.inactive}>*!/*/}
-                        {/*    STATUS: {record.active ? 'ACTIVE' : `INACTIVE - Streak ended on ${record.endDate}`}*/}
-                        {/*    /!*</span>*!/*/}
-                        {/*</p>*/}
+                        </div>
                         {record.active ?
                             <button value={record._id} onClick={e => handleStop(e.target.value)}>
                                 I DRANK...STOP TRACKING

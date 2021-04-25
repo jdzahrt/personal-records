@@ -3,8 +3,11 @@ import {getSession} from 'next-auth/client'
 
 export default async (req, res) => {
     const session = await getSession({req})
-    const userEmail = session.user.email
+    if (!session)
+        return res.status(200).json([])
 
+    const userEmail = session.user.email
+    
     const client = await getMongoClient()
     const db = client.db('personal-records')
     const collectionName = 'alcohol';
