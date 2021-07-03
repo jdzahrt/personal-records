@@ -6,7 +6,7 @@ const AlcoholTracker = () => {
         <div className={styles.container}>
             <main>
                 <h1 className={styles.title}>
-                    Lets track how long you have gone without a drank!
+                    Track how long you have gone without a drank!
                 </h1>
                 <AlcoholHistory/>
                 <a href={'/'} className={styles.footer}>Home</a>
