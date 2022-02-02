@@ -106,14 +106,14 @@ const AlcoholHistory = () => {
                             Quit on {moment(record.quitDate).format('MM-DD-YYYY')}
                             .... {calcDaysQuit(moment(record.quitDate), record.endDate)} Days
                             Alcohol
-                            FREE! 🍻
+                            FREE!
                             <span className={record.active ? styles.active : styles.inactive}>
-                                {record.active ? `ACTIVE: ${(maxDate - calcDaysQuit(moment(record.quitDate), record.endDate)).toString()} more days to go to break your personal record!` :
+                                {record.active ? ` 🍻ACTIVE🍻 ${(maxDate - calcDaysQuit(moment(record.quitDate), record.endDate)).toString()} more days to go to break your personal record!` :
                                     <p>INACTIVE - Streak ended on {record.endDate}</p>}
                             </span>
                         </div>
                         {record.active ?
-                            <button value={record._id} onClick={e => handleStop(e.target.value)}>
+                            <button className={styles.button} value={record._id} onClick={e => handleStop(e.target.value)}>
                                 I DRANK...STOP TRACKING
                             </button> : <></>}
                         <button value={record._id} onClick={e => handleDelete(e.target.value)}>DELETE RECORD</button>

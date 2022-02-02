@@ -138,3 +138,8 @@
   color: darkred;
   text-decoration: none;
 }
+
+.button {
+  margin-right: 10px;
+  margin-top: 10px;
+}
