@@ -2,18 +2,21 @@ import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import styles from '../styles/Home.module.css';
 
-const defaultDate = new Date().toISOString().substr(0, 10);
+const defaultDate = new Date().toISOString().substring(0, 10);
 
 const AlcoholHistory = () => {
     const [alcoholHistory, setAlcoholHistory] = useState([])
     const [quitDate, setQuitDate] = useState([])
     const [isLoading, setIsLoading] = useState(true);
+    const [maxDate, setMaxDate] = useState(0)
 
     const fetchAlcoholHistory = async () => {
         const data = await fetch(`/api/alcohol-tracker/get-history`);
         const results = await data.json();
         setIsLoading(false)
         setAlcoholHistory(results)
+
+        return results
     }
 
     const handleStop = async (id) => {
@@ -71,7 +74,17 @@ const AlcoholHistory = () => {
     }
 
     useEffect(() => {
-        fetchAlcoholHistory();
+        fetchAlcoholHistory().then((data) => {
+            const holdDates = []
+
+            data.forEach((v) => {
+                holdDates.push(calcDaysQuit(moment(v.quitDate), v.endDate))
+            })
+
+            const mDate = Math.max(...holdDates)
+
+            setMaxDate(mDate)
+        });
     }, [])
 
     return (
@@ -93,13 +106,14 @@ const AlcoholHistory = () => {
                             Quit on {moment(record.quitDate).format('MM-DD-YYYY')}
                             .... {calcDaysQuit(moment(record.quitDate), record.endDate)} Days
                             Alcohol
-                            FREE! 🍻
+                            FREE!
                             <span className={record.active ? styles.active : styles.inactive}>
-                                {record.active ? 'ACTIVE' : <p>INACTIVE - Streak ended on {record.endDate}</p>}
+                                {record.active ? ` 🍻ACTIVE🍻 ${(maxDate - calcDaysQuit(moment(record.quitDate), record.endDate)).toString()} more days to go to break your personal record!` :
+                                    <p>INACTIVE - Streak ended on {record.endDate}</p>}
                             </span>
                         </div>
                         {record.active ?
-                            <button value={record._id} onClick={e => handleStop(e.target.value)}>
+                            <button className={styles.button} value={record._id} onClick={e => handleStop(e.target.value)}>
                                 I DRANK...STOP TRACKING
                             </button> : <></>}
                         <button value={record._id} onClick={e => handleDelete(e.target.value)}>DELETE RECORD</button>
