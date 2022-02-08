@@ -1,6 +1,5 @@
 import styles from '../styles/Home.module.css';
 import AlcoholHistory from '../components/alcohol-history';
-import React from 'react';
 
 const AlcoholTracker = () => {
     return (
