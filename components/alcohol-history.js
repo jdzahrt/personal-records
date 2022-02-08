@@ -99,7 +99,7 @@ const AlcoholHistory = () => {
                     <input type="submit" value="Save"/>
                 </div>
             </form>
-            <center><h1>Alcohol History List</h1></center>
+            <center><h2>Alcohol History List</h2></center>
             {!isLoading ? alcoholHistory.map((record) => (
                     <ul key={record._id}>
                         <div>
