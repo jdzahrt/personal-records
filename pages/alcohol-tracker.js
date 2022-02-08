@@ -1,13 +1,12 @@
 import styles from '../styles/Home.module.css';
 import AlcoholHistory from '../components/alcohol-history';
+import React from 'react';
 
 const AlcoholTracker = () => {
     return (
         <div className={styles.container}>
             <main>
-                <h1 className={styles.title}>
-                    Track how long you have gone without a drank!
-                </h1>
+                <center><h1>Track how long you have gone without a drink!</h1></center>
                 <AlcoholHistory/>
                 <a href={'/'} className={styles.footer}>Home</a>
             </main>
