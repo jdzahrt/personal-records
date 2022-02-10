@@ -14,7 +14,7 @@ export default async (req, res) => {
 
     try {
         const getHistory = async () => {
-            const alcoholCollection = await db.collection(collectionName);
+            const alcoholCollection = db.collection(collectionName);
 
             return await alcoholCollection.find({email: userEmail})
                 .sort({active: -1}).toArray()
