@@ -16,7 +16,7 @@ export default async (req, res) => {
             const updateRecord = {
                 $set: {
                     active: false,
-                    endDate: new Date().toString()
+                    endDate: new Date().toDateString()
                 }
             };
 
