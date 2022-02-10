@@ -7,17 +7,21 @@ export default async (req, res) => {
         return res.status(200).json([])
 
     const userEmail = session.user.email
-    
+
     const client = await getMongoClient()
-    const db = client.db('personal-records')
+    const db = await client.db('personal-records')
     const collectionName = 'alcohol';
 
     try {
         const getHistory = async () => {
             const alcoholCollection = db.collection(collectionName);
 
-            return await alcoholCollection.find({email: userEmail})
+            const c =  await alcoholCollection.find({email: userEmail})
                 .sort({active: -1}).toArray()
+
+            console.log('c', c);
+
+            return c
         }
 
         const results = await getHistory();

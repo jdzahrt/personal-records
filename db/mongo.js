@@ -6,9 +6,8 @@ export const getMongoClient = async () => {
     return await MongoClient.connect(url,
         {
             useNewUrlParser: true,
-            useUnifiedTopology: true
-        }
-    )
+            useUnifiedTopology: true,
+        })
         .catch(err => {
             console.log(err);
         });

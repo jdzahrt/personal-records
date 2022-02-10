@@ -20,7 +20,7 @@ export default async (req, res) => {
             );
         }
 
-        deleteRecord().catch(console.dir);
+        await deleteRecord().catch(console.dir);
 
         res.status(200).json({status: 'Delete Success'})
     } catch (error) {
