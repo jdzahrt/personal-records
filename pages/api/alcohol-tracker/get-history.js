@@ -19,8 +19,6 @@ export default async (req, res) => {
             const c =  await alcoholCollection.find({email: userEmail})
                 .sort({active: -1}).toArray()
 
-            console.log('c', c);
-
             return c
         }
 
