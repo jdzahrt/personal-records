@@ -27,7 +27,7 @@ export default async (req, res) => {
             );
         }
 
-        updateRecord().catch(console.dir);
+        await updateRecord().catch(console.dir);
 
         res.status(200).json({status: 'Update Success'})
     } catch (error) {

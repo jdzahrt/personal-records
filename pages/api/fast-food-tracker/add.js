@@ -28,7 +28,7 @@ export default async (req, res) => {
             );
         }
 
-        insertRecord().catch(console.dir);
+        await insertRecord().catch(console.dir);
 
         res.status(200).json({status: 'Success'})
     } catch (error) {
