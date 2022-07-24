@@ -21,7 +21,7 @@ const FastFoodHistory = () => {
             {
                 method: 'PUT',
                 headers: {
-                    'Accept': 'applicaiton/json',
+                    'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
             })
