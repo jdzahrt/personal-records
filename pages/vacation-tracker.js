@@ -5,7 +5,7 @@ const VacationTracker = () => {
     return (
         <div className={styles.container}>
             <main>
-                < Vacation/>
+                <Vacation/>
                 <a href={'/'} className={styles.footer}>Home</a>
             </main>
         </div>

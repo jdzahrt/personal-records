@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import styles from '../styles/Home.module.css';
 
-const defaultDate = new Date().toISOString().substr(0, 10);
+const defaultDate = new Date().toISOString().substring(0, 10);
 
 const FastFoodHistory = () => {
     const [fastFoodHistory, setFastFoodHistory] = useState([])
@@ -106,7 +106,7 @@ const FastFoodHistory = () => {
                     </ul>
                 ))
                 : <div>Loading....
-                    <img src="/loading.svg" className={styles.loading}/>
+                    <img src="/loading.svg" className={styles.loading} alt={"Loading icon"}/>
                 </div>}
         </div>
     );
