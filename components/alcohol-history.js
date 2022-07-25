@@ -45,9 +45,9 @@ const AlcoholHistory = () => {
     }
 
     const calcDaysQuit = (quitDate, endDate) => {
-        quitDate = moment(quitDate)
-        endDate = endDate ? moment(endDate) : null;
-        const currentDate = moment()
+        quitDate = moment(new Date(quitDate), "YYYY-MM-DD")
+        endDate = endDate ? moment(new Date(endDate), "YYYY-MM-DD") : null;
+        const currentDate = moment(new Date(), "YYYY-MM-DD")
 
         return endDate ? endDate.diff(quitDate, 'days') : currentDate.diff(quitDate, 'days');
     }
@@ -78,10 +78,10 @@ const AlcoholHistory = () => {
             const holdDates = []
 
             data.forEach((v) => {
-                holdDates.push(calcDaysQuit(moment(v.quitDate), v.endDate))
+                holdDates.push(calcDaysQuit(v.quitDate, v.endDate))
             })
 
-            const mDate = Math.max(...holdDates)
+            const mDate = Math.max(...holdDates);
 
             setMaxDate(mDate)
         });
@@ -104,11 +104,11 @@ const AlcoholHistory = () => {
                     <ul key={record._id}>
                         <div>
                             Quit on {moment(record.quitDate).format('MM-DD-YYYY')}
-                            .... {calcDaysQuit(moment(record.quitDate), record.endDate)} Days
+                            .... {calcDaysQuit(record.quitDate, record.endDate)} Days
                             Alcohol
                             FREE!
                             <span className={record.active ? styles.active : styles.inactive}>
-                                {record.active ? ` 🍻ACTIVE🍻 ${(maxDate - calcDaysQuit(moment(record.quitDate), record.endDate)).toString()} more days to go to break your personal record!` :
+                                {record.active ? ` 🍻ACTIVE🍻 ${maxDate - calcDaysQuit(record.quitDate, record.endDate)} more days to go to break your personal record!` :
                                     <p>INACTIVE - Streak ended on {record.endDate}</p>}
                             </span>
                         </div>
@@ -120,7 +120,7 @@ const AlcoholHistory = () => {
                     </ul>
                 ))
                 : <div>Loading....
-                    <img src="/loading.svg" className={styles.loading}/>
+                    <img src="/loading.svg" className={styles.loading} alt={"Loading image"}/>
                 </div>}
         </div>
     );

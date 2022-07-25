@@ -88,18 +88,20 @@ const WorkoutHistory = () => {
       fetchWorkoutHistory()
     }, [])
 
-    const [columns, setColumns] = useState([
-      { title: 'Exercise', field: 'exercise' },
+    const [columns] = useState([
+      { title: 'Exercise', field: 'exercise', type: 'string' },
       { title: 'Reps', field: 'reps', type: 'numeric', initialEditValue: 0 },
       { title: 'Date', field: 'date', type: 'date', initialEditValue: new Date() }
     ]);
 
     return (
       <MaterialTable
-        title="Workout Tracker"
         icons={tableIcons}
         columns={columns}
         data={workoutData}
+        options={{
+            showTitle: false
+            }}
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
