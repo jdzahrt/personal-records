@@ -2,6 +2,8 @@ import MaterialTable from 'material-table';
 import { forwardRef, useState, useEffect } from 'react';
 import { resetServerContext } from "react-beautiful-dnd";
 
+import {fetchApi} from "../utils/fetch-api";
+
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -45,7 +47,7 @@ const WorkoutHistory = () => {
     const [workoutData, setWorkoutData] = useState([])
 
     const fetchWorkoutHistory = async () => {
-      const data = await fetch(`/api/workout-tracker/get-history`);
+      const data = await fetchApi(`/api/workout-tracker/get-history`, 'GET');
       const results = await data.json();
       setIsLoading(false)
       setWorkoutData(results)
@@ -54,33 +56,17 @@ const WorkoutHistory = () => {
     }
 
     const addWorkoutHistory = async (workoutData) => {
-        await fetch(`/api/workout-tracker/add`,
-            {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(workoutData)
-            });
+        await fetchApi('/api/workout-tracker/add', 'POST', workoutData)
         await fetchWorkoutHistory();
     }
 
     const editWorkoutHistory = async (workoutData) => {
-        await fetch(`/api/workout-tracker/update`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(workoutData)
-            });
+        await fetchApi('/api/workout-tracker/update', 'PUT', workoutData)
         await fetchWorkoutHistory();
     }
 
     const deleteWorkoutHistory = async (id) => {
-        await fetch(`/api/workout-tracker/delete?id=${id}`);
+        await fetchApi(`/api/workout-tracker/delete?id=${id}`, 'DELETE')
         await fetchWorkoutHistory();
     }
 

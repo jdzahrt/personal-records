@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import moment from 'moment';
 import styles from '../styles/Home.module.css';
+import {fetchApi} from "../utils/fetch-api";
+import {calcDaysQuit} from "../utils/days";
 
 const defaultDate = new Date().toISOString().substring(0, 10);
 
@@ -10,30 +11,19 @@ const FastFoodHistory = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchFastFoodHistory = async () => {
-        const data = await fetch(`/api/fast-food-tracker/get-history`);
+        const data = await fetchApi(`/api/fast-food-tracker/get-history`, 'GET');
         const results = await data.json();
         setIsLoading(false)
         setFastFoodHistory(results)
     }
 
     const handleStop = async (id) => {
-        await fetch(`/api/fast-food-tracker/update?id=${id}`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(res => res.json())
-            .catch(error => console.log(error))
-            .then(response => console.log('Success', response))
-
+        await fetchApi(`/api/fast-food-tracker/update?id=${id}`, 'PUT')
         await fetchFastFoodHistory();
     }
 
     const handleDelete = async (id) => {
-        await fetch(`/api/fast-food-tracker/delete?id=${id}`)
+        await fetchApi(`/api/fast-food-tracker/delete?id=${id}`, 'DELETE')
         await fetchFastFoodHistory();
     }
 
@@ -41,32 +31,9 @@ const FastFoodHistory = () => {
         setQuitDate(event.target.value)
     }
 
-    const calcDaysQuit = (quitDate, endDate) => {
-        quitDate = moment(quitDate)
-        endDate = endDate ? moment(endDate) : null;
-        const currentDate = moment()
-
-        return endDate ? endDate.diff(quitDate, 'days') : currentDate.diff(quitDate, 'days');
-    }
-
     const handleSubmit = async (event) => {
         event.preventDefault()
-
-        await fetch('/api/fast-food-tracker/add',
-            {
-                method: 'POST',
-                headers: {
-                    'Accept': 'applicaiton/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    quitDate
-                })
-            })
-            .then(res => res.json())
-            .catch(error => console.log(error))
-            .then(response => console.log('Success', response))
-
+        await fetchApi('/api/fast-food-tracker/add', 'POST', {quitDate})
         await fetchFastFoodHistory();
     }
 
@@ -90,8 +57,8 @@ const FastFoodHistory = () => {
             {!isLoading ? fastFoodHistory.map((record) => (
                     <ul key={record._id}>
                         <div>
-                            Quit on {moment(record.quitDate).format('MM-DD-YYYY')}
-                            .... {calcDaysQuit(moment(record.quitDate), record.endDate)} Days
+                            Quit on {record.quitDate}
+                            .... {calcDaysQuit(record.quitDate, record.endDate)} Days
                             Fast Food
                             FREE! 🍻
                             <span className={record.active ? styles.active : styles.inactive}>
