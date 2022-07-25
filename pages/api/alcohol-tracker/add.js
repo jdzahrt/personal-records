@@ -1,5 +1,5 @@
 import {getMongoClient} from '../../../db/mongo';
-import {getSession} from 'next-auth/client'
+import {getSession} from 'next-auth/react'
 
 export default async (req, res) => {
     // TODO: Handle users that are not signed in

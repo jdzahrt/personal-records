@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styles from '../styles/Home.module.css';
 import {fetchApi} from "../utils/fetch-api";
 import {calcDaysQuit} from "../utils/days";
+import {getAlcoholHistory} from "../service/alcohol";
 
 const defaultDate = new Date().toISOString().substring(0, 10);
 
@@ -11,29 +12,30 @@ const AlcoholHistory = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [maxDate, setMaxDate] = useState(0)
 
-    const fetchAlcoholHistory = async () => {
-        const data = await fetchApi(`/api/alcohol-tracker/get-history`, 'GET');
-        const results = await data.json();
-        setIsLoading(false)
-        setAlcoholHistory(results)
-
-        return results
-    }
+    // const fetchAlcoholHistory = async () => {
+    //     const data = await fetchApi(`/api/alcohol-tracker/get-history`, 'GET');
+    //     const results = await data.json();
+    //     setIsLoading(false)
+    //     setAlcoholHistory(results)
+    //
+    //     return results
+    // }
+    // getAlcoholHistory()
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         await fetchApi('/api/alcohol-tracker/add', 'POST', {quitDate})
-        await fetchAlcoholHistory();
+        // await fetchAlcoholHistory();
     }
 
     const handleStop = async (id) => {
         await fetchApi(`/api/alcohol-tracker/update?id=${id}`, 'PUT')
-        await fetchAlcoholHistory();
+        // await fetchAlcoholHistory();
     }
 
     const handleDelete = async (id) => {
         await fetchApi(`/api/alcohol-tracker/delete?id=${id}`, 'DELETE')
-        await fetchAlcoholHistory();
+        // await fetchAlcoholHistory();
     }
 
     const handleDateChange = (event) => {
@@ -41,17 +43,33 @@ const AlcoholHistory = () => {
     }
 
     useEffect(() => {
-        fetchAlcoholHistory().then((data) => {
-            const holdDates = []
+        setIsLoading(true)
+        getAlcoholHistory()
+            .then((data) => {
+                setAlcoholHistory(data)
 
-            data.forEach((v) => {
-                holdDates.push(calcDaysQuit(v.quitDate, v.endDate))
-            })
+                const holdDates = []
 
-            const mDate = Math.max(...holdDates);
+                data.forEach((v) => {
+                    holdDates.push(calcDaysQuit(v.quitDate, v.endDate))
+                })
 
-            setMaxDate(mDate)
-        });
+                const mDate = Math.max(...holdDates);
+
+                setMaxDate(mDate)
+            });
+        // getAlcoholHistory().then((data) => {
+        //     const holdDates = []
+        //
+        //     data.forEach((v) => {
+        //         holdDates.push(calcDaysQuit(v.quitDate, v.endDate))
+        //     })
+        //
+        //     const mDate = Math.max(...holdDates);
+        //
+        //     setMaxDate(mDate)
+        // }
+        // );
     }, [])
 
     return (
