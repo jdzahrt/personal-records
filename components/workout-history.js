@@ -1,7 +1,6 @@
 import MaterialTable from 'material-table';
 import { forwardRef, useState, useEffect } from 'react';
 import { resetServerContext } from "react-beautiful-dnd";
-
 import {fetchApi} from "../utils/fetch-api";
 
 import AddBox from '@material-ui/icons/AddBox';

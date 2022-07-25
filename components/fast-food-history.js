@@ -7,7 +7,7 @@ const defaultDate = new Date().toISOString().substring(0, 10);
 
 const FastFoodHistory = () => {
     const [fastFoodHistory, setFastFoodHistory] = useState([])
-    const [quitDate, setQuitDate] = useState([])
+    const [quitDate, setQuitDate] = useState(defaultDate)
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchFastFoodHistory = async () => {
