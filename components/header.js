@@ -31,6 +31,7 @@ export default function Header() {
                                 onClick={(e) => {
                                     e.preventDefault()
                                     signIn()
+                                        .catch(error => console.log(error))
                                 }}
                             >
                                 Sign in
