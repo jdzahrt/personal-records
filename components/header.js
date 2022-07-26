@@ -1,7 +1,8 @@
-import {useSession, signIn, signOut, SessionProvider} from "next-auth/react";
-import styles from '../styles/header.module.css'
+import Link from "next/link"
+import { signIn, signOut, useSession } from "next-auth/react"
+import styles from "./header.module.css"
 
-// The approach used in this component shows how to built a sign in and sign out
+// The approach used in this component shows how to build a sign in and sign out
 // component that works on pages which support both client and server side
 // rendering, and avoids any flash incorrect content on initial page load.
 export default function Header() {
@@ -10,31 +11,44 @@ export default function Header() {
 
     return (
         <header>
-                <noscript>
-                    <style>{`.nojs-show { opacity: 1; top: 0; }`}</style>
-                </noscript>
-                <div className={styles.signedInStatus}>
-                    <p className={`nojs-show ${(!session && loading) ? styles.loading : styles.loaded}`}>
-                        {!session && <>
-                            <span className={styles.notSignedInText}>You are not signed in</span>
+            <noscript>
+                <style>{`.nojs-show { opacity: 1; top: 0; }`}</style>
+            </noscript>
+            <div className={styles.signedInStatus}>
+                <p
+                    className={`nojs-show ${
+                        !session && loading ? styles.loading : styles.loaded
+                    }`}
+                >
+                    {!session && (
+                        <>
+              <span className={styles.notSignedInText}>
+                You are not signed in
+              </span>
                             <a
                                 href={`/api/auth/signin`}
                                 className={styles.buttonPrimary}
                                 onClick={(e) => {
-                                    console.log(e)
                                     e.preventDefault()
                                     signIn()
                                 }}
                             >
                                 Sign in
                             </a>
-                        </>}
-                        {session && <>
-                            {session.user.image && <span style={{backgroundImage: `url(${session.user.image})`}}
-                                                         className={styles.avatar}/>}
+                        </>
+                    )}
+                    {session?.user && (
+                        <>
+                            {session.user.image && (
+                                <span
+                                    style={{ backgroundImage: `url('${session.user.image}')` }}
+                                    className={styles.avatar}
+                                />
+                            )}
                             <span className={styles.signedInText}>
-              <small>Signed in as</small><br/>
-              <strong>{session.user.email || session.user.name}</strong>
+                <small>Signed in as</small>
+                <br />
+                <strong>{session.user.email ?? session.user.name}</strong>
               </span>
                             <a
                                 href={`/api/auth/signout`}
@@ -46,9 +60,10 @@ export default function Header() {
                             >
                                 Sign out
                             </a>
-                        </>}
-                    </p>
-                </div>
+                        </>
+                    )}
+                </p>
+            </div>
         </header>
     )
 }
