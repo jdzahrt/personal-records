@@ -12,30 +12,41 @@ const AlcoholHistory = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [maxDate, setMaxDate] = useState(0)
 
-    // const fetchAlcoholHistory = async () => {
-    //     const data = await fetchApi(`/api/alcohol-tracker/get-history`, 'GET');
-    //     const results = await data.json();
-    //     setIsLoading(false)
-    //     setAlcoholHistory(results)
-    //
-    //     return results
-    // }
-    // getAlcoholHistory()
-
     const handleSubmit = async (event) => {
         event.preventDefault()
-        await fetchApi('/api/alcohol-tracker/add', 'POST', {quitDate})
-        // await fetchAlcoholHistory();
+        const data = await fetchApi('/api/alcohol-tracker/add', 'POST', {quitDate})
+        const jsonData = await data.json()
+
+        setAlcoholHistory(alcoholHistory => [jsonData, ...alcoholHistory])
     }
 
     const handleStop = async (id) => {
-        await fetchApi(`/api/alcohol-tracker/update?id=${id}`, 'PUT')
-        // await fetchAlcoholHistory();
+        const updatePayload = {
+            active: false,
+            endDate: new Date().toDateString()
+        }
+
+        const data = await fetchApi(`/api/alcohol-tracker/update?id=${id}`, 'PUT', updatePayload)
+        const jsonData = await data.json()
+
+        const newState = alcoholHistory.map(obj => {
+            if (obj._id === id) {
+                return {...obj, ...jsonData}
+            }
+            return obj
+        })
+
+        newState.sort((a, b) => {
+            return b.active - a.active
+        })
+
+        setAlcoholHistory(newState)
     }
 
     const handleDelete = async (id) => {
         await fetchApi(`/api/alcohol-tracker/delete?id=${id}`, 'DELETE')
-        // await fetchAlcoholHistory();
+
+        setAlcoholHistory(alcoholHistory => alcoholHistory.filter(alcoholHistory => alcoholHistory._id !== id))
     }
 
     const handleDateChange = (event) => {
@@ -49,27 +60,14 @@ const AlcoholHistory = () => {
                 setAlcoholHistory(data)
 
                 const holdDates = []
-
                 data.forEach((v) => {
                     holdDates.push(calcDaysQuit(v.quitDate, v.endDate))
                 })
 
                 const mDate = Math.max(...holdDates);
-
                 setMaxDate(mDate)
-            });
-        // getAlcoholHistory().then((data) => {
-        //     const holdDates = []
-        //
-        //     data.forEach((v) => {
-        //         holdDates.push(calcDaysQuit(v.quitDate, v.endDate))
-        //     })
-        //
-        //     const mDate = Math.max(...holdDates);
-        //
-        //     setMaxDate(mDate)
-        // }
-        // );
+            })
+            .finally(() => setIsLoading(false));
     }, [])
 
     return (
@@ -110,6 +108,5 @@ const AlcoholHistory = () => {
         </div>
     );
 };
-
 
 export default AlcoholHistory

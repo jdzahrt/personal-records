@@ -10,6 +10,7 @@ export default async (req, res) => {
     const client = await getMongoClient()
     const db = client.db('personal-records')
     const collectionName = 'alcohol';
+    let insertedRecord;
 
     try {
         const insertRecord = async () => {
@@ -22,6 +23,7 @@ export default async (req, res) => {
             };
 
             const result = await alcoholCollection.insertOne(insertPayload);
+            insertedRecord = result.ops[0]
 
             console.log(
                 `${result.insertedCount} documents were inserted with the _id: ${result.insertedId}`,
@@ -30,7 +32,7 @@ export default async (req, res) => {
 
         await insertRecord().catch(console.dir);
 
-        res.status(200).json({status: 'Success'})
+        res.status(200).json(insertedRecord)
     } catch (error) {
         console.log('error', error);
     } finally {

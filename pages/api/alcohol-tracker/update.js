@@ -6,6 +6,7 @@ export default async (req, res) => {
     const client = await getMongoClient()
     const db = client.db('personal-records')
     const collectionName = 'alcohol';
+    let updatedRecord;
 
     try {
         const updateRecord = async () => {
@@ -15,12 +16,17 @@ export default async (req, res) => {
 
             const updateRecord = {
                 $set: {
-                    active: false,
-                    endDate: new Date().toDateString()
+                    active: req.body.active,
+                    endDate: req.body.endDate
                 }
             };
+            console.log(updateRecord)
 
-            const result = await alcoholCollection.updateOne({_id: newId}, updateRecord);
+            const result = await alcoholCollection.findOneAndUpdate({_id: newId},
+                updateRecord,
+                {returnOriginal: false});
+
+            updatedRecord = result.value
 
             console.log(
                 `${result.matchedCount} documents were updated with the _id: ${alcoholId}`,
@@ -29,10 +35,10 @@ export default async (req, res) => {
 
         await updateRecord().catch(console.dir);
 
-        res.status(200).json({status: 'Update Success'})
+        res.status(200).json(updatedRecord)
     } catch (error) {
         console.log('error', error);
     } finally {
-       await client.close()
+        await client.close()
     }
 }

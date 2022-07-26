@@ -21,6 +21,7 @@ export default function Header() {
                                 href={`/api/auth/signin`}
                                 className={styles.buttonPrimary}
                                 onClick={(e) => {
+                                    console.log(e)
                                     e.preventDefault()
                                     signIn()
                                 }}
