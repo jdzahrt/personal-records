@@ -29,7 +29,7 @@ export default async (req, res) => {
             updatedRecord = result.value
 
             console.log(
-                `${result.matchedCount} documents were updated with the _id: ${alcoholId}`,
+                `${result.ok} documents were updated with the _id: ${alcoholId}`,
             );
         }
 

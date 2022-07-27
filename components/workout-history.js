@@ -18,6 +18,7 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import {addWorkout, deleteWorkout, getWorkoutHistory, updateWorkout} from "../service/workout";
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -43,34 +44,25 @@ const tableIcons = {
 const WorkoutHistory = () => {
     resetServerContext()
     const [isLoading, setIsLoading] = useState(true);
-    const [workoutData, setWorkoutData] = useState([])
-
-    const fetchWorkoutHistory = async () => {
-      const data = await fetchApi(`/api/workout-tracker/get-history`, 'GET');
-      const results = await data.json();
-      setIsLoading(false)
-      setWorkoutData(results)
-
-      return results
-    }
-
-    const addWorkoutHistory = async (workoutData) => {
-        await fetchApi('/api/workout-tracker/add', 'POST', workoutData)
-        await fetchWorkoutHistory();
-    }
+    const [workoutData, setWorkoutHistory] = useState([])
 
     const editWorkoutHistory = async (workoutData) => {
         await fetchApi('/api/workout-tracker/update', 'PUT', workoutData)
-        await fetchWorkoutHistory();
+        // await fetchWorkoutHistory();
     }
 
     const deleteWorkoutHistory = async (id) => {
         await fetchApi(`/api/workout-tracker/delete?id=${id}`, 'DELETE')
-        await fetchWorkoutHistory();
+        // await fetchWorkoutHistory();
     }
 
     useEffect(() => {
-      fetchWorkoutHistory()
+        setIsLoading(true)
+        getWorkoutHistory()
+            .then((data) => {
+                setWorkoutHistory(data)
+            })
+            .finally(() => setIsLoading(false))
     }, [])
 
     const [columns] = useState([
@@ -90,9 +82,9 @@ const WorkoutHistory = () => {
         editable={{
           onRowAdd: newData =>
             new Promise((resolve, reject) => {
-                setWorkoutData([...workoutData, newData]);
+                setWorkoutHistory([...workoutData, newData]);
 
-                addWorkoutHistory(newData)
+                addWorkout(newData)
                     .then(response => console.log('Success', response))
                 
                 resolve();
@@ -103,9 +95,8 @@ const WorkoutHistory = () => {
                 const dataUpdate = [...workoutData];
                 const index = oldData.tableData.id;
                 dataUpdate[index] = newData;
-                setWorkoutData([...dataUpdate]);
-
-                editWorkoutHistory(newData)
+                setWorkoutHistory([...dataUpdate]);
+                updateWorkout(newData)
                     .then(response => console.log('Success', response))
   
                 resolve();
@@ -117,9 +108,9 @@ const WorkoutHistory = () => {
                 const dataDelete = [...workoutData];
                 const index = oldData.tableData.id;
                 dataDelete.splice(index, 1);
-                setWorkoutData([...dataDelete]);
+                setWorkoutHistory([...dataDelete]);
 
-                deleteWorkoutHistory(oldData._id)
+                deleteWorkout(oldData._id)
                     .then(response => console.log('Successfully deleted', response))
 
                 resolve()

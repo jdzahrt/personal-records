@@ -7,20 +7,21 @@ export const getAlcoholHistory = async () => {
     } catch {
         throw new Error('Could not fetch alcohol history')
     }
-
 }
 
 export const addAlcohol = async (payload) => {
     try {
-        await fetchApi('/api/alcohol-tracker/add', 'POST', {quitDate: payload.quitDate})
+        const response = await fetchApi('/api/alcohol-tracker/add', 'POST', {quitDate: payload.quitDate})
+        return response.json()
     } catch (e) {
         throw new Error(`Could not add alcohol record. ${e}`)
     }
 }
 
-export const updateAlcohol = async (id) => {
+export const updateAlcohol = async (id, payload) => {
     try {
-        await fetchApi(`/api/alcohol-tracker/update?id=${id}`, 'PUT')
+        const response = await fetchApi(`/api/alcohol-tracker/update?id=${id}`, 'PUT', payload)
+        return response.json()
     } catch (e) {
         throw new Error(`Could not update alcohol record. ${e}`)
     }

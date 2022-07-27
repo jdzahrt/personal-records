@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styles from '../styles/Home.module.css';
-import {fetchApi} from "../utils/fetch-api";
 import {calcDaysQuit} from "../utils/days";
+import {addFastFood, deleteFastFood, getFastFoodHistory, updateFastFood} from "../service/fast-food";
 
 const defaultDate = new Date().toISOString().substring(0, 10);
 
@@ -10,35 +10,53 @@ const FastFoodHistory = () => {
     const [quitDate, setQuitDate] = useState(defaultDate)
     const [isLoading, setIsLoading] = useState(true);
 
-    const fetchFastFoodHistory = async () => {
-        const data = await fetchApi(`/api/fast-food-tracker/get-history`, 'GET');
-        const results = await data.json();
-        setIsLoading(false)
-        setFastFoodHistory(results)
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+        const jsonData = await addFastFood({quitDate})
+
+        setFastFoodHistory(fastFoodHistory => [jsonData, ...fastFoodHistory])
     }
 
+
     const handleStop = async (id) => {
-        await fetchApi(`/api/fast-food-tracker/update?id=${id}`, 'PUT')
-        await fetchFastFoodHistory();
+        const updatePayload = {
+            active: false,
+            endDate: new Date().toDateString()
+        }
+
+        const jsonData = await updateFastFood(id, updatePayload)
+
+        const newState = fastFoodHistory.map(obj => {
+            if (obj._id === id) {
+                return {...obj, ...jsonData}
+            }
+            return obj
+        })
+
+        newState.sort((a, b) => {
+            return b.active - a.active
+        })
+
+        setFastFoodHistory(newState)
     }
 
     const handleDelete = async (id) => {
-        await fetchApi(`/api/fast-food-tracker/delete?id=${id}`, 'DELETE')
-        await fetchFastFoodHistory();
+        await deleteFastFood(id)
+
+        setFastFoodHistory(fastFoodHistory => fastFoodHistory.filter(fastFoodHistory => fastFoodHistory._id !== id))
     }
 
     const handleDateChange = (event) => {
         setQuitDate(event.target.value)
     }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault()
-        await fetchApi('/api/fast-food-tracker/add', 'POST', {quitDate})
-        await fetchFastFoodHistory();
-    }
-
     useEffect(() => {
-        fetchFastFoodHistory();
+        setIsLoading(true)
+        getFastFoodHistory()
+            .then((data) => {
+                setFastFoodHistory(data)
+            })
+            .finally(() => setIsLoading(false))
     }, [])
 
     return (

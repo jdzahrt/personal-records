@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styles from '../styles/Home.module.css';
-import {fetchApi} from "../utils/fetch-api";
 import {calcDaysQuit} from "../utils/days";
-import {getAlcoholHistory} from "../service/alcohol";
+import {addAlcohol, deleteAlcohol, getAlcoholHistory, updateAlcohol} from "../service/alcohol";
 
 const defaultDate = new Date().toISOString().substring(0, 10);
 
@@ -14,8 +13,7 @@ const AlcoholHistory = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        const data = await fetchApi('/api/alcohol-tracker/add', 'POST', {quitDate})
-        const jsonData = await data.json()
+        const jsonData = await addAlcohol({quitDate})
 
         setAlcoholHistory(alcoholHistory => [jsonData, ...alcoholHistory])
     }
@@ -26,8 +24,7 @@ const AlcoholHistory = () => {
             endDate: new Date().toDateString()
         }
 
-        const data = await fetchApi(`/api/alcohol-tracker/update?id=${id}`, 'PUT', updatePayload)
-        const jsonData = await data.json()
+        const jsonData = await updateAlcohol(id, updatePayload)
 
         const newState = alcoholHistory.map(obj => {
             if (obj._id === id) {
@@ -44,7 +41,7 @@ const AlcoholHistory = () => {
     }
 
     const handleDelete = async (id) => {
-        await fetchApi(`/api/alcohol-tracker/delete?id=${id}`, 'DELETE')
+        await deleteAlcohol(id)
 
         setAlcoholHistory(alcoholHistory => alcoholHistory.filter(alcoholHistory => alcoholHistory._id !== id))
     }
