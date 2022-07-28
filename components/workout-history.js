@@ -19,7 +19,7 @@ import { forwardRef, useState, useEffect } from 'react';
 import { resetServerContext } from 'react-beautiful-dnd';
 import {
   addWorkout, deleteWorkout, getWorkoutHistory, updateWorkout,
-} from '../service/workout';
+} from '../services/workout';
 
 const tableIcons = {
   // eslint-disable-next-line react/jsx-filename-extension

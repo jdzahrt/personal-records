@@ -3,7 +3,7 @@ import styles from '../styles/Home.module.css';
 import { calcDaysQuit } from '../utils/days';
 import {
   addAlcohol, deleteAlcohol, getAlcoholHistory, updateAlcohol,
-} from '../service/alcohol';
+} from '../services/alcohol';
 
 const defaultDate = new Date().toISOString()
   .substring(0, 10);

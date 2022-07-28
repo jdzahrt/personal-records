@@ -6,7 +6,7 @@ import {
   deleteFastFood,
   getFastFoodHistory,
   updateFastFood,
-} from '../service/fast-food';
+} from '../services/fast-food';
 
 const defaultDate = new Date().toISOString()
   .substring(0, 10);
