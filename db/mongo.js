@@ -1,14 +1,17 @@
-const MongoClient = require('mongodb').MongoClient;
+import { MongoClient } from 'mongodb';
 
+// eslint-disable-next-line import/prefer-default-export
 export const getMongoClient = async () => {
-    const url = process.env.MONGO_DATABASE_URL;
+  const url = process.env.MONGO_DATABASE_URL;
 
-    return await MongoClient.connect(url,
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        })
-        .catch(err => {
-            console.log(err);
-        });
-}
+  return MongoClient.connect(
+    url,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
+  )
+    .catch((err) => {
+      console.log(err);
+    });
+};
