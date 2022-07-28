@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import Vacation from '../components/vacation';
 
@@ -6,7 +7,7 @@ function VacationTracker() {
     <div className={styles.container}>
       <main>
         <Vacation />
-        <a href="/" className={styles.footer}>Home</a>
+        <Link href="/" className={styles.footer}>Home</Link>
       </main>
     </div>
   );
