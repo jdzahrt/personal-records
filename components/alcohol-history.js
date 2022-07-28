@@ -5,7 +5,8 @@ import {
   addAlcohol, deleteAlcohol, getAlcoholHistory, updateAlcohol,
 } from '../service/alcohol';
 
-const defaultDate = new Date().toISOString().substring(0, 10);
+const defaultDate = new Date().toISOString()
+  .substring(0, 10);
 
 function AlcoholHistory() {
   const [alcoholHistory, setAlcoholHistory] = useState([]);
@@ -17,7 +18,7 @@ function AlcoholHistory() {
     event.preventDefault();
     const jsonData = await addAlcohol({ quitDate });
 
-    setAlcoholHistory((alcoholHistory) => [jsonData, ...alcoholHistory]);
+    setAlcoholHistory((ah) => [jsonData, ...ah]);
   };
 
   const handleStop = async (id) => {
@@ -43,7 +44,7 @@ function AlcoholHistory() {
   const handleDelete = async (id) => {
     await deleteAlcohol(id);
 
-    setAlcoholHistory((alcoholHistory) => alcoholHistory.filter((alcoholHistory) => alcoholHistory._id !== id));
+    setAlcoholHistory((ah) => ah.filter((a) => a._id !== id));
   };
 
   const handleDateChange = (event) => {
@@ -85,6 +86,7 @@ function AlcoholHistory() {
           <div>
             Quit on
             {' '}
+            {' '}
             {record.quitDate}
             ....
             {' '}
@@ -96,20 +98,26 @@ function AlcoholHistory() {
             <span className={record.active ? styles.active : styles.inactive}>
               {record.active ? ` 🍻ACTIVE🍻 ${maxDate - calcDaysQuit(record.quitDate, record.endDate)} more days to go to break your personal record!`
                 : (
-      <p>
-        INACTIVE - Streak ended on
-        {record.endDate}
-      </p>
+                  <p>
+                    INACTIVE - Streak ended on
+                    {record.endDate}
+                  </p>
                 )}
             </span>
           </div>
           {record.active
             ? (
-              <button className={styles.button} value={record._id} onClick={(e) => handleStop(e.target.value)}>
+              <button
+                className={styles.button}
+                value={record._id}
+                onClick={(e) => handleStop(e.target.value)}
+              >
                 I DRANK...STOP TRACKING
               </button>
             ) : <></>}
-          <button value={record._id} onClick={(e) => handleDelete(e.target.value)}>DELETE RECORD</button>
+          <button value={record._id} onClick={(e) => handleDelete(e.target.value)}>
+            DELETE RECORD
+          </button>
         </ul>
       ))
         : (
