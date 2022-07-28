@@ -1,31 +1,35 @@
-import {getMongoClient} from '../../../db/mongo';
-import {getSession} from 'next-auth/react'
+import { getSession } from 'next-auth/react';
+import { getMongoClient } from '../../../db/mongo';
 
 export default async (req, res) => {
-    const session = await getSession({req})
-    if (!session)
-        return res.status(200).json([])
+  const session = await getSession({ req });
+  if (!session) {
+    return res.status(200)
+      .json([]);
+  }
 
-    const userEmail = session.user.email
-    
-    const client = await getMongoClient()
-    const db = client.db('personal-records')
-    const collectionName = 'workout';
+  const userEmail = session.user.email;
 
-    try {
-        const getHistory = async () => {
-            const workoutCollection = db.collection(collectionName);
+  const client = await getMongoClient();
+  const db = client.db('personal-records');
+  const collectionName = 'workout';
 
-            return await workoutCollection.find({email: userEmail})
-                .sort({active: -1}).toArray()
-        }
+  try {
+    const getHistory = async () => {
+      const workoutCollection = db.collection(collectionName);
 
-        const results = await getHistory();
+      return workoutCollection.find({ email: userEmail })
+        .sort({ active: -1 })
+        .toArray();
+    };
 
-        res.status(200).json(results)
-    } catch (error) {
-        console.log(error)
-    } finally {
-        await client.close()
-    }
-}
+    const results = await getHistory();
+
+    res.status(200)
+      .json(results);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    await client.close();
+  }
+};
