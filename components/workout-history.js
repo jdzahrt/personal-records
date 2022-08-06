@@ -43,6 +43,8 @@ const tableIcons = {
   TablePagination: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
+const oneRepMax = (weight, reps) => ((weight || 1) * (1 + (reps / 30))).toFixed(2);
+
 function WorkoutHistory() {
   resetServerContext();
   const [workoutData, setWorkoutHistory] = useState([]);
@@ -64,7 +66,19 @@ function WorkoutHistory() {
       title: 'Reps',
       field: 'reps',
       type: 'numeric',
-      initialEditValue: 0,
+      initialEditValue: 1,
+      validate: (rowData) => rowData.reps > 0,
+    },
+    {
+      title: 'Weight',
+      field: 'weight',
+      type: 'numeric',
+      initialEditValue: 1,
+    },
+    {
+      title: 'One Rep Max',
+      field: 'max',
+      render: (rowData) => <div>{oneRepMax(rowData.weight, rowData.reps)}</div>,
     },
     {
       title: 'Date',
@@ -82,6 +96,7 @@ function WorkoutHistory() {
       data={workoutData}
       options={{
         showTitle: false,
+        pageSize: 10,
       }}
       editable={{
         onRowAdd: (newData) => new Promise((resolve) => {
