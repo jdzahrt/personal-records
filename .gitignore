@@ -35,5 +35,5 @@ yarn-error.log*
 
 # Intelli-J idea
 .idea/
-*/.idea/workspace.xml
-*/.idea/tasks.xml
+**/.idea/workspace.xml
+**/.idea/tasks.xml
