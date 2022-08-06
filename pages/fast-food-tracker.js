@@ -1,5 +1,11 @@
 import styles from '../styles/Home.module.css';
-import FastFoodHistory from '../components/fast-food-history';
+import History from '../components/history-tracker';
+import {
+  addFastFood,
+  deleteFastFood,
+  getFastFoodHistory,
+  updateFastFood,
+} from '../service/fast-food';
 
 function FastFoodTracker() {
   return (
@@ -8,7 +14,13 @@ function FastFoodTracker() {
         <h1 className={styles.title}>
           Track how long you have gone without eating fast food! 🍔
         </h1>
-        <FastFoodHistory />
+        <History
+          getHistory={getFastFoodHistory}
+          addHistory={addFastFood}
+          deleteRecord={deleteFastFood}
+          updateRecord={updateFastFood}
+          type="Fast Food"
+        />
         <a href="/" className={styles.footer}>Home</a>
       </main>
     </div>

@@ -1,12 +1,25 @@
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
-import Vacation from '../components/vacation';
+import History from '../components/history-tracker';
+import {
+  addFastFood,
+  getFastFoodHistory,
+  deleteFastFood,
+  updateFastFood,
+} from '../service/fast-food';
 
 function VacationTracker() {
   return (
     <div className={styles.container}>
       <main>
-        <Vacation />
+        {/* <Vacation /> */}
+        <History
+          getHistory={getFastFoodHistory}
+          addHistory={addFastFood}
+          deleteRecord={deleteFastFood}
+          updateRecord={updateFastFood}
+          name="Fast Food History List"
+        />
         <Link href="/" className={styles.footer}>Home</Link>
       </main>
     </div>

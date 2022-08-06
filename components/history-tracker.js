@@ -1,26 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 import { calcDaysQuit } from '../utils/days';
-import {
-  addFastFood,
-  deleteFastFood,
-  getFastFoodHistory,
-  updateFastFood,
-} from '../service/fast-food';
 
-const defaultDate = new Date().toISOString()
-  .substring(0, 10);
+function History({
+  getHistory,
+  addHistory,
+  deleteRecord,
+  updateRecord,
+  type,
+}) {
+  const defaultDate = new Date().toISOString()
+    .substring(0, 10);
 
-function FastFoodHistory() {
-  const [fastFoodHistory, setFastFoodHistory] = useState([]);
+  const [historyList, setHistory] = useState([]);
   const [quitDate, setQuitDate] = useState(defaultDate);
   const [isLoading, setIsLoading] = useState(true);
+  const [maxDate, setMaxDate] = useState(0);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const jsonData = await addFastFood({ quitDate });
 
-    setFastFoodHistory((fastFoodHistory) => [jsonData, ...fastFoodHistory]);
+    const jsonData = await addHistory({ quitDate });
+
+    setHistory((h) => [jsonData, ...h]);
+  };
+
+  const handleDelete = async (id) => {
+    await deleteRecord(id);
+
+    setHistory((ah) => ah.filter((a) => a._id !== id));
+  };
+
+  const handleDateChange = (event) => {
+    setQuitDate(event.target.value);
   };
 
   const handleStop = async (id) => {
@@ -29,9 +41,9 @@ function FastFoodHistory() {
       endDate: new Date().toDateString(),
     };
 
-    const jsonData = await updateFastFood(id, updatePayload);
+    const jsonData = await updateRecord(id, updatePayload);
 
-    const newState = fastFoodHistory.map((obj) => {
+    const newState = historyList.map((obj) => {
       if (obj._id === id) {
         return { ...obj, ...jsonData };
       }
@@ -40,29 +52,27 @@ function FastFoodHistory() {
 
     newState.sort((a, b) => b.active - a.active);
 
-    setFastFoodHistory(newState);
-  };
-
-  const handleDelete = async (id) => {
-    await deleteFastFood(id);
-
-    // eslint-disable-next-line max-len
-    setFastFoodHistory((fastFoodHistory) => fastFoodHistory.filter((fastFoodHistory) => fastFoodHistory._id !== id));
-  };
-
-  const handleDateChange = (event) => {
-    setQuitDate(event.target.value);
+    setHistory(newState);
   };
 
   useEffect(() => {
     setIsLoading(true);
-    getFastFoodHistory()
+    getHistory()
       .then((data) => {
-        setFastFoodHistory(data);
+        setHistory(data);
+
+        const holdDates = [];
+        data.forEach((v) => {
+          holdDates.push(calcDaysQuit(v.quitDate, v.endDate));
+        });
+
+        const mDate = Math.max(...holdDates);
+        setMaxDate(mDate);
       })
       .finally(() => setIsLoading(false));
   }, []);
 
+  console.log(defaultDate, historyList);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -75,11 +85,12 @@ function FastFoodHistory() {
           <input type="submit" value="Save" />
         </div>
       </form>
-      <center><h1>Fast Food History List</h1></center>
-      {!isLoading ? fastFoodHistory.map((record) => (
+      <center><h2>{`${type} List`}</h2></center>
+      {!isLoading ? historyList.map((record) => (
         <ul key={record._id}>
           <div>
             Quit on
+            {' '}
             {' '}
             {record.quitDate}
             ....
@@ -87,10 +98,10 @@ function FastFoodHistory() {
             {calcDaysQuit(record.quitDate, record.endDate)}
             {' '}
             Days
-            Fast Food
-            FREE! 🍻
+            { ` ${type} ` }
+            FREE!
             <span className={record.active ? styles.active : styles.inactive}>
-              {record.active ? 'ACTIVE'
+              {record.active ? ` 🍻ACTIVE🍻 ${maxDate - calcDaysQuit(record.quitDate, record.endDate)} more days to go to break your personal record!`
                 : (
                   <p>
                     INACTIVE - Streak ended on
@@ -101,8 +112,12 @@ function FastFoodHistory() {
           </div>
           {record.active
             ? (
-              <button value={record._id} onClick={(e) => handleStop(e.target.value)}>
-                I ATE FAST FOOD...STOP TRACKING
+              <button
+                className={styles.button}
+                value={record._id}
+                onClick={(e) => handleStop(e.target.value)}
+              >
+                I DRANK...STOP TRACKING
               </button>
             ) : <></>}
           <button value={record._id} onClick={(e) => handleDelete(e.target.value)}>
@@ -113,11 +128,11 @@ function FastFoodHistory() {
         : (
           <div>
             Loading....
-            <img src="/loading.svg" className={styles.loading} alt="Loading icon" />
+            <img src="/loading.svg" className={styles.loading} alt="Loading image" />
           </div>
         )}
     </div>
   );
 }
 
-export default FastFoodHistory;
+export default History;
