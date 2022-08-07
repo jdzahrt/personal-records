@@ -7,6 +7,7 @@ export default async (req, res) => {
     exercise,
     reps,
     date,
+    weight,
   } = req.body;
   const client = await getMongoClient();
   const db = client.db('personal-records');
@@ -23,6 +24,7 @@ export default async (req, res) => {
           exercise,
           reps,
           date,
+          weight,
         },
       };
 

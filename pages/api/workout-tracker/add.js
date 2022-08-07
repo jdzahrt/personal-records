@@ -8,6 +8,7 @@ export default async (req, res) => {
     date,
     reps,
     exercise,
+    weight,
   } = req.body;
 
   const client = await getMongoClient();
@@ -23,6 +24,7 @@ export default async (req, res) => {
         exercise,
         date,
         reps,
+        weight,
       };
 
       const result = await workoutCollection.insertOne(insertPayload);
