@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import PropTypes from 'prop-types';
 import styles from '../styles/Home.module.css';
 import { calcDaysQuit } from '../utils/days';
 
-function History({
-  getHistory,
-  addHistory,
-  deleteRecord,
-  updateRecord,
-  type,
-}) {
+function History(props) {
+  History.propTypes = {
+    type: PropTypes.string.isRequired,
+    getHistory: PropTypes.func.isRequired,
+    addHistory: PropTypes.func.isRequired,
+    deleteRecord: PropTypes.func.isRequired,
+    updateRecord: PropTypes.func.isRequired,
+  };
+  const {
+    type,
+    getHistory,
+    addHistory,
+    deleteRecord,
+    updateRecord,
+  } = props;
+
   const defaultDate = new Date().toISOString()
     .substring(0, 10);
 

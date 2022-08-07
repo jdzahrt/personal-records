@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import WorkoutHistory from '../components/workout-history';
 
@@ -7,7 +8,7 @@ function WorkoutTracker() {
       <main>
         <center><h1>Workout Tracker!</h1></center>
         <WorkoutHistory />
-        <a href="/" className={styles.footer}>Home</a>
+        <Link href="/" className={styles.footer}>Home</Link>
       </main>
     </div>
   );
