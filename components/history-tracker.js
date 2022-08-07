@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
 import styles from '../styles/Home.module.css';
+import headerStyles from '../styles/header.module.css';
 import { calcDaysQuit } from '../utils/days';
 
 function History(props) {
@@ -98,7 +99,7 @@ function History(props) {
             />
           </label>
           <br />
-          <input type="submit" value="Save" />
+          <input className={styles.button} type="submit" value="Save" />
         </div>
       </form>
       <center><h2>{`${type} List`}</h2></center>

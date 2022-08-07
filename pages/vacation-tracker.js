@@ -7,7 +7,9 @@ function VacationTracker() {
     <div className={styles.container}>
       <main>
         <Vacation />
-        <Link href="/" className={styles.footer}>Home</Link>
+        <div className={styles.footer}>
+          <Link href="/" className={styles.footer}>Home</Link>
+        </div>
       </main>
     </div>
   );
