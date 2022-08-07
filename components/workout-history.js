@@ -61,6 +61,10 @@ function WorkoutHistory() {
       title: 'Exercise',
       field: 'exercise',
       type: 'string',
+      cellStyle: {
+        backgroundColor: '#ade503',
+        color: '#110f0f',
+      },
     },
     {
       title: 'Reps',
@@ -97,6 +101,13 @@ function WorkoutHistory() {
       options={{
         showTitle: false,
         pageSize: 10,
+        searchFieldAlignment: 'left',
+        headerStyle: {
+          backgroundColor: '#019b09',
+          color: '#110f0f',
+          fontSize: 'large',
+          fontWeight: 'bold',
+        },
       }}
       editable={{
         onRowAdd: (newData) => new Promise((resolve) => {

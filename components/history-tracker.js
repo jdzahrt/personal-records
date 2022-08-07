@@ -1,24 +1,50 @@
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import PropTypes from 'prop-types';
 import styles from '../styles/Home.module.css';
 import { calcDaysQuit } from '../utils/days';
-import {
-  addAlcohol, deleteAlcohol, getAlcoholHistory, updateAlcohol,
-} from '../service/alcohol';
 
-const defaultDate = new Date().toISOString()
-  .substring(0, 10);
+function History(props) {
+  History.propTypes = {
+    type: PropTypes.string.isRequired,
+    getHistory: PropTypes.func.isRequired,
+    addHistory: PropTypes.func.isRequired,
+    deleteRecord: PropTypes.func.isRequired,
+    updateRecord: PropTypes.func.isRequired,
+  };
 
-function AlcoholHistory() {
-  const [alcoholHistory, setAlcoholHistory] = useState([]);
+  const {
+    type,
+    getHistory,
+    addHistory,
+    deleteRecord,
+    updateRecord,
+  } = props;
+
+  const defaultDate = new Date().toISOString()
+    .substring(0, 10);
+
+  const [historyList, setHistory] = useState([]);
   const [quitDate, setQuitDate] = useState(defaultDate);
   const [isLoading, setIsLoading] = useState(true);
   const [maxDate, setMaxDate] = useState(0);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const jsonData = await addAlcohol({ quitDate });
 
-    setAlcoholHistory((ah) => [jsonData, ...ah]);
+    const jsonData = await addHistory({ quitDate });
+
+    setHistory((h) => [jsonData, ...h]);
+  };
+
+  const handleDelete = async (id) => {
+    await deleteRecord(id);
+
+    setHistory((ah) => ah.filter((a) => a._id !== id));
+  };
+
+  const handleDateChange = (event) => {
+    setQuitDate(event.target.value);
   };
 
   const handleStop = async (id) => {
@@ -27,9 +53,9 @@ function AlcoholHistory() {
       endDate: new Date().toDateString(),
     };
 
-    const jsonData = await updateAlcohol(id, updatePayload);
+    const jsonData = await updateRecord(id, updatePayload);
 
-    const newState = alcoholHistory.map((obj) => {
+    const newState = historyList.map((obj) => {
       if (obj._id === id) {
         return { ...obj, ...jsonData };
       }
@@ -38,24 +64,14 @@ function AlcoholHistory() {
 
     newState.sort((a, b) => b.active - a.active);
 
-    setAlcoholHistory(newState);
-  };
-
-  const handleDelete = async (id) => {
-    await deleteAlcohol(id);
-
-    setAlcoholHistory((ah) => ah.filter((a) => a._id !== id));
-  };
-
-  const handleDateChange = (event) => {
-    setQuitDate(event.target.value);
+    setHistory(newState);
   };
 
   useEffect(() => {
     setIsLoading(true);
-    getAlcoholHistory()
+    getHistory()
       .then((data) => {
-        setAlcoholHistory(data);
+        setHistory(data);
 
         const holdDates = [];
         data.forEach((v) => {
@@ -72,16 +88,21 @@ function AlcoholHistory() {
     <div>
       <form onSubmit={handleSubmit}>
         <div className={styles.card}>
-          <label>
+          <label htmlFor="date-input">
             Quit Date:
-            <input type="date" defaultValue={defaultDate} onChange={handleDateChange} />
+            <input
+              type="date"
+              id="date-input"
+              defaultValue={defaultDate}
+              onChange={handleDateChange}
+            />
           </label>
           <br />
           <input type="submit" value="Save" />
         </div>
       </form>
-      <center><h2>Alcohol History List</h2></center>
-      {!isLoading ? alcoholHistory.map((record) => (
+      <center><h2>{`${type} List`}</h2></center>
+      {!isLoading ? historyList.map((record) => (
         <ul key={record._id}>
           <div>
             Quit on
@@ -93,10 +114,10 @@ function AlcoholHistory() {
             {calcDaysQuit(record.quitDate, record.endDate)}
             {' '}
             Days
-            Alcohol
+            {` ${type} `}
             FREE!
             <span className={record.active ? styles.active : styles.inactive}>
-              {record.active ? ` 🍻ACTIVE🍻 ${maxDate - calcDaysQuit(record.quitDate, record.endDate)} more days to go to break your personal record!`
+              {record.active ? ` ACTIVE ${maxDate - calcDaysQuit(record.quitDate, record.endDate)} more days to go to break your personal record!`
                 : (
                   <p>
                     INACTIVE - Streak ended on
@@ -108,14 +129,19 @@ function AlcoholHistory() {
           {record.active
             ? (
               <button
+                type="button"
                 className={styles.button}
                 value={record._id}
                 onClick={(e) => handleStop(e.target.value)}
               >
                 I DRANK...STOP TRACKING
               </button>
-            ) : <></>}
-          <button value={record._id} onClick={(e) => handleDelete(e.target.value)}>
+            ) : <> </>}
+          <button
+            type="button"
+            value={record._id}
+            onClick={(e) => handleDelete(e.target.value)}
+          >
             DELETE RECORD
           </button>
         </ul>
@@ -123,11 +149,17 @@ function AlcoholHistory() {
         : (
           <div>
             Loading....
-            <img src="/loading.svg" className={styles.loading} alt="Loading image" />
+            <Image
+              src="/loading.svg"
+              alt="Loading image"
+              className={styles.loading}
+              width={25}
+              height={25}
+            />
           </div>
         )}
     </div>
   );
 }
 
-export default AlcoholHistory;
+export default History;
