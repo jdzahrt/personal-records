@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import { calcDaysQuit } from '../utils/days';
 
@@ -72,14 +73,18 @@ function History({
       .finally(() => setIsLoading(false));
   }, []);
 
-  console.log(defaultDate, historyList);
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <div className={styles.card}>
-          <label>
+          <label htmlFor="date-input">
             Quit Date:
-            <input type="date" defaultValue={defaultDate} onChange={handleDateChange} />
+            <input
+              type="date"
+              id="date-input"
+              defaultValue={defaultDate}
+              onChange={handleDateChange}
+            />
           </label>
           <br />
           <input type="submit" value="Save" />
@@ -98,10 +103,10 @@ function History({
             {calcDaysQuit(record.quitDate, record.endDate)}
             {' '}
             Days
-            { ` ${type} ` }
+            {` ${type} `}
             FREE!
             <span className={record.active ? styles.active : styles.inactive}>
-              {record.active ? ` 🍻ACTIVE🍻 ${maxDate - calcDaysQuit(record.quitDate, record.endDate)} more days to go to break your personal record!`
+              {record.active ? ` ACTIVE ${maxDate - calcDaysQuit(record.quitDate, record.endDate)} more days to go to break your personal record!`
                 : (
                   <p>
                     INACTIVE - Streak ended on
@@ -113,6 +118,7 @@ function History({
           {record.active
             ? (
               <button
+                type="button"
                 className={styles.button}
                 value={record._id}
                 onClick={(e) => handleStop(e.target.value)}
@@ -120,7 +126,11 @@ function History({
                 I DRANK...STOP TRACKING
               </button>
             ) : <></>}
-          <button value={record._id} onClick={(e) => handleDelete(e.target.value)}>
+          <button
+            type="button"
+            value={record._id}
+            onClick={(e) => handleDelete(e.target.value)}
+          >
             DELETE RECORD
           </button>
         </ul>
@@ -128,7 +138,13 @@ function History({
         : (
           <div>
             Loading....
-            <img src="/loading.svg" className={styles.loading} alt="Loading image" />
+            <Image
+              src="/loading.svg"
+              alt="Loading image"
+              className={styles.loading}
+              width={25}
+              height={25}
+            />
           </div>
         )}
     </div>

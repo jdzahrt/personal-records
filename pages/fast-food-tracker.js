@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import History from '../components/history-tracker';
 import {
@@ -11,9 +12,7 @@ function FastFoodTracker() {
   return (
     <div className={styles.container}>
       <main>
-        <h1 className={styles.title}>
-          Track how long you have gone without eating fast food! 🍔
-        </h1>
+        <center><h1>Track how long you have gone without eating fast food! 🍔</h1></center>
         <History
           getHistory={getFastFoodHistory}
           addHistory={addFastFood}
@@ -21,7 +20,7 @@ function FastFoodTracker() {
           updateRecord={updateFastFood}
           type="Fast Food"
         />
-        <a href="/" className={styles.footer}>Home</a>
+        <Link href="/" className={styles.footer}>Home</Link>
       </main>
     </div>
   );

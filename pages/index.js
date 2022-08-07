@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import Header from '../components/header';
 
@@ -8,7 +9,6 @@ export default function Home() {
       <Header />
       <Head>
         <title>Personal Records Tracker</title>
-        {/* <link rel="icon" href="/favicon.ico"/> */}
       </Head>
 
       <main className={styles.main}>
@@ -47,7 +47,13 @@ export default function Home() {
         >
           Powered by
           {' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+          <Image
+            src="/vercel.svg"
+            alt="Vercel Logo"
+            className={styles.logo}
+            width={100}
+            height={100}
+          />
         </a>
       </footer>
     </div>

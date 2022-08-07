@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import History from '../components/history-tracker';
 import {
@@ -16,7 +17,7 @@ function AlcoholTracker() {
           updateRecord={updateAlcohol}
           type="Alcohol"
         />
-        <a href="/" className={styles.footer}>Home</a>
+        <Link href="/" className={styles.footer}>Home</Link>
       </main>
     </div>
   );
