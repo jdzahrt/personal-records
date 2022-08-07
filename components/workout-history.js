@@ -52,9 +52,22 @@ function WorkoutHistory() {
   useEffect(() => {
     getWorkoutHistory()
       .then((data) => {
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
         setWorkoutHistory(data);
       });
   }, []);
+
+  const options = {
+    showTitle: false,
+    pageSize: 10,
+    searchFieldAlignment: 'left',
+    headerStyle: {
+      backgroundColor: '#019b09',
+      color: '#110f0f',
+      fontSize: 'large',
+      fontWeight: 'bold',
+    },
+  };
 
   const [columns] = useState([
     {
@@ -78,6 +91,7 @@ function WorkoutHistory() {
       field: 'weight',
       type: 'numeric',
       initialEditValue: 1,
+      validate: (rowData) => rowData.reps > 0,
     },
     {
       title: 'One Rep Max',
@@ -98,17 +112,7 @@ function WorkoutHistory() {
       icons={tableIcons}
       columns={columns}
       data={workoutData}
-      options={{
-        showTitle: false,
-        pageSize: 10,
-        searchFieldAlignment: 'left',
-        headerStyle: {
-          backgroundColor: '#019b09',
-          color: '#110f0f',
-          fontSize: 'large',
-          fontWeight: 'bold',
-        },
-      }}
+      options={options}
       editable={{
         onRowAdd: (newData) => new Promise((resolve) => {
           setWorkoutHistory([...workoutData, newData]);
@@ -119,29 +123,28 @@ function WorkoutHistory() {
           resolve();
         }),
         onRowUpdate: (newData, oldData) => new Promise((resolve, reject) => {
-          setTimeout(() => {
-            const dataUpdate = [...workoutData];
-            const index = oldData.tableData.id;
-            dataUpdate[index] = newData;
-            setWorkoutHistory([...dataUpdate]);
-            updateWorkout(newData)
-              .then((response) => console.log('Success', response));
+          console.log('oldData', oldData);
+          console.log('newData', newData);
+          const dataUpdate = [...workoutData];
+          const index = oldData.tableData.id;
+          console.log('dataUpdate', dataUpdate);
+          dataUpdate[index] = newData;
+          setWorkoutHistory([...dataUpdate]);
+          updateWorkout(newData)
+            .then((response) => console.log('Success', response));
 
-            resolve();
-          }, 1000);
+          resolve();
         }),
         onRowDelete: (oldData) => new Promise((resolve) => {
-          setTimeout(() => {
-            const dataDelete = [...workoutData];
-            const index = oldData.tableData.id;
-            dataDelete.splice(index, 1);
-            setWorkoutHistory([...dataDelete]);
+          const dataDelete = [...workoutData];
+          const index = oldData.tableData.id;
+          dataDelete.splice(index, 1);
+          setWorkoutHistory([...dataDelete]);
 
-            deleteWorkout(oldData._id)
-              .then((response) => console.log('Successfully deleted', response));
+          deleteWorkout(oldData._id)
+            .then((response) => console.log('Successfully deleted', response));
 
-            resolve();
-          }, 1000);
+          resolve();
         }),
       }}
     />
