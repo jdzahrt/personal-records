@@ -20,7 +20,9 @@ function FastFoodTracker() {
           updateRecord={updateFastFood}
           type="Fast Food"
         />
-        <Link href="/" className={styles.footer}>Home</Link>
+        <div className={styles.footer}>
+          <Link href="/">Home</Link>
+        </div>
       </main>
     </div>
   );

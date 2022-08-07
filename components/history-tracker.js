@@ -12,6 +12,7 @@ function History(props) {
     deleteRecord: PropTypes.func.isRequired,
     updateRecord: PropTypes.func.isRequired,
   };
+
   const {
     type,
     getHistory,
@@ -135,7 +136,7 @@ function History(props) {
               >
                 I DRANK...STOP TRACKING
               </button>
-            ) : <></>}
+            ) : <> </>}
           <button
             type="button"
             value={record._id}

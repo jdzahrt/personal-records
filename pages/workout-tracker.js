@@ -8,7 +8,9 @@ function WorkoutTracker() {
       <main>
         <center><h1>Workout Tracker!</h1></center>
         <WorkoutHistory />
-        <Link href="/" className={styles.footer}>Home</Link>
+        <div className={styles.footer}>
+          <Link href="/">Home</Link>
+        </div>
       </main>
     </div>
   );
