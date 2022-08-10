@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
 import styles from '../styles/Home.module.css';
-import headerStyles from '../styles/header.module.css';
 import { calcDaysQuit } from '../utils/days';
 
 function History(props) {
