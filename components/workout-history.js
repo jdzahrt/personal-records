@@ -52,6 +52,8 @@ function WorkoutHistory() {
   useEffect(() => {
     getWorkoutHistory()
       .then((data) => {
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
         setWorkoutHistory(data);
       });
   }, []);
@@ -78,6 +80,7 @@ function WorkoutHistory() {
       field: 'weight',
       type: 'numeric',
       initialEditValue: 1,
+      validate: (rowData) => rowData.reps > 0,
     },
     {
       title: 'One Rep Max',
