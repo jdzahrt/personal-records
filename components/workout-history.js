@@ -123,11 +123,8 @@ function WorkoutHistory() {
           resolve();
         }),
         onRowUpdate: (newData, oldData) => new Promise((resolve, reject) => {
-          console.log('oldData', oldData);
-          console.log('newData', newData);
           const dataUpdate = [...workoutData];
           const index = oldData.tableData.id;
-          console.log('dataUpdate', dataUpdate);
           dataUpdate[index] = newData;
           setWorkoutHistory([...dataUpdate]);
           updateWorkout(newData)
