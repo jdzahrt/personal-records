@@ -53,6 +53,7 @@ function WorkoutHistory() {
     getWorkoutHistory()
       .then((data) => {
         data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
         setWorkoutHistory(data);
       });
   }, []);
