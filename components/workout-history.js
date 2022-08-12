@@ -61,6 +61,10 @@ function WorkoutHistory() {
 
   const options = {
     showTitle: false,
+    fixedColumns: {
+      left: 1,
+      right: 0,
+    },
     pageSize: 10,
     searchFieldAlignment: 'left',
     headerStyle: {
@@ -69,7 +73,10 @@ function WorkoutHistory() {
       fontSize: 'large',
       fontWeight: 'bold',
     },
-    tableLayout: 'auto',
+    // rowStyle: {
+    //   overflowWrap: 'break-word',
+    // },
+    tableLayout: 'fixed',
   };
 
   const [columns] = useState([
@@ -77,11 +84,11 @@ function WorkoutHistory() {
       title: 'Exercise',
       field: 'exercise',
       type: 'string',
+      align: 'center',
       cellStyle: {
         backgroundColor: '#ade503',
         color: '#110f0f',
-        minWidth: 200,
-        maxWidth: 200,
+        // whiteSpace: 'nowrap',
       },
     },
     {
@@ -101,16 +108,13 @@ function WorkoutHistory() {
     {
       title: '1RM',
       field: 'max',
+      readonly: true,
       render: (rowData) => <div>{oneRepMax(rowData.weight, rowData.reps)}</div>,
     },
     {
       title: 'Date',
       field: 'date',
       type: 'date',
-      cellStyle: {
-        minWidth: 100,
-        maxWidth: 100,
-      },
       initialEditValue: new Date(),
     },
   ]);
