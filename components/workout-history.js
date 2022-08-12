@@ -17,6 +17,7 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 
 import { forwardRef, useState, useEffect } from 'react';
 import { resetServerContext } from 'react-beautiful-dnd';
+import styles from '../styles/Home.module.css';
 import {
   addWorkout, deleteWorkout, getWorkoutHistory, updateWorkout,
 } from '../service/workout';
@@ -109,43 +110,45 @@ function WorkoutHistory() {
 
   return (
     // eslint-disable-next-line react/react-in-jsx-scope
-    <MaterialTable
-      icons={tableIcons}
-      columns={columns}
-      data={workoutData}
-      options={options}
-      editable={{
-        onRowAdd: (newData) => new Promise((resolve) => {
-          setWorkoutHistory([...workoutData, newData]);
+    <div className={styles.container}>
+      <MaterialTable
+        icons={tableIcons}
+        columns={columns}
+        data={workoutData}
+        options={options}
+        editable={{
+          onRowAdd: (newData) => new Promise((resolve) => {
+            setWorkoutHistory([...workoutData, newData]);
 
-          addWorkout(newData)
-            .then((response) => console.log('Success', response));
+            addWorkout(newData)
+              .then((response) => console.log('Success', response));
 
-          resolve();
-        }),
-        onRowUpdate: (newData, oldData) => new Promise((resolve, reject) => {
-          const dataUpdate = [...workoutData];
-          const index = oldData.tableData.id;
-          dataUpdate[index] = newData;
-          setWorkoutHistory([...dataUpdate]);
-          updateWorkout(newData)
-            .then((response) => console.log('Success', response));
+            resolve();
+          }),
+          onRowUpdate: (newData, oldData) => new Promise((resolve, reject) => {
+            const dataUpdate = [...workoutData];
+            const index = oldData.tableData.id;
+            dataUpdate[index] = newData;
+            setWorkoutHistory([...dataUpdate]);
+            updateWorkout(newData)
+              .then((response) => console.log('Success', response));
 
-          resolve();
-        }),
-        onRowDelete: (oldData) => new Promise((resolve) => {
-          const dataDelete = [...workoutData];
-          const index = oldData.tableData.id;
-          dataDelete.splice(index, 1);
-          setWorkoutHistory([...dataDelete]);
+            resolve();
+          }),
+          onRowDelete: (oldData) => new Promise((resolve) => {
+            const dataDelete = [...workoutData];
+            const index = oldData.tableData.id;
+            dataDelete.splice(index, 1);
+            setWorkoutHistory([...dataDelete]);
 
-          deleteWorkout(oldData._id)
-            .then((response) => console.log('Successfully deleted', response));
+            deleteWorkout(oldData._id)
+              .then((response) => console.log('Successfully deleted', response));
 
-          resolve();
-        }),
-      }}
-    />
+            resolve();
+          }),
+        }}
+      />
+    </div>
   );
 }
 
