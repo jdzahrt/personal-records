@@ -1,5 +1,5 @@
 import { getSession } from 'next-auth/react';
-import { getMongoClient } from '../../../db/mongo';
+import { GetDbConnection } from '../../../db/db';
 
 export default async (req, res) => {
   const session = await getSession({ req });
@@ -9,20 +9,14 @@ export default async (req, res) => {
   }
 
   const userEmail = session.user.email;
+  const db = await GetDbConnection();
 
-  const client = await getMongoClient();
-  const db = client.db('personal-records');
-  const collectionName = 'workout';
+  const getHistory = async () => db.collection('workout')
+    .find({ email: userEmail })
+    .sort({ active: -1 })
+    .toArray();
 
   try {
-    const getHistory = async () => {
-      const workoutCollection = db.collection(collectionName);
-
-      return workoutCollection.find({ email: userEmail })
-        .sort({ active: -1 })
-        .toArray();
-    };
-
     const results = await getHistory();
 
     res.status(200)
