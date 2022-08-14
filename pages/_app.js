@@ -1,18 +1,25 @@
 import { SessionProvider } from 'next-auth/react';
 import '../styles/globals.css';
+import PropTypes from 'prop-types';
 
-function MyApp({
-  Component,
-  pageProps: {
-    session,
-    ...pageProps
-  },
-}) {
+function PersonalRecords(props) {
+  PersonalRecords.propTypes = {
+    Component: PropTypes.func.isRequired,
+    pageProps: PropTypes.shape({
+      session: PropTypes.string,
+    }).isRequired,
+  };
+
+  const {
+    Component,
+    pageProps,
+  } = props;
+
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={pageProps.session}>
       <Component {...pageProps} />
     </SessionProvider>
   );
 }
 
-export default MyApp;
+export default PersonalRecords;
