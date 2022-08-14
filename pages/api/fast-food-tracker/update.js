@@ -1,5 +1,6 @@
 import mongodb from 'mongodb';
 import { getMongoClient } from '../../../db/mongo';
+import logger from '../../../logger/logger';
 
 export default async (req, res) => {
   const fastFoodId = req.query.id;
@@ -26,7 +27,7 @@ export default async (req, res) => {
         { returnOriginal: false },
       );
 
-      console.log(
+      logger.info(
         `${result.ok} documents were updated with the _id: ${fastFoodId}`,
       );
     };
@@ -37,7 +38,7 @@ export default async (req, res) => {
     res.status(200)
       .json({ status: 'Update Success' });
   } catch (error) {
-    console.log('error', error);
+    logger.error(error);
   } finally {
     await client.close();
   }

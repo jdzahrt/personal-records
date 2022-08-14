@@ -1,5 +1,6 @@
 import mongodb from 'mongodb';
 import { getMongoClient } from '../../../db/mongo';
+import logger from '../../../logger/logger';
 
 export default async (req, res) => {
   const fastFoodId = req.query.id;
@@ -15,7 +16,7 @@ export default async (req, res) => {
 
       const result = await fastFoodCollection.deleteOne({ _id: newId });
 
-      console.log(
+      logger.info(
         `${result.deletedCount} documents were deleted with the _id: ${fastFoodId}`,
       );
     };
@@ -26,7 +27,7 @@ export default async (req, res) => {
     res.status(200)
       .json({ status: 'Delete Success' });
   } catch (error) {
-    console.log('error', error);
+    logger.error(error);
   } finally {
     client.close();
   }

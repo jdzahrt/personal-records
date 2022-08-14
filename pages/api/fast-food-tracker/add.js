@@ -1,8 +1,8 @@
 import { getSession } from 'next-auth/react';
 import { getMongoClient } from '../../../db/mongo';
+import logger from '../../../logger/logger';
 
 export default async (req, res) => {
-  // TODO: Handle users that are not signed in
   const session = await getSession({ req });
   const user = session.user.email;
   const { quitDate } = req.body;
@@ -25,7 +25,7 @@ export default async (req, res) => {
       const result = await fastFoodCollection.insertOne(insertPayload);
       [insertedRecord] = result.ops;
 
-      console.log(
+      logger.info(
         `${result.insertedCount} documents were inserted with the _id: ${result.insertedId}`,
       );
     };
@@ -34,7 +34,7 @@ export default async (req, res) => {
 
     res.status(200).json(insertedRecord);
   } catch (error) {
-    console.log('error', error);
+    logger.error(error);
   } finally {
     client.close();
   }
