@@ -1,5 +1,3 @@
-// let MongoClient = require('mongodb').MongoClient;
-// import { MongoClient } from 'mongodb';
 const { MongoClient } = require('mongodb');
 
 function DbConnection() {

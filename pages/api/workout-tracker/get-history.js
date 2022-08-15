@@ -23,7 +23,5 @@ export default async (req, res) => {
       .json(results);
   } catch (error) {
     console.log(error);
-  } finally {
-    await client.close();
   }
 };

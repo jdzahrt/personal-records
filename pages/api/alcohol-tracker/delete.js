@@ -1,16 +1,14 @@
 import mongodb from 'mongodb';
-import { getMongoClient } from '../../../db/mongo';
+import { GetDbConnection } from '../../../db/db';
 
 export default async (req, res) => {
   const alcoholId = req.query.id;
-  const client = await getMongoClient();
-  const db = client.db('personal-records');
-  const collectionName = 'alcohol';
+
+  const db = await GetDbConnection();
+  const alcoholCollection = db.collection('alcohol');
 
   try {
     const deleteRecord = async () => {
-      const alcoholCollection = db.collection(collectionName);
-
       const newId = new mongodb.ObjectId(alcoholId);
 
       const result = await alcoholCollection.deleteOne({ _id: newId });
@@ -20,14 +18,11 @@ export default async (req, res) => {
       );
     };
 
-    await deleteRecord()
-      .catch(console.dir);
+    await deleteRecord();
 
     res.status(200)
       .json({ status: 'Delete Success' });
   } catch (error) {
     console.log('error', error);
-  } finally {
-    client.close();
   }
 };
