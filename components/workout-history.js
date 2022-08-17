@@ -20,6 +20,7 @@ import { resetServerContext } from 'react-beautiful-dnd';
 import {
   addWorkout, deleteWorkout, getWorkoutHistory, updateWorkout,
 } from '../service/workout';
+import logger from '../logger/logger';
 
 const tableIcons = {
   // eslint-disable-next-line react/jsx-filename-extension
@@ -119,17 +120,17 @@ function WorkoutHistory() {
           setWorkoutHistory([...workoutData, newData]);
 
           addWorkout(newData)
-            .then((response) => console.log('Success', response));
+            .then((response) => logger.info('Success', response));
 
           resolve();
         }),
-        onRowUpdate: (newData, oldData) => new Promise((resolve, reject) => {
+        onRowUpdate: (newData, oldData) => new Promise((resolve) => {
           const dataUpdate = [...workoutData];
           const index = oldData.tableData.id;
           dataUpdate[index] = newData;
           setWorkoutHistory([...dataUpdate]);
           updateWorkout(newData)
-            .then((response) => console.log('Success', response));
+            .then((response) => logger.info('Success', response));
 
           resolve();
         }),
@@ -140,7 +141,7 @@ function WorkoutHistory() {
           setWorkoutHistory([...dataDelete]);
 
           deleteWorkout(oldData._id)
-            .then((response) => console.log('Successfully deleted', response));
+            .then((response) => logger.info('Successfully deleted', response));
 
           resolve();
         }),

@@ -1,5 +1,6 @@
 import { getSession } from 'next-auth/react';
 import { GetDbConnection } from '../../../db/db';
+import logger from '../../../logger/logger';
 
 // eslint-disable-next-line consistent-return
 export default async (req, res) => {
@@ -23,6 +24,6 @@ export default async (req, res) => {
     res.status(200)
       .json(results);
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 };

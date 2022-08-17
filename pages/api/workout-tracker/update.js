@@ -1,5 +1,6 @@
 import mongodb from 'mongodb';
 import { GetDbConnection } from '../../../db/db';
+import logger from '../../../logger/logger';
 
 export default async (req, res) => {
   const {
@@ -28,7 +29,7 @@ export default async (req, res) => {
 
       const result = await workoutCollection.updateOne({ _id: newId }, mongoUpdateRecord);
 
-      console.log(
+      logger.info(
         `${result.matchedCount} documents were updated with the _id: ${_id}`,
       );
     };
@@ -38,6 +39,6 @@ export default async (req, res) => {
     res.status(200)
       .json({ status: 'Update Success' });
   } catch (error) {
-    console.log('error', error);
+    logger.error(error);
   }
 };
