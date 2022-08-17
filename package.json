@@ -9,6 +9,15 @@
     "lint": "eslint components",
     "test": "jest"
   },
+  "babel": {
+    "env": {
+      "test": {
+        "plugins": [
+          "@babel/plugin-transform-modules-commonjs"
+        ]
+      }
+    }
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.3",
@@ -26,6 +35,7 @@
     "sqlite3": "^5.0.2"
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.18.6",
     "@next/eslint-plugin-next": "^12.2.3",
     "eslint": "^8.20.0",
     "eslint-config-airbnb": "^19.0.4",
