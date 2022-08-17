@@ -1,5 +1,6 @@
 import { getSession } from 'next-auth/react';
-import { getMongoClient } from '../../../db/mongo';
+import { GetDbConnection } from '../../../db/db';
+import logger from '../../../logger/logger';
 
 export default async (req, res) => {
   const session = await getSession({ req });
@@ -8,38 +9,34 @@ export default async (req, res) => {
     date,
     reps,
     exercise,
+    weight,
   } = req.body;
 
-  const client = await getMongoClient();
-  const db = client.db('personal-records');
-  const collectionName = 'workout';
+  const db = await GetDbConnection();
+  const workoutCollection = db.collection('workout');
 
   try {
     const insertRecord = async () => {
-      const workoutCollection = db.collection(collectionName);
-
       const insertPayload = {
         email: user,
         exercise,
         date,
         reps,
+        weight,
       };
 
       const result = await workoutCollection.insertOne(insertPayload);
 
-      console.log(
+      logger.info(
         `${result.insertedCount} documents were inserted with the _id: ${result.insertedId}`,
       );
     };
 
-    await insertRecord()
-      .catch(console.dir);
+    await insertRecord();
 
     res.status(200)
       .json({ status: 'Success' });
   } catch (error) {
-    console.log('error', error);
-  } finally {
-    client.close();
+    logger.error(error);
   }
 };

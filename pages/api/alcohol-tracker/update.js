@@ -1,17 +1,17 @@
 import mongodb from 'mongodb';
-import { getMongoClient } from '../../../db/mongo';
+import { GetDbConnection } from '../../../db/db';
+import logger from '../../../logger/logger';
 
 export default async (req, res) => {
   const alcoholId = req.query.id;
-  const client = await getMongoClient();
-  const db = client.db('personal-records');
-  const collectionName = 'alcohol';
+
+  const db = await GetDbConnection();
+  const alcoholCollection = db.collection('alcohol');
+
   let updatedRecord;
 
   try {
     const updateRecord = async () => {
-      const alcoholCollection = db.collection(collectionName);
-
       const newId = new mongodb.ObjectId(alcoholId);
 
       const mongoUpdateRecord = {
@@ -29,19 +29,16 @@ export default async (req, res) => {
 
       updatedRecord = result.value;
 
-      console.log(
+      logger.info(
         `${result.ok} documents were updated with the _id: ${alcoholId}`,
       );
     };
 
-    await updateRecord()
-      .catch(console.dir);
+    await updateRecord();
 
     res.status(200)
       .json(updatedRecord);
   } catch (error) {
-    console.log('error', error);
-  } finally {
-    await client.close();
+    logger.error(error);
   }
 };

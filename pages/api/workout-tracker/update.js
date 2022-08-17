@@ -1,5 +1,6 @@
 import mongodb from 'mongodb';
-import { getMongoClient } from '../../../db/mongo';
+import { GetDbConnection } from '../../../db/db';
+import logger from '../../../logger/logger';
 
 export default async (req, res) => {
   const {
@@ -7,15 +8,14 @@ export default async (req, res) => {
     exercise,
     reps,
     date,
+    weight,
   } = req.body;
-  const client = await getMongoClient();
-  const db = client.db('personal-records');
-  const collectionName = 'workout';
+
+  const db = await GetDbConnection();
+  const workoutCollection = db.collection('workout');
 
   try {
     const updateRecord = async () => {
-      const workoutCollection = db.collection(collectionName);
-
       const newId = new mongodb.ObjectId(_id);
 
       const mongoUpdateRecord = {
@@ -23,24 +23,22 @@ export default async (req, res) => {
           exercise,
           reps,
           date,
+          weight,
         },
       };
 
       const result = await workoutCollection.updateOne({ _id: newId }, mongoUpdateRecord);
 
-      console.log(
+      logger.info(
         `${result.matchedCount} documents were updated with the _id: ${_id}`,
       );
     };
 
-    await updateRecord()
-      .catch(console.dir);
+    await updateRecord();
 
     res.status(200)
       .json({ status: 'Update Success' });
   } catch (error) {
-    console.log('error', error);
-  } finally {
-    await client.close();
+    logger.error(error);
   }
 };

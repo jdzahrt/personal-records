@@ -7,6 +7,7 @@ function Vacation() {
     <div>
       <h1 className={styles.title}>
         {calcDaysQuit(new Date().toISOString(), '6/12/2022')}
+        {' '}
         days until vacation 🌴
       </h1>
     </div>
