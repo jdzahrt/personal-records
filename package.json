@@ -21,12 +21,7 @@
   "jest": {
     "verbose": true,
     "collectCoverage": true,
-    "collectCoverageFrom": ["utils/**/*.js", "db/**/*.js"],
-    "coverageThreshold": {
-      "global": {
-        "lines": 90
-      }
-    }
+    "collectCoverageFrom": ["utils/**/*.js", "db/**/*.js"]
   },
   "dependencies": {
     "@material-ui/core": "^4.11.4",
