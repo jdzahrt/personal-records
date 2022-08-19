@@ -4,8 +4,8 @@ export const getWorkoutHistory = async () => {
   try {
     const response = await fetchApi('/api/workout-tracker/get-history', 'GET');
     return response.json();
-  } catch {
-    throw new Error('Could not fetch workout history');
+  } catch (e) {
+    throw new Error(`Could not fetch workout history. ${e}`);
   }
 };
 
