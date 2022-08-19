@@ -18,8 +18,11 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import { forwardRef, useState, useEffect } from 'react';
 import { resetServerContext } from 'react-beautiful-dnd';
 import {
-  addWorkout, deleteWorkout, getWorkoutHistory, updateWorkout,
-} from '../service/workout';
+  addWorkout,
+  deleteWorkout,
+  getWorkoutHistory,
+  updateWorkout,
+} from '../services/workout';
 import logger from '../logger/logger';
 
 const tableIcons = {
