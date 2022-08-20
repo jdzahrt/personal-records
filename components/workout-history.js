@@ -1,7 +1,7 @@
 import MaterialTable from '@material-table/core';
 
 import { useState, useEffect } from 'react';
-import { resetServerContext } from 'react-beautiful-dnd';
+
 import {
   addWorkout,
   deleteWorkout,
@@ -13,7 +13,6 @@ import logger from '../logger/logger';
 const oneRepMax = (weight, reps) => ((weight || 1) * (1 + (reps / 30))).toFixed(2);
 
 function WorkoutHistory() {
-  resetServerContext();
   const [workoutData, setWorkoutHistory] = useState([]);
 
   useEffect(() => {
@@ -74,8 +73,6 @@ function WorkoutHistory() {
       initialEditValue: new Date(),
     },
   ]);
-
-  resetServerContext();
 
   return (
     // eslint-disable-next-line react/react-in-jsx-scope
