@@ -12,6 +12,7 @@ function FastFoodTracker() {
   return (
     <div className={styles.container}>
       <main>
+        <title>Fast Food Tracker</title>
         <center><h1>Track how long you have gone without eating fast food! 🍔</h1></center>
         <History
           getHistory={getFastFoodHistory}

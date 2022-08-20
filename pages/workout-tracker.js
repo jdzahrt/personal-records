@@ -6,6 +6,7 @@ function WorkoutTracker() {
   return (
     <div className={styles.container}>
       <main>
+        <title>Workout Tracker</title>
         <center><h1>Workout Tracker! 💪</h1></center>
         <WorkoutHistory />
         <div className={styles.footer}>

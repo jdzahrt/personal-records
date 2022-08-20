@@ -90,6 +90,7 @@ function History(props) {
         <div className={styles.card}>
           <label htmlFor="date-input">
             Quit Date:
+            {' '}
             <input
               type="date"
               id="date-input"

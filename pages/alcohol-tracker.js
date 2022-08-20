@@ -12,6 +12,7 @@ function AlcoholTracker() {
   return (
     <div className={styles.container}>
       <main>
+        <title>Alcohol Tracker</title>
         <center><h1>Track how long you have gone without a drink! 🍻</h1></center>
         <History
           getHistory={getAlcoholHistory}
