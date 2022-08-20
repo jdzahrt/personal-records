@@ -119,29 +119,30 @@ function WorkoutHistory() {
         onRowAdd: (newData) => new Promise((resolve) => {
           setWorkoutHistory([...workoutData, newData]);
 
-          addWorkout(newData)
-            .then((response) => logger.info('Success', response));
+          addWorkout(newData);
 
           resolve();
         }),
         onRowUpdate: (newData, oldData) => new Promise((resolve) => {
           const dataUpdate = [...workoutData];
           const index = oldData.tableData.id;
+
           dataUpdate[index] = newData;
+          dataUpdate.sort((a, b) => new Date(b.date) - new Date(a.date));
           setWorkoutHistory([...dataUpdate]);
-          updateWorkout(newData)
-            .then((response) => logger.info('Success', response));
+
+          updateWorkout(newData);
 
           resolve();
         }),
         onRowDelete: (oldData) => new Promise((resolve) => {
           const dataDelete = [...workoutData];
           const index = oldData.tableData.id;
+
           dataDelete.splice(index, 1);
           setWorkoutHistory([...dataDelete]);
 
-          deleteWorkout(oldData._id)
-            .then((response) => logger.info('Successfully deleted', response));
+          deleteWorkout(oldData._id);
 
           resolve();
         }),
