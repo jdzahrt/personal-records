@@ -4,8 +4,8 @@ export const getFastFoodHistory = async () => {
   try {
     const response = await fetchApi('/api/fast-food-tracker/get-history', 'GET');
     return response.json();
-  } catch {
-    throw new Error('Could not fetch fast-food history');
+  } catch (e) {
+    throw new Error(`Could not fetch fast-food history. ${e}`);
   }
 };
 

@@ -4,8 +4,8 @@ export const getAlcoholHistory = async () => {
   try {
     const response = await fetchApi('/api/alcohol-tracker/get-history', 'GET');
     return response.json();
-  } catch {
-    throw new Error('Could not fetch alcohol history');
+  } catch (e) {
+    throw new Error(`Could not fetch alcohol history. ${e}`);
   }
 };
 

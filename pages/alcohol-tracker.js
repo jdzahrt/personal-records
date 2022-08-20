@@ -2,8 +2,11 @@ import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 import History from '../components/history-tracker';
 import {
-  deleteAlcohol, getAlcoholHistory, addAlcohol, updateAlcohol,
-} from '../service/alcohol';
+  deleteAlcohol,
+  getAlcoholHistory,
+  addAlcohol,
+  updateAlcohol,
+} from '../services/alcohol';
 
 function AlcoholTracker() {
   return (

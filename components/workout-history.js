@@ -7,7 +7,7 @@ import {
   deleteWorkout,
   getWorkoutHistory,
   updateWorkout,
-} from '../service/workout';
+} from '../services/workout';
 import logger from '../logger/logger';
 
 const oneRepMax = (weight, reps) => ((weight || 1) * (1 + (reps / 30))).toFixed(2);

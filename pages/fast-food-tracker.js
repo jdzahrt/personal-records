@@ -6,7 +6,7 @@ import {
   deleteFastFood,
   getFastFoodHistory,
   updateFastFood,
-} from '../service/fast-food';
+} from '../services/fast-food';
 
 function FastFoodTracker() {
   return (
