@@ -8,7 +8,7 @@ function DbConnection() {
 
   async function DbConnect() {
     try {
-      return MongoClient.connect(
+      return await MongoClient.connect(
         url,
         {
           useNewUrlParser: true,
@@ -16,11 +16,11 @@ function DbConnection() {
         },
       );
     } catch (e) {
-      return e;
+      throw new Error(`Could not connect. ${e}`);
     }
   }
 
-  async function Get() {
+  async function GetDbConnection() {
     try {
       if (db != null) {
         return db;
@@ -36,7 +36,7 @@ function DbConnection() {
   }
 
   return {
-    GetDbConnection: Get,
+    GetDbConnection,
   };
 }
 

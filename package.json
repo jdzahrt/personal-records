@@ -23,7 +23,8 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
       "utils/**/*.js",
-      "db/**/*.js"
+      "db/**/*.js",
+      "services/**/*.js"
     ]
   },
   "dependencies": {
