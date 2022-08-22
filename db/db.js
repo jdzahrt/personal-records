@@ -1,14 +1,14 @@
 const { MongoClient } = require('mongodb');
 
 function DbConnection() {
-  let db = null;
+  let client = null;
 
   const url = process.env.MONGO_DATABASE_URL;
   const dbInstance = 'personal-records';
 
   async function DbConnect() {
     try {
-      return MongoClient.connect(
+      return await MongoClient.connect(
         url,
         {
           useNewUrlParser: true,
@@ -16,27 +16,27 @@ function DbConnection() {
         },
       );
     } catch (e) {
-      return e;
+      throw new Error(`Could not connect. ${e}`);
     }
   }
 
-  async function Get() {
+  async function GetDbConnection() {
     try {
-      if (db != null) {
-        return db;
+      if (client != null) {
+        return client;
       }
 
-      db = await DbConnect();
-      db = db.db(dbInstance);
+      client = await DbConnect();
+      client = client.db(dbInstance);
 
-      return db;
+      return client;
     } catch (e) {
       return e;
     }
   }
 
   return {
-    GetDbConnection: Get,
+    GetDbConnection,
   };
 }
 

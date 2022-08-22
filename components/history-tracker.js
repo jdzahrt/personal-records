@@ -118,10 +118,20 @@ function History(props) {
             {` ${type} `}
             FREE!
             <span className={record.active ? styles.active : styles.inactive}>
-              {record.active ? ` ACTIVE ${maxDate - calcDaysQuit(record.quitDate, record.endDate)} more days to go to break your personal record!`
+              {record.active ? (
+                <p>
+                  ACTIVE -
+                  {' '}
+                  {maxDate - calcDaysQuit(record.quitDate, record.endDate)}
+                  {' '}
+                  more days to go to break your personal record!
+                  {' '}
+                </p>
+              )
                 : (
                   <p>
                     INACTIVE - Streak ended on
+                    {' '}
                     {record.endDate}
                   </p>
                 )}
