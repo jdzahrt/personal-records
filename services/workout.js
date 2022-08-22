@@ -26,6 +26,7 @@ export const updateWorkout = async (payload) => {
 };
 
 export const deleteWorkout = async (id) => {
+  console.log('IDIZZY, id', id);
   try {
     await fetchApi(`/api/workout-tracker/delete?id=${id}`, 'DELETE');
   } catch (e) {

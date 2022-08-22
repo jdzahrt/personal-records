@@ -82,7 +82,9 @@ function WorkoutHistory() {
       options={options}
       editable={{
         onRowAdd: (newData) => new Promise((resolve) => {
-          setWorkoutHistory([...workoutData, newData]);
+          const fullWorkoutHistory = [...workoutData, newData];
+          fullWorkoutHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+          setWorkoutHistory(fullWorkoutHistory);
 
           addWorkout(newData)
             .catch((error) => logger.error(error));
