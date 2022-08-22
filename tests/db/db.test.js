@@ -8,10 +8,6 @@ beforeEach(() => {
   MongoClient.connect.mockClear();
 });
 
-afterEach(() => {
-  jest.restoreAllMocks();
-});
-
 describe('db', () => {
   test('connection', async () => {
     await GetDbConnection();
@@ -21,6 +17,16 @@ describe('db', () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+  });
+
+  test('connection should only be initialized once', async () => {
+    const client = { db: jest.fn().mockReturnThis(), collection: jest.fn() };
+    MongoClient.connect.mockReturnValue(client);
+
+    await GetDbConnection();
+    await GetDbConnection();
+
+    expect(MongoClient.connect).toHaveBeenCalledTimes(1);
   });
 
   test('failure', async () => {

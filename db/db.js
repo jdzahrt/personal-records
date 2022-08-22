@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 function DbConnection() {
-  let db = null;
+  let client = null;
 
   const url = process.env.MONGO_DATABASE_URL;
   const dbInstance = 'personal-records';
@@ -22,14 +22,14 @@ function DbConnection() {
 
   async function GetDbConnection() {
     try {
-      if (db != null) {
-        return db;
+      if (client != null) {
+        return client;
       }
 
-      db = await DbConnect();
-      db = db.db(dbInstance);
+      client = await DbConnect();
+      client = client.db(dbInstance);
 
-      return db;
+      return client;
     } catch (e) {
       return e;
     }
