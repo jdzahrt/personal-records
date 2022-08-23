@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import MaterialTable from '@material-table/core';
 
 import { useState, useEffect } from 'react';
@@ -82,9 +83,16 @@ function WorkoutHistory() {
       options={options}
       editable={{
         onRowAdd: (newData) => new Promise((resolve) => {
-          setWorkoutHistory([...workoutData, newData]);
+          const payload = {
+            ...newData,
+            _id: v4(),
+          };
 
-          addWorkout(newData)
+          const fullWorkoutHistory = [...workoutData, payload];
+          fullWorkoutHistory.sort((a, b) => new Date(b.date) - new Date(a.date));
+          setWorkoutHistory(fullWorkoutHistory);
+
+          addWorkout(payload)
             .catch((error) => logger.error(error));
 
           resolve();

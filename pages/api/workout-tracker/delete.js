@@ -1,4 +1,3 @@
-import mongodb from 'mongodb';
 import { GetDbConnection } from '../../../db/db';
 import logger from '../../../logger/logger';
 
@@ -10,9 +9,7 @@ export default async (req, res) => {
 
   try {
     const deleteRecord = async () => {
-      const newId = new mongodb.ObjectId(workoutId);
-
-      const result = await workoutCollection.deleteOne({ _id: newId });
+      const result = await workoutCollection.deleteOne({ _id: workoutId });
 
       logger.info(
         `${result.deletedCount} documents were deleted with the _id: ${workoutId}`,

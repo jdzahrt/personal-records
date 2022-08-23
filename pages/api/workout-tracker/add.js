@@ -10,6 +10,7 @@ export default async (req, res) => {
     reps,
     exercise,
     weight,
+    _id,
   } = req.body;
 
   const db = await GetDbConnection();
@@ -23,6 +24,7 @@ export default async (req, res) => {
         date,
         reps,
         weight,
+        _id,
       };
 
       const result = await workoutCollection.insertOne(insertPayload);

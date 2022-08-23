@@ -1,4 +1,3 @@
-import mongodb from 'mongodb';
 import { GetDbConnection } from '../../../db/db';
 import logger from '../../../logger/logger';
 
@@ -16,8 +15,6 @@ export default async (req, res) => {
 
   try {
     const updateRecord = async () => {
-      const newId = new mongodb.ObjectId(_id);
-
       const mongoUpdateRecord = {
         $set: {
           exercise,
@@ -27,7 +24,7 @@ export default async (req, res) => {
         },
       };
 
-      const result = await workoutCollection.updateOne({ _id: newId }, mongoUpdateRecord);
+      const result = await workoutCollection.updateOne({ _id }, mongoUpdateRecord);
 
       logger.info(
         `${result.matchedCount} documents were updated with the _id: ${_id}`,
