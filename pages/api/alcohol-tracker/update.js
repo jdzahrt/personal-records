@@ -17,7 +17,7 @@ export default async (req, res) => {
       const mongoUpdateRecord = {
         $set: {
           active: req.body.active,
-          endDate: req.body.endDate,
+          endDate: new Date(req.body.endDate),
         },
       };
 

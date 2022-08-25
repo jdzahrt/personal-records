@@ -16,7 +16,7 @@ export default async (req, res) => {
     const insertRecord = async () => {
       const insertPayload = {
         email: user,
-        quitDate,
+        quitDate: new Date(quitDate),
         active: true,
       };
 

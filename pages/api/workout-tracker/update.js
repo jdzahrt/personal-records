@@ -19,7 +19,7 @@ export default async (req, res) => {
         $set: {
           exercise,
           reps,
-          date,
+          date: new Date(date),
           weight,
         },
       };

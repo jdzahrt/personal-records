@@ -40,7 +40,7 @@ function History(props) {
   const handleDelete = async (id) => {
     await deleteRecord(id);
 
-    setHistory((ah) => ah.filter((a) => a._id !== id));
+    setHistory((ah) => ah.filter((a) => a.id !== id));
   };
 
   const handleDateChange = (event) => {
@@ -56,7 +56,7 @@ function History(props) {
     const jsonData = await updateRecord(id, updatePayload);
 
     const newState = historyList.map((obj) => {
-      if (obj._id === id) {
+      if (obj.id === id) {
         return { ...obj, ...jsonData };
       }
       return obj;
@@ -104,7 +104,7 @@ function History(props) {
       </form>
       <center><h2>{`${type} List`}</h2></center>
       {!isLoading ? historyList.map((record) => (
-        <ul key={record._id}>
+        <ul key={record.id}>
           <div>
             Quit on
             {' '}
@@ -142,7 +142,7 @@ function History(props) {
               <button
                 type="button"
                 className={styles.button}
-                value={record._id}
+                value={record.id}
                 onClick={(e) => handleStop(e.target.value)}
               >
                 I DRANK...STOP TRACKING
@@ -150,7 +150,7 @@ function History(props) {
             ) : <> </>}
           <button
             type="button"
-            value={record._id}
+            value={record.id}
             onClick={(e) => handleDelete(e.target.value)}
           >
             DELETE RECORD

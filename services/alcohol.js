@@ -1,9 +1,21 @@
+import moment from 'moment/moment';
 import { fetchApi } from '../utils/fetch-api';
 
 export const getAlcoholHistory = async () => {
   try {
     const response = await fetchApi('/api/alcohol-tracker/get-history', 'GET');
-    return response.json();
+
+    const json = await response.json();
+
+    const historyList = json.map((obj) => ({
+      id: obj._id,
+      active: obj.active,
+      email: obj.email,
+      quitDate: moment(new Date(obj.quitDate)).format('MM/DD/YY'),
+      endDate: obj.endDate ? moment(new Date(obj.endDate)).format('MM/DD/YY') : null,
+    }));
+
+    return historyList;
   } catch (e) {
     throw new Error(`Could not fetch alcohol history. ${e}`);
   }
