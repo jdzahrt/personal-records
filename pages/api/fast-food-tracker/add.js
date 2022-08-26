@@ -1,33 +1,14 @@
 import { getSession } from 'next-auth/react';
-import { GetDbConnection } from '../../../db/db';
 import logger from '../../../logger/logger';
+import { insertRecord } from '../../../db/fast-food';
 
 export default async (req, res) => {
   const session = await getSession({ req });
   const user = session.user.email;
   const { quitDate } = req.body;
 
-  const db = await GetDbConnection();
-  const fastFoodCollection = db.collection('fastfood');
-
   try {
-    const insertRecord = async () => {
-      const insertPayload = {
-        email: user,
-        quitDate: new Date(quitDate),
-        active: true,
-      };
-
-      const result = await fastFoodCollection.insertOne(insertPayload);
-
-      logger.info(
-        `${result.insertedCount} documents were inserted with the _id: ${result.insertedId}`,
-      );
-
-      return result.ops[0];
-    };
-
-    const insertedRecord = await insertRecord();
+    const insertedRecord = await insertRecord(user, quitDate);
 
     res.status(200).json(insertedRecord);
   } catch (error) {
