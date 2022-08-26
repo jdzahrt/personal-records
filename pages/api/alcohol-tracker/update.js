@@ -8,8 +8,6 @@ export default async (req, res) => {
   const db = await GetDbConnection();
   const alcoholCollection = db.collection('alcohol');
 
-  let updatedRecord;
-
   try {
     const updateRecord = async () => {
       const newId = new mongodb.ObjectId(alcoholId);
@@ -27,14 +25,14 @@ export default async (req, res) => {
         { returnOriginal: false },
       );
 
-      updatedRecord = result.value;
-
       logger.info(
         `${result.ok} documents were updated with the _id: ${alcoholId}`,
       );
+
+      return result.value;
     };
 
-    await updateRecord();
+    const updatedRecord = await updateRecord();
 
     res.status(200)
       .json(updatedRecord);

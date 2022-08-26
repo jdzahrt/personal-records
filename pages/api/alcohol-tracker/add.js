@@ -10,8 +10,6 @@ export default async (req, res) => {
   const db = await GetDbConnection();
   const alcoholCollection = db.collection('alcohol');
 
-  let insertedRecord = {};
-
   try {
     const insertRecord = async () => {
       const insertPayload = {
@@ -21,17 +19,17 @@ export default async (req, res) => {
       };
 
       const result = await alcoholCollection.insertOne(insertPayload);
-      [insertedRecord] = result.ops;
 
       logger.info(
         `${result.insertedCount} documents were inserted with the _id: ${result.insertedId}`,
       );
+
+      return result.ops[0];
     };
 
-    await insertRecord();
+    const insertedRecord = await insertRecord();
 
-    res.status(200)
-      .json(insertedRecord);
+    res.status(200).json(insertedRecord);
   } catch (error) {
     logger.error(error);
   }
