@@ -4,6 +4,8 @@ import moment from 'moment';
 
 import { useState, useEffect } from 'react';
 
+import { Input } from '@mui/material';
+
 import {
   addWorkout,
   deleteWorkout,
@@ -13,25 +15,28 @@ import {
 import logger from '../logger/logger';
 
 const oneRepMax = (weight, reps) => ((weight || 1) * (1 + (reps / 30))).toFixed(2);
+const defaultDate = new Date().toISOString().substring(0, 10);
 
 function WorkoutHistory() {
   const [workoutData, setWorkoutHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getWorkoutHistory()
       .then((data) => {
-        console.log('dizzy', data);
         data.sort((a, b) => new Date(b.date) - new Date(a.date));
 
         setWorkoutHistory(data);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const options = {
     showTitle: false,
     pageSize: 10,
     searchFieldAlignment: 'left',
-    draggable: false,
+    // draggable: false,
+    grouping: true,
     headerStyle: {
       backgroundColor: '#019b09',
       color: '#110f0f',
@@ -52,6 +57,11 @@ function WorkoutHistory() {
       },
     },
     {
+      title: 'Type',
+      field: 'type',
+      type: 'string',
+    },
+    {
       title: 'Reps',
       field: 'reps',
       type: 'numeric',
@@ -69,14 +79,28 @@ function WorkoutHistory() {
       title: 'One Rep Max',
       field: 'max',
       render: (rowData) => <div>{oneRepMax(rowData.weight, rowData.reps)}</div>,
+      editComponent: ({ rowData }) => (
+        <Input
+          defaultValue={oneRepMax(rowData.weight, rowData.reps)}
+          readOnly="true"
+          type="number"
+        />
+      ),
     },
     {
       title: 'Date',
       field: 'date',
       type: 'date',
+      grouping: true,
       initialEditValue: moment().format(),
       render: (rowData) => moment(rowData.date).format(('MM/DD/YY')),
       validate: (rowData) => Boolean(rowData.date),
+      editComponent: () => (
+        <Input
+          defaultValue={defaultDate}
+          type="date"
+        />
+      ),
     },
   ]);
 
@@ -86,6 +110,7 @@ function WorkoutHistory() {
       columns={columns}
       data={workoutData}
       options={options}
+      isLoading={isLoading}
       editable={{
         onRowAdd: (newData) => new Promise((resolve) => {
           const payload = {
