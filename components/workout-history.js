@@ -1,5 +1,6 @@
 import { v4 } from 'uuid';
 import MaterialTable from '@material-table/core';
+import moment from 'moment';
 
 import { useState, useEffect } from 'react';
 
@@ -19,6 +20,7 @@ function WorkoutHistory() {
   useEffect(() => {
     getWorkoutHistory()
       .then((data) => {
+        console.log('dizzy', data);
         data.sort((a, b) => new Date(b.date) - new Date(a.date));
 
         setWorkoutHistory(data);
@@ -43,6 +45,7 @@ function WorkoutHistory() {
       title: 'Exercise',
       field: 'exercise',
       type: 'string',
+      validate: (rowData) => Boolean(rowData.exercise),
       cellStyle: {
         backgroundColor: '#ade503',
         color: '#110f0f',
@@ -60,7 +63,7 @@ function WorkoutHistory() {
       field: 'weight',
       type: 'numeric',
       initialEditValue: 1,
-      validate: (rowData) => rowData.reps > 0,
+      validate: (rowData) => rowData.weight > 0,
     },
     {
       title: 'One Rep Max',
@@ -71,7 +74,9 @@ function WorkoutHistory() {
       title: 'Date',
       field: 'date',
       type: 'date',
-      initialEditValue: new Date(),
+      initialEditValue: moment().format(),
+      render: (rowData) => moment(rowData.date).format(('MM/DD/YY')),
+      validate: (rowData) => Boolean(rowData.date),
     },
   ]);
 

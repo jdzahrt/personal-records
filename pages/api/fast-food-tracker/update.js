@@ -15,7 +15,7 @@ export default async (req, res) => {
       const mongoUpdateRecord = {
         $set: {
           active: req.body.active,
-          endDate: req.body.endDate,
+          endDate: new Date(req.body.endDate),
         },
       };
 
@@ -28,12 +28,14 @@ export default async (req, res) => {
       logger.info(
         `${result.ok} documents were updated with the _id: ${fastFoodId}`,
       );
+
+      return result.value;
     };
 
-    await updateRecord();
+    const updatedRecord = await updateRecord();
 
     res.status(200)
-      .json({ status: 'Update Success' });
+      .json(updatedRecord);
   } catch (error) {
     logger.error(error);
   }

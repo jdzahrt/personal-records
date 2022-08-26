@@ -3,6 +3,7 @@ import { GetDbConnection } from '../../../db/db';
 import logger from '../../../logger/logger';
 
 export default async (req, res) => {
+  console.log(req.query);
   const alcoholId = req.query.id;
 
   const db = await GetDbConnection();

@@ -21,7 +21,7 @@ export default async (req, res) => {
       const insertPayload = {
         email: user,
         exercise,
-        date,
+        date: new Date(date),
         reps,
         weight,
         _id,
