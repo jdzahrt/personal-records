@@ -4,7 +4,9 @@ import moment from 'moment';
 
 import { useState, useEffect } from 'react';
 
-import { Input } from '@mui/material';
+import {
+  Input, MenuItem, Select,
+} from '@mui/material';
 
 import {
   addWorkout,
@@ -14,12 +16,17 @@ import {
 } from '../services/workout';
 import logger from '../logger/logger';
 
-const oneRepMax = (weight, reps) => ((weight || 1) * (1 + (reps / 30))).toFixed(2);
+const calcOneRepMax = (weight, reps) => ((weight || 1) * (1 + (reps / 30))).toFixed(2);
 const defaultDate = new Date().toISOString().substring(0, 10);
 
 function WorkoutHistory() {
   const [workoutData, setWorkoutHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [dateValue, setDate] = useState(defaultDate);
+
+  const handleDateChange = (event) => {
+    setDate(event.target.value);
+  };
 
   useEffect(() => {
     getWorkoutHistory()
@@ -35,7 +42,7 @@ function WorkoutHistory() {
     showTitle: false,
     pageSize: 10,
     searchFieldAlignment: 'left',
-    // draggable: false,
+    draggable: true,
     grouping: true,
     headerStyle: {
       backgroundColor: '#019b09',
@@ -58,8 +65,19 @@ function WorkoutHistory() {
     },
     {
       title: 'Type',
-      field: 'type',
+      field: 'exerciseType',
       type: 'string',
+      grouping: true,
+      editComponent: (props) => (
+        <Select
+          value={props.rowData.exerciseType || ''}
+          label="Type"
+          onChange={(e) => props.onChange(e.target.value)}
+        >
+          <MenuItem value="upper">upper</MenuItem>
+          <MenuItem value="lower">lower</MenuItem>
+        </Select>
+      ),
     },
     {
       title: 'Reps',
@@ -78,11 +96,11 @@ function WorkoutHistory() {
     {
       title: 'One Rep Max',
       field: 'max',
-      render: (rowData) => <div>{oneRepMax(rowData.weight, rowData.reps)}</div>,
+      render: (rowData) => <div>{calcOneRepMax(rowData.weight, rowData.reps)}</div>,
       editComponent: ({ rowData }) => (
         <Input
-          defaultValue={oneRepMax(rowData.weight, rowData.reps)}
-          readOnly="true"
+          value={calcOneRepMax(rowData.weight, rowData.reps)}
+          readOnly
           type="number"
         />
       ),
@@ -91,14 +109,14 @@ function WorkoutHistory() {
       title: 'Date',
       field: 'date',
       type: 'date',
-      grouping: true,
       initialEditValue: moment().format(),
       render: (rowData) => moment(rowData.date).format(('MM/DD/YY')),
       validate: (rowData) => Boolean(rowData.date),
       editComponent: () => (
         <Input
-          defaultValue={defaultDate}
           type="date"
+          defaultValue={dateValue}
+          onChange={handleDateChange}
         />
       ),
     },

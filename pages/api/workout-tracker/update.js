@@ -8,6 +8,7 @@ export default async (req, res) => {
     reps,
     date,
     weight,
+    exerciseType,
   } = req.body;
 
   const db = await GetDbConnection();
@@ -21,6 +22,7 @@ export default async (req, res) => {
           reps,
           date: new Date(date),
           weight,
+          exerciseType,
         },
       };
 
