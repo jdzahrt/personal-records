@@ -22,11 +22,6 @@ const defaultDate = new Date().toISOString().substring(0, 10);
 function WorkoutHistory() {
   const [workoutData, setWorkoutHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [dateValue, setDate] = useState(defaultDate);
-
-  const handleDateChange = (event) => {
-    setDate(event.target.value);
-  };
 
   useEffect(() => {
     getWorkoutHistory()
@@ -114,9 +109,9 @@ function WorkoutHistory() {
       validate: (rowData) => Boolean(rowData.date),
       editComponent: () => (
         <Input
+          value={defaultDate}
           type="date"
-          defaultValue={dateValue}
-          onChange={handleDateChange}
+          readOnly
         />
       ),
     },
@@ -149,7 +144,11 @@ function WorkoutHistory() {
           const dataUpdate = [...workoutData];
           const index = oldData.tableData.id;
 
-          dataUpdate[index] = newData;
+          dataUpdate[index] = {
+            ...newData,
+            date: defaultDate,
+          };
+
           dataUpdate.sort((a, b) => new Date(b.date) - new Date(a.date));
           setWorkoutHistory([...dataUpdate]);
 
