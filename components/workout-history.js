@@ -50,6 +50,9 @@ function WorkoutHistory() {
       fontSize: 'large',
       fontWeight: 'bold',
     },
+    rowStyle: {
+      overflowWrap: 'break-word',
+    },
   };
 
   const [columns] = useState([
@@ -83,6 +86,7 @@ function WorkoutHistory() {
       title: 'Reps',
       field: 'reps',
       type: 'numeric',
+      width: '5%',
       initialEditValue: 1,
       validate: (rowData) => rowData.reps > 0,
     },
@@ -90,12 +94,15 @@ function WorkoutHistory() {
       title: 'Weight',
       field: 'weight',
       type: 'numeric',
+      width: '5%',
+      align: 'center',
       initialEditValue: 1,
       validate: (rowData) => rowData.weight > 0,
     },
     {
       title: 'One Rep Max',
       field: 'max',
+      width: '6%',
       render: (rowData) => <div>{calcOneRepMax(rowData.weight, rowData.reps)}</div>,
       editComponent: ({ rowData }) => (
         <Input
@@ -109,16 +116,9 @@ function WorkoutHistory() {
       title: 'Date',
       field: 'date',
       type: 'date',
+      width: '20%',
       initialEditValue: moment().format(),
-      render: (rowData) => moment(rowData.date).format(('MM/DD/YY')),
       validate: (rowData) => Boolean(rowData.date),
-      editComponent: () => (
-        <Input
-          type="date"
-          defaultValue={dateValue}
-          onChange={handleDateChange}
-        />
-      ),
     },
   ]);
 
