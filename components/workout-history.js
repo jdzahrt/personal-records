@@ -17,16 +17,11 @@ import {
 import logger from '../logger/logger';
 
 const calcOneRepMax = (weight, reps) => ((weight || 1) * (1 + (reps / 30))).toFixed(2);
-const defaultDate = new Date().toISOString().substring(0, 10);
+const formatDate = (date) => moment.utc(date).format('MM-DD-YYYY');
 
 function WorkoutHistory() {
   const [workoutData, setWorkoutHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [dateValue, setDate] = useState(defaultDate);
-
-  const handleDateChange = (event) => {
-    setDate(event.target.value);
-  };
 
   useEffect(() => {
     getWorkoutHistory()
@@ -40,7 +35,7 @@ function WorkoutHistory() {
 
   const options = {
     showTitle: false,
-    pageSize: 10,
+    pageSize: 20,
     searchFieldAlignment: 'left',
     draggable: true,
     grouping: true,
@@ -83,6 +78,7 @@ function WorkoutHistory() {
       title: 'Reps',
       field: 'reps',
       type: 'numeric',
+      width: '5%',
       initialEditValue: 1,
       validate: (rowData) => rowData.reps > 0,
     },
@@ -90,12 +86,14 @@ function WorkoutHistory() {
       title: 'Weight',
       field: 'weight',
       type: 'numeric',
+      width: '5%',
       initialEditValue: 1,
       validate: (rowData) => rowData.weight > 0,
     },
     {
       title: 'One Rep Max',
       field: 'max',
+      width: '6%',
       render: (rowData) => <div>{calcOneRepMax(rowData.weight, rowData.reps)}</div>,
       editComponent: ({ rowData }) => (
         <Input
@@ -109,15 +107,15 @@ function WorkoutHistory() {
       title: 'Date',
       field: 'date',
       type: 'date',
+      width: '20%',
       initialEditValue: moment().format(),
-      render: (rowData) => moment(rowData.date).format(('MM/DD/YY')),
-      validate: (rowData) => Boolean(rowData.date),
-      editComponent: () => (
-        <Input
-          type="date"
-          defaultValue={dateValue}
-          onChange={handleDateChange}
-        />
+      render: (rowData) => formatDate(rowData.date),
+      editComponent: (props) => (
+          <Input
+              value={new Date(props.rowData.date).toISOString().substring(0, 10)}
+              type="date"
+              onChange={(e) => props.onChange(e.target.value)}
+          />
       ),
     },
   ]);
