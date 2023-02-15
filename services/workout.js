@@ -9,6 +9,15 @@ export const getWorkoutHistory = async () => {
   }
 };
 
+export const getWorkoutDetail = async (workoutDetailId) => {
+  try {
+    const response = await fetchApi(`/api/workout-detail/get-workout-detail?id=${workoutDetailId}`, 'GET');
+    return response.json();
+  } catch (e) {
+    throw new Error(`Could not fetch workout detail. ${e}`);
+  }
+};
+
 export const addWorkout = async (payload) => {
   try {
     await fetchApi('/api/workout-tracker/add', 'POST', payload);

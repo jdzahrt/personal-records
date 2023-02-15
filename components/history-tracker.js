@@ -47,6 +47,12 @@ function History(props) {
     setQuitDate(event.target.value);
   };
 
+  const dateTil = (days) => {
+    const d = new Date();
+    const rez = d.setDate(d.getDate() + days);
+    return new Date(rez).toLocaleDateString();
+  };
+
   const handleStop = async (id) => {
     const updatePayload = {
       active: false,
@@ -106,33 +112,17 @@ function History(props) {
       {!isLoading ? historyList.map((record) => (
         <ul key={record.id}>
           <div>
-            Quit on
-            {' '}
-            {' '}
-            {record.quitDate}
-            ....
-            {' '}
-            {calcDaysQuit(record.quitDate, record.endDate)}
-            {' '}
-            Days
-            {` ${type} `}
-            FREE!
+            <text>{`Quit on ${record.quitDate}....${calcDaysQuit(record.quitDate, record.endDate)} Days ${type} FREE!`}</text>
             <span className={record.active ? styles.active : styles.inactive}>
               {record.active ? (
                 <p>
-                  ACTIVE -
-                  {' '}
-                  {maxDate - calcDaysQuit(record.quitDate, record.endDate)}
-                  {' '}
-                  more days to go to break your personal record!
-                  {' '}
+                  {`ACTIVE - In ${maxDate - calcDaysQuit(record.quitDate, record.endDate)} 
+                  more days you will break your personal record on ${dateTil(maxDate - calcDaysQuit(record.quitDate, record.endDate))}!`}
                 </p>
               )
                 : (
                   <p>
-                    INACTIVE - Streak ended on
-                    {' '}
-                    {record.endDate}
+                    {`INACTIVE - Streak ended on ${record.endDate}`}
                   </p>
                 )}
             </span>

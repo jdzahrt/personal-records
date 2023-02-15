@@ -36,6 +36,11 @@ export default function Home() {
             <h3>Vacation Tracker &rarr;</h3>
             <p>Take you to the page that tells you how many days til vacay time 🌴</p>
           </a>
+
+          <a href="/table-test" className={styles.card}>
+            <h3>Table Tracker &rarr;</h3>
+            <p>Table</p>
+          </a>
         </div>
       </main>
 
