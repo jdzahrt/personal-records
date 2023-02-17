@@ -1,5 +1,5 @@
 import {
-  Col, Row, Table, Tooltip,
+  Col, Loading, Row, Table, Tooltip,
 } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import { IconButton } from '@mui/material';
@@ -61,7 +61,7 @@ function TableTest() {
                 }}
                 >
                   <IconButton>
-                    <EditIcon size={20} fill="#979797" />
+                    <EditIcon size={20} fill="#979797"/>
                   </IconButton>
                 </Link>
               </Tooltip>
@@ -73,7 +73,7 @@ function TableTest() {
                 onClick={() => console.log('Delete record', item._id)}
               >
                 <IconButton>
-                  <DeleteIcon size={20} fill="#FF0080" />
+                  <DeleteIcon size={20} fill="#FF0080"/>
                 </IconButton>
               </Tooltip>
             </Col>
@@ -85,27 +85,40 @@ function TableTest() {
   };
 
   return (
-    <Table
-      id="main-table"
-      aria-label="Example table with static content"
-      css={{
-        height: 'auto',
-        minWidth: '100%',
-      }}
-    >
-      <Table.Header columns={columns}>
-        {(column) => (
-          <Table.Column id={column.key} key={column.key}>{column.label}</Table.Column>
-        )}
-      </Table.Header>
-      <Table.Body items={workoutData}>
-        {(item) => (
-          <Table.Row id={item._id} key={item._id}>
-            {(columnKey) => <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>}
-          </Table.Row>
-        )}
-      </Table.Body>
-    </Table>
+    <div>
+      {
+        isLoading ?
+          (<Loading>Loading your data ya jabroni</Loading>) :
+          (<Table
+            id="main-table"
+            aria-label="Example table with static content"
+            css={{
+              height: 'auto',
+              minWidth: '100%',
+            }}
+          >
+            <Table.Header columns={columns}>
+              {(column) => (
+                <Table.Column id={column.key} key={column.key}>{column.label}</Table.Column>
+              )}
+            </Table.Header>
+            <Table.Body items={workoutData}>
+              {(item) => (
+                <Table.Row id={item._id} key={item._id}>
+                  {(columnKey) => <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>}
+                </Table.Row>
+              )}
+            </Table.Body>
+            <Table.Pagination
+              shadow
+              noMargin
+              align="center"
+              rowsPerPage={10}
+              onPageChange={(page) => console.log({ page })}
+            />
+          </Table>)
+      }
+    </div>
   );
 }
 
