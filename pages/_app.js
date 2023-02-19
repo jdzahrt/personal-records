@@ -11,10 +11,10 @@ const theme = createTheme({
   theme: {
     colors: {
       primary: '#4ADE7B',
-      secondary: '#F9CB80',
-      error: '#FCC5D8',
+      secondary: '#f9e980',
+      error: '#e73535',
     },
-  }
+  },
 });
 
 function PersonalRecords(props) {

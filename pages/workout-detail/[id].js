@@ -13,7 +13,7 @@ function WorkoutDetailId({ workoutDetailId }) {
           workoutDetailId={workoutDetailId}
         />
         <div className={styles.footer}>
-          <Link href="/">Home</Link>
+          <Link href="/workout-tracker-v2">Back</Link>
         </div>
       </main>
     </div>

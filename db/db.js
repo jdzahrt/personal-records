@@ -1,8 +1,7 @@
 const { MongoClient } = require('mongodb');
 
+let client = null;
 function DbConnection() {
-  let client = null;
-
   const url = process.env.MONGO_DATABASE_URL;
   const dbInstance = 'personal-records';
 
@@ -39,5 +38,14 @@ function DbConnection() {
     GetDbConnection,
   };
 }
+
+const cleanup = (event) => {
+  console.log('clizzy', client);
+  client.close(); // Close MongodDB Connection when Process ends
+  process.exit(); // Exit with default success-code '0'.
+};
+
+process.on('SIGINT', cleanup);
+process.on('SIGTERM', cleanup);
 
 module.exports = DbConnection();

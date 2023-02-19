@@ -2,6 +2,7 @@ import { GetDbConnection } from '../../../db/db';
 import logger from '../../../logger/logger';
 
 export default async (req, res) => {
+  console.log('req', req.query);
   const workoutId = req.query.id;
 
   const db = await GetDbConnection();

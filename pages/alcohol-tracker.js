@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@nextui-org/react';
 import styles from '../styles/Home.module.css';
 import History from '../components/history-tracker';
 import {
@@ -22,7 +22,7 @@ function AlcoholTracker() {
           type="Alcohol"
         />
         <div className={styles.footer}>
-          <Link href="/">Home</Link>
+          <Link color="primary" href="/">Home</Link>
         </div>
       </main>
     </div>

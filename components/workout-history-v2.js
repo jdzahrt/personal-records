@@ -8,7 +8,7 @@ import { getWorkoutHistory } from '../services/workout';
 import EditIcon from './Buttons/EditIcon';
 import { DeleteIcon } from './Buttons/DeleteIcon';
 
-function TableTest() {
+function WorkoutHistoryV2() {
   const [workoutData, setWorkoutHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -16,6 +16,10 @@ function TableTest() {
     {
       key: 'exercise',
       label: 'EXERCISE',
+    },
+    {
+      key: 'exerciseType',
+      label: 'EXERCISE TYPE',
     },
     {
       key: 'reps',
@@ -56,12 +60,12 @@ function TableTest() {
                 <Link href={{
                   pathname: '/workout-detail/[id]',
                   query: {
-                    id: item._id,
+                    id: item.workoutId,
                   },
                 }}
                 >
                   <IconButton>
-                    <EditIcon size={20} fill="#979797"/>
+                    <EditIcon size={20} fill="#4ADE7B" />
                   </IconButton>
                 </Link>
               </Tooltip>
@@ -73,7 +77,7 @@ function TableTest() {
                 onClick={() => console.log('Delete record', item._id)}
               >
                 <IconButton>
-                  <DeleteIcon size={20} fill="#FF0080"/>
+                  <DeleteIcon size={20} fill="#e73535" />
                 </IconButton>
               </Tooltip>
             </Col>
@@ -87,39 +91,43 @@ function TableTest() {
   return (
     <div>
       {
-        isLoading ?
-          (<Loading>Loading your data ya jabroni</Loading>) :
-          (<Table
-            id="main-table"
-            aria-label="Example table with static content"
-            css={{
-              height: 'auto',
-              minWidth: '100%',
-            }}
-          >
-            <Table.Header columns={columns}>
-              {(column) => (
-                <Table.Column id={column.key} key={column.key}>{column.label}</Table.Column>
-              )}
-            </Table.Header>
-            <Table.Body items={workoutData}>
-              {(item) => (
-                <Table.Row id={item._id} key={item._id}>
-                  {(columnKey) => <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>}
-                </Table.Row>
-              )}
-            </Table.Body>
-            <Table.Pagination
-              shadow
-              noMargin
-              align="center"
-              rowsPerPage={10}
-              onPageChange={(page) => console.log({ page })}
-            />
-          </Table>)
+        isLoading
+          ? (<Loading>Loading the squat rack with data</Loading>)
+          : (
+            <Table
+              bordered
+              id="main-table"
+              aria-label="Example table with static content"
+              css={{
+                height: 'auto',
+                width: 'auto',
+                minWidth: '100%',
+              }}
+            >
+              <Table.Header columns={columns}>
+                {(column) => (
+                  <Table.Column width="100" id={column.key} key={column.key}>{column.label}</Table.Column>
+                )}
+              </Table.Header>
+              <Table.Body items={workoutData}>
+                {(item) => (
+                  <Table.Row id={item.workoutId} key={item.workoutId}>
+                    {(columnKey) => <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>}
+                  </Table.Row>
+                )}
+              </Table.Body>
+              <Table.Pagination
+                shadow
+                noMargin
+                align="center"
+                rowsPerPage={10}
+                onPageChange={(page) => console.log({ page })}
+              />
+            </Table>
+          )
       }
     </div>
   );
 }
 
-export default TableTest;
+export default WorkoutHistoryV2;

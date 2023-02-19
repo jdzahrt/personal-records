@@ -3,7 +3,7 @@ import logger from '../../../logger/logger';
 
 export default async (req, res) => {
   const {
-    _id,
+    workoutId,
     exercise,
     reps,
     date,
@@ -26,10 +26,10 @@ export default async (req, res) => {
         },
       };
 
-      const result = await workoutCollection.updateOne({ _id }, mongoUpdateRecord);
+      const result = await workoutCollection.updateOne({ _id: workoutId }, mongoUpdateRecord);
 
       logger.info(
-        `${result.matchedCount} documents were updated with the _id: ${_id}`,
+        `${result.matchedCount} documents were updated with the _id: ${workoutId}`,
       );
     };
 
