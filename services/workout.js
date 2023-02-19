@@ -14,7 +14,7 @@ export const getWorkoutDetail = async (workoutDetailId) => {
     const response = await fetchApi(`/api/workout-detail/get-workout-detail?id=${workoutDetailId}`, 'GET');
     return response.json();
   } catch (e) {
-    throw new Error(`Could not fetch workout history. ${e}`);
+    throw new Error(`Could not fetch workout detail. ${e}`);
   }
 };
 
