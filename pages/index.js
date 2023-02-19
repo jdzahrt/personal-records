@@ -42,6 +42,11 @@ export default function Home() {
             <h3>Workout Tracker V2 &rarr;</h3>
             <p>NextUI Form</p>
           </a>
+
+          <a href="/table-test" className={styles.card}>
+            <h3>Table Tracker &rarr;</h3>
+            <p>Table</p>
+          </a>
         </div>
       </main>
       <footer className={styles.footer}>

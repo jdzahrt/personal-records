@@ -66,13 +66,13 @@ describe('workout-service', () => {
     }));
 
     const payload = {
-      _id: 1,
+      workoutId: 1,
       active: true,
       endDate: '1/1/2022',
     };
 
     await updateWorkout(payload);
-    expect(fetchApi).toHaveBeenCalledWith(`/api/workout-tracker/update?id=${payload._id}`, 'PUT', payload);
+    expect(fetchApi).toHaveBeenCalledWith(`/api/workout-tracker/update?id=${payload.workoutId}`, 'PUT', payload);
   });
 
   test('updateWorkout failure', async () => {
