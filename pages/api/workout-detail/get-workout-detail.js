@@ -1,7 +1,7 @@
 import { getSession } from 'next-auth/react';
 import logger from '../../../logger/logger';
-import { workoutDTO } from '../../../models/dto';
 import { getHistoryRecord } from '../../../db/workout';
+import { dataToModel } from '../../../models/dto';
 
 // eslint-disable-next-line consistent-return
 export default async (req, res) => {
@@ -14,7 +14,7 @@ export default async (req, res) => {
   try {
     const results = await getHistoryRecord(req.query.id);
 
-    const dtoResults = workoutDTO(results);
+    const dtoResults = dataToModel(results);
 
     res.status(200)
       .json(dtoResults);

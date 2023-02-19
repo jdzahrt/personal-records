@@ -74,7 +74,7 @@ function WorkoutHistoryV2() {
               <Tooltip
                 content="Delete record"
                 color="error"
-                onClick={() => console.log('Delete record', item._id)}
+                onClick={() => console.log('Delete record', item.workoutId)}
               >
                 <IconButton>
                   <DeleteIcon size={20} fill="#e73535" />

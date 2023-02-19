@@ -1,4 +1,3 @@
-import mongodb from 'mongodb';
 import logger from '../logger/logger';
 import { GetDbConnection } from './db';
 
@@ -31,26 +30,22 @@ export const deleteRecord = async (workoutId) => {
   );
 };
 
-export const updateRecord = async (req) => {
-  const workoutId = req.query.id;
-  const newId = new mongodb.ObjectId(workoutId);
-
+export const updateRecord = async ({
+  exercise, reps, date, weight, exerciseType, workoutId,
+}) => {
   const mongoUpdateRecord = {
     $set: {
-      active: req.body.active,
-      endDate: new Date(req.body.endDate),
+      exercise,
+      reps,
+      date: new Date(date),
+      weight,
+      exerciseType,
     },
   };
 
-  const result = await workoutCollection.findOneAndUpdate(
-    { _id: newId },
-    mongoUpdateRecord,
-    { returnOriginal: false },
-  );
+  const result = await workoutCollection.updateOne({ _id: workoutId }, mongoUpdateRecord);
 
   logger.info(
-    `${result.ok} documents were updated with the _id: ${workoutId}`,
+    `${result.matchedCount} documents were updated with the _id: ${workoutId}`,
   );
-
-  return result.value;
 };

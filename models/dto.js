@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-const workoutDTO = (data) => ({
+const dataToModel = (data) => ({
   workoutId: data._id,
   email: data.email,
   date: moment(data.date).format('YYYY-MM-DD'),
@@ -9,7 +9,5 @@ const workoutDTO = (data) => ({
   weight: data.weight,
   exerciseType: data.exerciseType,
 });
-
-const workoutDTOArray = async (data) => data.map((singleElement) => workoutDTO(singleElement));
-
-export { workoutDTO, workoutDTOArray };
+const dataToModelArray = async (data) => data.map((singleElement) => dataToModel(singleElement));
+export { dataToModel, dataToModelArray };
