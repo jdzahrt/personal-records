@@ -5,7 +5,6 @@ import {
 } from '@nextui-org/react';
 import styles from '../styles/Home.module.css';
 import { calcDaysQuit } from '../utils/days';
-import { DeleteIcon } from './Buttons/DeleteIcon';
 
 function History(props) {
   History.propTypes = {
@@ -102,16 +101,13 @@ function History(props) {
       {!activeRecord && !isLoading ? (
         <form onSubmit={handleSubmit}>
           <div className={styles.card}>
-            <label htmlFor="date-input">
-              Quit Date:
-              {' '}
-              <Input
-                type="date"
-                id="date-input"
-                initialValue={defaultDate}
-                onChange={handleDateChange}
-              />
-            </label>
+            <Input
+              label="Quit Date"
+              type="date"
+              id="date-input"
+              initialValue={defaultDate}
+              onChange={handleDateChange}
+            />
             <br />
             <div align="center" className={styles.button}>
               <Button color="gradient" type="submit">Start Tracking</Button>
@@ -175,12 +171,11 @@ function History(props) {
                   </Button>
                 </div>
               )}
-
           </ul>
         ))
           : (
             <div>
-              <Loading>Loading Stuff</Loading>
+              <Loading>Loading weight rack....</Loading>
             </div>
           )}
       </div>
