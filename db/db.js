@@ -22,11 +22,13 @@ function DbConnection() {
   async function GetDbConnection() {
     try {
       if (client != null) {
+        console.info('MongoClient reused successfully!');
         return client;
       }
 
       client = await DbConnect();
       client = client.db(dbInstance);
+      console.info('MongoClient created successfully!');
 
       return client;
     } catch (e) {
@@ -39,8 +41,7 @@ function DbConnection() {
   };
 }
 
-const cleanup = (event) => {
-  console.log('clizzy', client);
+const cleanup = () => {
   client.close(); // Close MongodDB Connection when Process ends
   process.exit(); // Exit with default success-code '0'.
 };
