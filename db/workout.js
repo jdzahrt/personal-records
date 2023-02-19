@@ -10,6 +10,9 @@ export const getHistory = async (user) => workoutCollection
   .sort({ active: -1 })
   .toArray();
 
+export const getHistoryRecord = async (workoutId) => workoutCollection
+  .findOne({ _id: workoutId });
+
 export const insertRecord = async (payload) => {
   const result = await workoutCollection.insertOne(payload);
 
