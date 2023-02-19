@@ -59,14 +59,14 @@ function WorkoutHistory() {
       },
     },
     {
-      title: 'Type',
+      title: 'EType',
       field: 'exerciseType',
       type: 'string',
       grouping: true,
       editComponent: (props) => (
         <Select
           value={props.rowData.exerciseType || ''}
-          label="Type"
+          label="EType"
           onChange={(e) => props.onChange(e.target.value)}
         >
           <MenuItem value="upper">upper</MenuItem>
@@ -111,11 +111,11 @@ function WorkoutHistory() {
       initialEditValue: moment().format(),
       render: (rowData) => formatDate(rowData.date),
       editComponent: (props) => (
-          <Input
-              value={new Date(props.rowData.date).toISOString().substring(0, 10)}
-              type="date"
-              onChange={(e) => props.onChange(e.target.value)}
-          />
+        <Input
+          value={new Date(props.rowData.date).toISOString().substring(0, 10)}
+          type="date"
+          onChange={(e) => props.onChange(e.target.value)}
+        />
       ),
     },
   ]);

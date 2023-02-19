@@ -28,7 +28,7 @@ export const addWorkout = async (payload) => {
 
 export const updateWorkout = async (payload) => {
   try {
-    await fetchApi(`/api/workout-tracker/update?id=${payload._id}`, 'PUT', payload);
+    await fetchApi(`/api/workout-tracker/update?id=${payload.workoutId}`, 'PUT', payload);
   } catch (e) {
     throw new Error(`Could not update workout record. ${e}`);
   }

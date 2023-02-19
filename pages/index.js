@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import { Link } from '@nextui-org/react';
 import styles from '../styles/Home.module.css';
 import Header from '../components/header';
 
@@ -32,26 +33,25 @@ export default function Home() {
             <p>Take you to the page to track your fast food habits 🍔</p>
           </a>
 
-          <a href="/vacation-tracker" className={styles.card}>
-            <h3>Vacation Tracker &rarr;</h3>
-            <p>Take you to the page that tells you how many days til vacay time 🌴</p>
-          </a>
+          {/* <a href="/vacation-tracker" className={styles.card}> */}
+          {/*   <h3>Vacation Tracker &rarr;</h3> */}
+          {/*   <p>Take you to the page that tells you how many days til vacay time 🌴</p> */}
+          {/* </a> */}
 
-          <a href="/table-test" className={styles.card}>
-            <h3>Table Tracker &rarr;</h3>
-            <p>Table</p>
+          <a href="/workout-tracker-v2" className={styles.card}>
+            <h3>Workout Tracker V2 &rarr;</h3>
+            <p>NextUI Form</p>
           </a>
         </div>
       </main>
-
       <footer className={styles.footer}>
-        <a
+        <Link
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
           rel="noopener noreferrer"
+          color="primary"
         >
           Powered by
-          {' '}
           <Image
             src="/vercel.svg"
             alt="Vercel Logo"
@@ -59,7 +59,7 @@ export default function Home() {
             width={100}
             height={100}
           />
-        </a>
+        </Link>
       </footer>
     </div>
   );

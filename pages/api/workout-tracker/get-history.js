@@ -1,6 +1,7 @@
 import { getSession } from 'next-auth/react';
 import { GetDbConnection } from '../../../db/db';
 import logger from '../../../logger/logger';
+import { workoutDTOArray } from '../../../models/dto';
 
 // eslint-disable-next-line consistent-return
 export default async (req, res) => {
@@ -21,8 +22,10 @@ export default async (req, res) => {
   try {
     const results = await getHistory();
 
+    const dtoResults = await workoutDTOArray(results);
+
     res.status(200)
-      .json(results);
+      .json(dtoResults);
   } catch (error) {
     logger.error(error);
   }

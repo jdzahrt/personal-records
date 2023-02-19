@@ -21,11 +21,17 @@ npm run build
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/](http://localhost:3000/api/)
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3001/api/](http://localhost:3000/api/)
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+
+## Testing project
+
+```shell
+npm test
+```
 
 ## Deploy on Vercel
 
