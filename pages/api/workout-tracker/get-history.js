@@ -1,5 +1,5 @@
 import { getSession } from 'next-auth/react';
-import { GetDbConnection } from '../../../db/db';
+import { getHistory } from '../../../db/workout';
 import logger from '../../../logger/logger';
 import { workoutDTOArray } from '../../../models/dto';
 
@@ -12,15 +12,9 @@ export default async (req, res) => {
   }
 
   const userEmail = session.user.email;
-  const db = await GetDbConnection();
-
-  const getHistory = async () => db.collection('workout')
-    .find({ email: userEmail })
-    .sort({ active: -1 })
-    .toArray();
 
   try {
-    const results = await getHistory();
+    const results = await getHistory(userEmail);
 
     const dtoResults = await workoutDTOArray(results);
 

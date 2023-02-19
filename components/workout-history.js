@@ -157,13 +157,13 @@ function WorkoutHistory() {
           resolve();
         }),
         onRowDelete: (oldData) => new Promise((resolve) => {
-          const dataDelete = [...workoutData];
-          const index = oldData.tableData.id;
+          let dataDelete = [...workoutData];
 
-          dataDelete.splice(index, 1);
+          dataDelete = dataDelete.filter((obj) => obj.workoutId !== oldData.workoutId);
+
           setWorkoutHistory([...dataDelete]);
 
-          deleteWorkout(oldData._id)
+          deleteWorkout(oldData.workoutId)
             .catch((error) => logger.error(error));
 
           resolve();
