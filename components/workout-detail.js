@@ -8,11 +8,11 @@ import {
   getWorkoutDetail, updateWorkout,
 } from '../services/workout';
 
-function WorkoutDetail({ workoutDetailId }) {
+function WorkoutDetail({ workoutId }) {
   const [workoutDetail, setWorkoutDetail] = useState({});
 
   useEffect(() => {
-    getWorkoutDetail(workoutDetailId)
+    getWorkoutDetail(workoutId)
       .then((data) => {
         setWorkoutDetail(data);
       });
@@ -22,7 +22,7 @@ function WorkoutDetail({ workoutDetailId }) {
     event.preventDefault();
 
     const payload = {
-      _id: workoutDetailId,
+      workoutId,
       exercise: event.target.exercise.value,
       exerciseType: event.target.exerciseType.value,
       date: event.target.date.value,
@@ -30,8 +30,8 @@ function WorkoutDetail({ workoutDetailId }) {
       weight: event.target.weight.value,
     };
 
-    // await updateWorkout(payload);
-    console.log('Payload output', payload);
+    await updateWorkout(payload);
+    // console.log('Payload output', payload);
   };
 
   return (
