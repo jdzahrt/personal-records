@@ -40,6 +40,7 @@ function WorkoutDetail({ workoutId }) {
         <Grid>
           <Input
             labelLeft="exercise"
+            aria-label="exercise-input"
             rounded
             bordered
             type="text"
@@ -51,6 +52,7 @@ function WorkoutDetail({ workoutId }) {
         <Grid>
           <Input
             labelLeft="type"
+            aria-label="type-input"
             rounded
             bordered
             type="text"
@@ -65,6 +67,7 @@ function WorkoutDetail({ workoutId }) {
         <Grid>
           <Input
             labelLeft="reps"
+            aria-label="reps-input"
             rounded
             bordered
             type="number"
@@ -77,6 +80,7 @@ function WorkoutDetail({ workoutId }) {
         <Grid>
           <Input
             labelLeft="weight"
+            aria-label="weight-input"
             rounded
             bordered
             type="number"
@@ -89,6 +93,7 @@ function WorkoutDetail({ workoutId }) {
         <Grid>
           <Input
             labelLeft="date"
+            aria-label="date-input"
             rounded
             bordered
             type="date"
