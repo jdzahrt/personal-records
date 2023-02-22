@@ -2,6 +2,7 @@ import {
   Input, Button, Grid,
 } from '@nextui-org/react';
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styles from '../styles/Home.module.css';
 
 import {
@@ -9,6 +10,10 @@ import {
 } from '../services/workout';
 
 function WorkoutDetail({ workoutId }) {
+  WorkoutDetail.propTypes = {
+    workoutId: PropTypes.string.isRequired,
+  };
+
   const [workoutDetail, setWorkoutDetail] = useState({});
 
   useEffect(() => {
@@ -40,6 +45,7 @@ function WorkoutDetail({ workoutId }) {
         <Grid>
           <Input
             labelLeft="exercise"
+            aria-label="exercise-input"
             rounded
             bordered
             type="text"
@@ -51,6 +57,7 @@ function WorkoutDetail({ workoutId }) {
         <Grid>
           <Input
             labelLeft="type"
+            aria-label="type-input"
             rounded
             bordered
             type="text"
@@ -65,6 +72,7 @@ function WorkoutDetail({ workoutId }) {
         <Grid>
           <Input
             labelLeft="reps"
+            aria-label="reps-input"
             rounded
             bordered
             type="number"
@@ -77,6 +85,7 @@ function WorkoutDetail({ workoutId }) {
         <Grid>
           <Input
             labelLeft="weight"
+            aria-label="weight-input"
             rounded
             bordered
             type="number"
@@ -89,6 +98,7 @@ function WorkoutDetail({ workoutId }) {
         <Grid>
           <Input
             labelLeft="date"
+            aria-label="date-input"
             rounded
             bordered
             type="date"
