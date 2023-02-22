@@ -2,6 +2,7 @@ import {
   Input, Button, Grid,
 } from '@nextui-org/react';
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styles from '../styles/Home.module.css';
 
 import {
@@ -9,6 +10,10 @@ import {
 } from '../services/workout';
 
 function WorkoutDetail({ workoutId }) {
+  WorkoutDetail.propTypes = {
+    workoutId: PropTypes.string.isRequired,
+  };
+
   const [workoutDetail, setWorkoutDetail] = useState({});
 
   useEffect(() => {
