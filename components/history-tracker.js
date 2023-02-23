@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Button, Input, Loading, Text,
 } from '@nextui-org/react';
+import moment from 'moment/moment';
 import styles from '../styles/Home.module.css';
 import { calcDaysQuit } from '../utils/days';
 
@@ -30,6 +31,7 @@ function History(props) {
   const [quitDate, setQuitDate] = useState(defaultDate);
   const [isLoading, setIsLoading] = useState(true);
   const [maxDate, setMaxDate] = useState(0);
+  const [lastMaxDate, setLastMaxDate] = useState(0);
   const [activeRecord, setActiveRecord] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -85,10 +87,13 @@ function History(props) {
         const holdDates = [];
         data.forEach((v) => {
           holdDates.push(calcDaysQuit(v.quitDate, v.endDate));
+          holdDates.sort((a, b) => b - a);
         });
+        console.log(holdDates);
 
         const mDate = Math.max(...holdDates);
         setMaxDate(mDate);
+        setLastMaxDate(holdDates[1]);
 
         const activeRec = data.find((e) => e.active === true);
         setActiveRecord(activeRec);
@@ -127,7 +132,10 @@ function History(props) {
                       {`Quit on ${record.quitDate} - ${calcDaysQuit(record.quitDate, record.endDate)} Days ${type} FREE!`}
                     </Text>
                     <Text color="success" weight="bold">
-                      {`ACTIVE - In ${maxDate - calcDaysQuit(record.quitDate, record.endDate)} 
+                      {(maxDate - calcDaysQuit(record.quitDate, record.endDate)) <= 0
+                        ? `ACTIVE - You broke your record on ${dateTil(lastMaxDate - maxDate)}.
+                        You have broken your personal by ${maxDate - lastMaxDate} days! `
+                        : `ACTIVE - In ${maxDate - calcDaysQuit(record.quitDate, record.endDate)}
                   more days you will break your personal record on ${dateTil(maxDate - calcDaysQuit(record.quitDate, record.endDate))}!`}
                     </Text>
                     <div align="center">
