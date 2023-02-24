@@ -1,37 +1,24 @@
 import {
-  Col, Loading, Row, Table, Tooltip, Grid,
+  Col, Loading, Row, Table, Tooltip, Grid, StyledBadge,
 } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { deleteWorkout, getWorkoutHistory } from '../services/workout';
 import EditIcon from './Buttons/EditIcon';
-import { IconButton } from './Buttons/IconButton';
 import { DeleteIcon } from './Buttons/DeleteIcon';
+import { IconButton } from './Buttons/IconButton';
 
-function WorkoutHistoryV2() {
-  const [workoutData, setWorkoutHistory] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+function Workouts() {
+  // const [workoutData, setWorkoutHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const columns = [
     {
-      key: 'exercise',
-      label: 'EXERCISE',
+      key: 'workout',
+      label: 'WORKOUT',
     },
     {
-      key: 'exerciseType',
-      label: 'EXERCISE TYPE',
-    },
-    {
-      key: 'reps',
-      label: 'REPS',
-    },
-    {
-      key: 'weight',
-      label: 'WEIGHT',
-    },
-    {
-      key: 'date',
-      label: 'DATE',
+      key: 'workoutType',
+      label: 'WORKOUT TYPE',
     },
     {
       key: 'actions',
@@ -39,21 +26,33 @@ function WorkoutHistoryV2() {
     },
   ];
 
-  useEffect(() => {
-    getWorkoutHistory()
-      .then((data) => {
-        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+  const rows = [
+    {
+      key: 'workout',
+      workout: 'Test',
+      workoutType: 'Upper',
+    },
+    {
+      key: 'workout',
+      workout: 'Test workout',
+      workoutType: 'Upper',
+    }];
 
-        setWorkoutHistory(data);
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
+  // useEffect(() => {
+  //   getWorkoutHistory()
+  //     .then((data) => {
+  //       data.sort((a, b) => new Date(b.date) - new Date(a.date));
+  //
+  //       setWorkoutHistory(data);
+  //     })
+  //     .finally(() => setIsLoading(false));
+  // }, []);
 
-  const deleteRecord = async (workoutId) => {
-    await deleteWorkout(workoutId);
-
-    setWorkoutHistory((ah) => ah.filter((a) => a.workoutId !== workoutId));
-  };
+  // const deleteRecord = async (workoutId) => {
+  //   await deleteWorkout(workoutId);
+  //
+  //   setWorkoutHistory((ah) => ah.filter((a) => a.workoutId !== workoutId));
+  // };
 
   const renderCell = (item, columnKey) => {
     const cellValue = item[columnKey];
@@ -80,7 +79,7 @@ function WorkoutHistoryV2() {
               <Tooltip
                 content="Delete record"
                 color="error"
-                onClick={() => deleteRecord(item.workoutId)}
+                onClick={() => console.log('here')}
               >
                 <IconButton>
                   <DeleteIcon size={20} fill="#e73535" />
@@ -89,6 +88,19 @@ function WorkoutHistoryV2() {
             </Col>
           </Row>
         );
+      case 'workout':
+        return (
+          <Link href={{
+            pathname: '/workout-detail/[id]',
+            query: {
+              id: item.workoutId,
+            },
+          }}
+          >
+            {cellValue}
+          </Link>
+        );
+
       default:
         return cellValue;
     }
@@ -116,7 +128,7 @@ function WorkoutHistoryV2() {
                     <Table.Column width="100" id={column.key} key={column.key}>{column.label}</Table.Column>
                   )}
                 </Table.Header>
-                <Table.Body items={workoutData}>
+                <Table.Body items={rows}>
                   {(item) => (
                     <Table.Row id={item.workoutId} key={item.workoutId}>
                       {(columnKey) => <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>}
@@ -137,4 +149,4 @@ function WorkoutHistoryV2() {
   );
 }
 
-export default WorkoutHistoryV2;
+export default Workouts;
