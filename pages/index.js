@@ -33,10 +33,10 @@ export default function Home() {
             <p>Take you to the page to track your fast food habits 🍔</p>
           </a>
 
-          {/* <a href="/vacation-tracker" className={styles.card}> */}
-          {/*   <h3>Vacation Tracker &rarr;</h3> */}
-          {/*   <p>Take you to the page that tells you how many days til vacay time 🌴</p> */}
-          {/* </a> */}
+          <a href="/workouts-tracker" className={styles.card}>
+            <h3>Workouts &rarr;</h3>
+            <p>List all of your workouts in one location.</p>
+          </a>
 
           <a href="/workout-tracker-v2" className={styles.card}>
             <h3>Workout Tracker V2 &rarr;</h3>

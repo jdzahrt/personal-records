@@ -1,15 +1,17 @@
 import {
-  Col, Loading, Row, Table, Tooltip, Grid, StyledBadge,
+  Col, Loading, Row, Table, Tooltip, Grid, Input, Button,
 } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import EditIcon from './Buttons/EditIcon';
 import { DeleteIcon } from './Buttons/DeleteIcon';
 import { IconButton } from './Buttons/IconButton';
+import { addWorkout } from '../services/workouts';
 
 function Workouts() {
   // const [workoutData, setWorkoutHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAdding, setAddRecord] = useState(false);
 
   const columns = [
     {
@@ -28,15 +30,43 @@ function Workouts() {
 
   const rows = [
     {
-      key: 'workout',
+      workoutId: '1',
       workout: 'Test',
       workoutType: 'Upper',
     },
     {
-      key: 'workout',
+      workoutId: '2',
       workout: 'Test workout',
       workoutType: 'Upper',
     }];
+
+  const addRecord = () => {
+    console.log('add record');
+    setAddRecord(true);
+    console.log(isAdding);
+  };
+
+  const createWorkout = async (event) => {
+    event.preventDefault();
+
+    const workoutPayload = {
+      workoutId: 1,
+      workout: event.target.workoutInput.value,
+      type: event.target.workoutTypeInput.value,
+    };
+
+    const response = await addWorkout(workoutPayload);
+    console.log(response);
+    // //   fetch('/api/workouts', {
+    // //   method: 'POST',
+    // //   headers: {
+    // //     'Content-Type': 'application/json',
+    // //   },
+    // //   body: JSON.stringify(workout),
+    // // });
+    // const data = await response.json();
+    // return data;
+  };
 
   // useEffect(() => {
   //   getWorkoutHistory()
@@ -90,15 +120,17 @@ function Workouts() {
         );
       case 'workout':
         return (
-          <Link href={{
-            pathname: '/workout-detail/[id]',
-            query: {
-              id: item.workoutId,
-            },
-          }}
-          >
-            {cellValue}
-          </Link>
+          <Tooltip content="Details">
+            <Link href={{
+              pathname: '/workout-list/[id]',
+              query: {
+                id: item.workoutId,
+              },
+            }}
+            >
+              {cellValue}
+            </Link>
+          </Tooltip>
         );
 
       default:
@@ -108,11 +140,46 @@ function Workouts() {
 
   return (
     <div>
+      <Tooltip
+        content="Add record"
+        color="error"
+        onClick={addRecord}
+      >
+        <IconButton>Add</IconButton>
+      </Tooltip>
+      {isAdding ? (
+        <form onSubmit={createWorkout}>
+          <Grid.Container>
+            <Grid xs={12}>
+              <Input
+                placeholder="Workout"
+                type="text"
+                id="workoutInput"
+                name="workout-input"
+                aria-label="workout-input"
+              />
+            </Grid>
+            <Grid xs={12}>
+              <Input
+                placeholder="Type"
+                type="text"
+                id="workoutTypeInput"
+                name="workout-type"
+                aria-label="workout-type"
+              />
+            </Grid>
+          </Grid.Container>
+          <Button type="submit" aria-label="submit-button" size="xs">
+            Submit
+          </Button>
+        </form>
+      ) : null}
       {
         isLoading
           ? (<Loading>Loading the squat rack with data</Loading>)
           : (
             <Grid.Container xs={12}>
+
               <Table
                 bordered
                 id="main-table"
