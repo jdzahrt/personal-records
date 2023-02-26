@@ -1,16 +1,19 @@
 import {
-  Col, Loading, Row, Table, Tooltip, Grid,
+  Col, Loading, Row, Table, Tooltip, Grid, Input, Button,
 } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { v4 } from 'uuid';
 import EditIcon from './Buttons/EditIcon';
 import { IconButton } from './Buttons/IconButton';
 import { DeleteIcon } from './Buttons/DeleteIcon';
-import { getWorkoutExercises } from '../services/exercise';
+import { getWorkoutExercises, addWorkoutExercise } from '../services/exercise';
+import styles from '../styles/Home.module.css';
 
 function ExerciseList({ workoutId }) {
   const [workoutData, setWorkoutData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAdding, setAddRecord] = useState(false);
 
   const columns = [
     {
@@ -48,6 +51,28 @@ function ExerciseList({ workoutId }) {
       })
       .finally(() => setIsLoading(false));
   }, []);
+
+  const addRecord = () => {
+    setAddRecord(true);
+  };
+
+  const createWorkoutExercise = async (event) => {
+    event.preventDefault();
+
+    const workoutPayload = {
+      workoutExerciseId: v4(),
+      workoutId,
+      exercise: event.target.exerciseInput.value,
+      reps: event.target.repsInput.value,
+      weight: event.target.weightInput.value,
+      date: event.target.dateInput.value,
+    };
+
+    const fullWorkout = [...workoutData, workoutPayload];
+    setWorkoutData(fullWorkout);
+
+    await addWorkoutExercise(workoutPayload);
+  };
 
   // const deleteRecord = async (workoutId) => {
   //   await deleteWorkout(workoutId);
@@ -96,6 +121,77 @@ function ExerciseList({ workoutId }) {
 
   return (
     <div>
+      <Tooltip
+        content="Add record"
+        color="error"
+        onClick={addRecord}
+      >
+        <IconButton>Add</IconButton>
+      </Tooltip>
+      {isAdding ? (
+        <form onSubmit={createWorkoutExercise}>
+          <Grid.Container gap={2}>
+            <Grid>
+              <Input
+                labelLeft="exercise"
+                aria-label="exercise-input"
+                rounded
+                bordered
+                type="text"
+                id="exerciseInput"
+                name="exercise"
+                required
+              />
+            </Grid>
+          </Grid.Container>
+          <Grid.Container gap={2}>
+            <Grid>
+              <Input
+                labelLeft="reps"
+                aria-label="reps-input"
+                rounded
+                bordered
+                type="number"
+                id="repsInput"
+                name="reps"
+                width="120px"
+                required
+              />
+            </Grid>
+            <Grid>
+              <Input
+                labelLeft="weight"
+                aria-label="weight-input"
+                rounded
+                bordered
+                type="number"
+                id="weightInput"
+                name="weight"
+                width="120px"
+                required
+              />
+            </Grid>
+            <Grid>
+              <Input
+                labelLeft="date"
+                aria-label="date-input"
+                rounded
+                bordered
+                type="date"
+                id="dateInput"
+                name="date"
+                width="120px"
+                required
+              />
+            </Grid>
+          </Grid.Container>
+          <div align="center">
+            <Button className={styles.button} type="submit" aria-label="submit-button">
+              Submit
+            </Button>
+          </div>
+        </form>
+      ) : null}
       {
         isLoading
           ? (<Loading>Loading the squat rack with dataz</Loading>)

@@ -18,6 +18,14 @@ export const getWorkoutExercises = async (workoutId) => {
   }
 };
 
+export const addWorkoutExercise = async (payload) => {
+  try {
+    await fetchApi('/api/exercise/add-workout-exercise', 'POST', payload);
+  } catch (e) {
+    throw new Error(`Could not add workout exercise record. ${e}`);
+  }
+};
+
 // export const getExerciseDetail = async (exerciseDetailId) => {
 //   try {
 //     const response = await fetchApi(`/api/exercise/get-exercise-detail?id=${exerciseDetailId}`, 'GET');
