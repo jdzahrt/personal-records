@@ -1,17 +1,17 @@
 import { fetchApi } from '../utils/fetch-api';
 
-export const getWorkoutHistory = async () => {
+export const getWorkouts = async () => {
   try {
-    const response = await fetchApi('/api/workout-tracker/get-history', 'GET');
+    const response = await fetchApi('/api/workouts/get-workouts', 'GET');
     return response.json();
   } catch (e) {
     throw new Error(`Could not fetch workout history. ${e}`);
   }
 };
 
-export const getWorkoutDetail = async (workoutDetailId) => {
+export const getWorkout = async (workoutId) => {
   try {
-    const response = await fetchApi(`/api/workout-detail/get-workout-detail?id=${workoutDetailId}`, 'GET');
+    const response = await fetchApi(`/api/workouts/get-workout?id=${workoutId}`, 'GET');
     return response.json();
   } catch (e) {
     throw new Error(`Could not fetch workout detail. ${e}`);
@@ -28,7 +28,7 @@ export const addWorkout = async (payload) => {
 
 export const updateWorkout = async (payload) => {
   try {
-    await fetchApi(`/api/workout-tracker/update?id=${payload.workoutId}`, 'PUT', payload);
+    await fetchApi(`/api/workouts/update?id=${payload.workoutId}`, 'PUT', payload);
   } catch (e) {
     throw new Error(`Could not update workout record. ${e}`);
   }
@@ -36,7 +36,7 @@ export const updateWorkout = async (payload) => {
 
 export const deleteWorkout = async (id) => {
   try {
-    await fetchApi(`/api/workout-tracker/delete?id=${id}`, 'DELETE');
+    await fetchApi(`/api/workouts/delete?id=${id}`, 'DELETE');
   } catch (e) {
     throw new Error(`Could not delete workout record. ${e}`);
   }

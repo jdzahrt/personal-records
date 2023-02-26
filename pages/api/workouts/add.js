@@ -1,23 +1,22 @@
 import { getSession } from 'next-auth/react';
+import { v4 as uuidv4 } from 'uuid';
 import logger from '../../../logger/logger';
-import { insertRecord } from '../../../db/workout';
+import { insertWorkout } from '../../../db/workouts';
 
 export default async (req, res) => {
   const session = await getSession({ req });
   const user = session.user.email;
+  console.log('add workout', req.body);
 
   try {
     const insertPayload = {
-      _id: req.body._id,
+      workoutId: uuidv4(),
       email: user,
-      exercise: req.body.exercise,
-      date: new Date(req.body.date),
-      reps: req.body.reps,
-      weight: req.body.weight,
-      exerciseType: req.body.exerciseType,
+      workout: req.body.workout,
+      workoutType: req.body.workoutType,
     };
 
-    await insertRecord(insertPayload);
+    await insertWorkout(insertPayload);
 
     res.status(200)
       .json({ status: 'Success' });

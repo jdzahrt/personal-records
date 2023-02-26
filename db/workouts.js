@@ -10,9 +10,10 @@ export const getWorkouts = async (user) => workoutsCollection
   .toArray();
 
 export const getWorkoutRecord = async (workoutId) => workoutsCollection
-  .findOne({ _id: workoutId });
+  .findOne({ workoutId });
 
 export const insertWorkout = async (payload) => {
+  console.log('inserting workout', payload);
   const result = await workoutsCollection.insertOne(payload);
 
   logger.info(

@@ -1,26 +1,37 @@
 import {
-  Col, Loading, Row, Table, Tooltip, Grid, Input, Button,
+  Col, Loading, Row, Table, Tooltip, Grid,
 } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { deleteWorkout, getWorkoutHistory } from '../services/exercise';
 import EditIcon from './Buttons/EditIcon';
-import { DeleteIcon } from './Buttons/DeleteIcon';
 import { IconButton } from './Buttons/IconButton';
-import { addWorkout, getWorkouts } from '../services/workouts';
+import { DeleteIcon } from './Buttons/DeleteIcon';
 
-function Workouts() {
-  const [workoutData, setWorkouts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isAdding, setAddRecord] = useState(false);
+function ExerciseList() {
+  const [workoutData, setWorkoutHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const columns = [
     {
-      key: 'workout',
-      label: 'WORKOUT',
+      key: 'exercise',
+      label: 'EXERCISE',
     },
     {
-      key: 'workoutType',
-      label: 'WORKOUT TYPE',
+      key: 'exerciseType',
+      label: 'EXERCISE TYPE',
+    },
+    {
+      key: 'reps',
+      label: 'REPS',
+    },
+    {
+      key: 'weight',
+      label: 'WEIGHT',
+    },
+    {
+      key: 'date',
+      label: 'DATE',
     },
     {
       key: 'actions',
@@ -28,36 +39,21 @@ function Workouts() {
     },
   ];
 
-  const addRecord = () => {
-    setAddRecord(true);
-  };
-
-  const createWorkout = async (event) => {
-    event.preventDefault();
-
-    const workoutPayload = {
-      workout: event.target.workoutInput.value,
-      workoutType: event.target.workoutTypeInput.value,
-    };
-
-    const response = await addWorkout(workoutPayload);
-  };
-
   useEffect(() => {
-    getWorkouts()
+    getWorkoutExercise()
       .then((data) => {
-        // data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        setWorkouts(data);
+        setWorkoutHistory(data);
       })
       .finally(() => setIsLoading(false));
   }, []);
 
-  // const deleteRecord = async (workoutId) => {
-  //   await deleteWorkout(workoutId);
-  //
-  //   setWorkoutHistory((ah) => ah.filter((a) => a.workoutId !== workoutId));
-  // };
+  const deleteRecord = async (workoutId) => {
+    await deleteWorkout(workoutId);
+
+    setWorkoutHistory((ah) => ah.filter((a) => a.workoutId !== workoutId));
+  };
 
   const renderCell = (item, columnKey) => {
     const cellValue = item[columnKey];
@@ -84,7 +80,7 @@ function Workouts() {
               <Tooltip
                 content="Delete record"
                 color="error"
-                onClick={() => console.log('here')}
+                onClick={() => deleteRecord(item.workoutId)}
               >
                 <IconButton>
                   <DeleteIcon size={20} fill="#e73535" />
@@ -93,21 +89,6 @@ function Workouts() {
             </Col>
           </Row>
         );
-      case 'workout':
-        return (
-          <Tooltip content="Details">
-            <Link href={{
-              pathname: '/workout-list/[id]',
-              query: {
-                id: item.workoutId,
-              },
-            }}
-            >
-              {cellValue}
-            </Link>
-          </Tooltip>
-        );
-
       default:
         return cellValue;
     }
@@ -115,48 +96,11 @@ function Workouts() {
 
   return (
     <div>
-      <Tooltip
-        content="Add record"
-        color="error"
-        onClick={addRecord}
-      >
-        <IconButton>Add</IconButton>
-      </Tooltip>
-      {isAdding ? (
-        <form onSubmit={createWorkout}>
-          <Grid.Container>
-            <Grid xs={12}>
-              <Input
-                placeholder="Workout"
-                type="text"
-                id="workoutInput"
-                name="workout-input"
-                aria-label="workout-input"
-                required
-              />
-            </Grid>
-            <Grid xs={12}>
-              <Input
-                placeholder="Type"
-                type="text"
-                id="workoutTypeInput"
-                name="workout-type"
-                aria-label="workout-type"
-                required
-              />
-            </Grid>
-          </Grid.Container>
-          <Button type="submit" aria-label="submit-button" size="xs">
-            Submit
-          </Button>
-        </form>
-      ) : null}
       {
         isLoading
           ? (<Loading>Loading the squat rack with data</Loading>)
           : (
             <Grid.Container xs={12}>
-
               <Table
                 bordered
                 id="main-table"
@@ -193,4 +137,4 @@ function Workouts() {
   );
 }
 
-export default Workouts;
+export default ExerciseList;
