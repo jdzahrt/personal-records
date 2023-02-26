@@ -1,5 +1,6 @@
 import { getSession } from 'next-auth/react';
 import logger from '../../../logger/logger';
+import { getWorkoutExercises } from '../../../db/exercises';
 
 // eslint-disable-next-line consistent-return
 export default async (req, res) => {
@@ -9,12 +10,10 @@ export default async (req, res) => {
       .json([]);
   }
 
-  const user = session.user.email;
-
   try {
-    // TODO: get exercises from database
-    // const results = await getWorkoutExercises(user);
-    // const dtoResults = dataToModel(results);
+    const results = await getWorkoutExercises(req.query.workoutId);
+
+    console.log('results', results);
 
     res.status(200)
       .json(results);

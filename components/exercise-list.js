@@ -3,13 +3,13 @@ import {
 } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { deleteWorkout, getWorkoutHistory } from '../services/exercise';
 import EditIcon from './Buttons/EditIcon';
 import { IconButton } from './Buttons/IconButton';
 import { DeleteIcon } from './Buttons/DeleteIcon';
+import { getWorkoutExercises } from '../services/exercise';
 
-function ExerciseList() {
-  const [workoutData, setWorkoutHistory] = useState([]);
+function ExerciseList({ workoutId }) {
+  const [workoutData, setWorkoutData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const columns = [
@@ -40,20 +40,20 @@ function ExerciseList() {
   ];
 
   useEffect(() => {
-    getWorkoutExercise()
+    getWorkoutExercises(workoutId)
       .then((data) => {
-        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        // data.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-        setWorkoutHistory(data);
+        setWorkoutData(data);
       })
       .finally(() => setIsLoading(false));
   }, []);
 
-  const deleteRecord = async (workoutId) => {
-    await deleteWorkout(workoutId);
-
-    setWorkoutHistory((ah) => ah.filter((a) => a.workoutId !== workoutId));
-  };
+  // const deleteRecord = async (workoutId) => {
+  //   await deleteWorkout(workoutId);
+  //
+  //   setWorkoutHistory((ah) => ah.filter((a) => a.workoutId !== workoutId));
+  // };
 
   const renderCell = (item, columnKey) => {
     const cellValue = item[columnKey];
@@ -98,7 +98,7 @@ function ExerciseList() {
     <div>
       {
         isLoading
-          ? (<Loading>Loading the squat rack with data</Loading>)
+          ? (<Loading>Loading the squat rack with dataz</Loading>)
           : (
             <Grid.Container xs={12}>
               <Table

@@ -3,7 +3,7 @@ import styles from '../../styles/Home.module.css';
 import ExerciseList from '../../components/exercise-list';
 
 // eslint-disable-next-line react/prop-types
-function WorkoutList({ workoutId, workoutName }) {
+function WorkoutList({ workoutId }) {
   return (
     <div className={styles.container}>
       <main>
@@ -23,7 +23,6 @@ function WorkoutList({ workoutId, workoutName }) {
 export const getServerSideProps = (context) => ({
   props: {
     workoutId: context.params.id,
-    workoutName: 'test',
   },
 });
 export default WorkoutList;
