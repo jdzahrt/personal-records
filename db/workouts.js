@@ -24,10 +24,10 @@ export const insertWorkout = async (payload) => {
 };
 
 export const deleteWorkout = async (workoutId) => {
-  const result = await workoutsCollection.deleteOne({ _id: workoutId });
+  const result = await workoutsCollection.deleteOne({ workoutId });
 
   logger.info(
-    `${result.deletedCount} workout documents were deleted with the _id: ${workoutId}`,
+    `${result.deletedCount} workout document deleted with the _id: ${workoutId}`,
   );
 };
 

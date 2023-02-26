@@ -1,5 +1,4 @@
 import { getSession } from 'next-auth/react';
-import { v4 as uuidv4 } from 'uuid';
 import logger from '../../../logger/logger';
 import { insertWorkout } from '../../../db/workouts';
 
@@ -10,7 +9,7 @@ export default async (req, res) => {
 
   try {
     const insertPayload = {
-      workoutId: uuidv4(),
+      workoutId: req.body.workoutId,
       email: user,
       workout: req.body.workout,
       workoutType: req.body.workoutType,

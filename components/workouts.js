@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import {
   Col, Loading, Row, Table, Tooltip, Grid, Input, Button,
 } from '@nextui-org/react';
@@ -6,7 +7,7 @@ import Link from 'next/link';
 import EditIcon from './Buttons/EditIcon';
 import { DeleteIcon } from './Buttons/DeleteIcon';
 import { IconButton } from './Buttons/IconButton';
-import { addWorkout, getWorkouts } from '../services/workouts';
+import { addWorkout, getWorkouts, deleteWorkout } from '../services/workouts';
 
 function Workouts() {
   const [workoutData, setWorkouts] = useState([]);
@@ -36,11 +37,15 @@ function Workouts() {
     event.preventDefault();
 
     const workoutPayload = {
+      workoutId: v4(),
       workout: event.target.workoutInput.value,
       workoutType: event.target.workoutTypeInput.value,
     };
 
-    const response = await addWorkout(workoutPayload);
+    const fullWorkout = [...workoutData, workoutPayload];
+    setWorkouts(fullWorkout);
+
+    await addWorkout(workoutPayload);
   };
 
   useEffect(() => {
@@ -53,11 +58,11 @@ function Workouts() {
       .finally(() => setIsLoading(false));
   }, []);
 
-  // const deleteRecord = async (workoutId) => {
-  //   await deleteWorkout(workoutId);
-  //
-  //   setWorkoutHistory((ah) => ah.filter((a) => a.workoutId !== workoutId));
-  // };
+  const deleteRecord = async (workoutId) => {
+    await deleteWorkout(workoutId);
+
+    setWorkouts((ah) => ah.filter((a) => a.workoutId !== workoutId));
+  };
 
   const renderCell = (item, columnKey) => {
     const cellValue = item[columnKey];
@@ -66,25 +71,25 @@ function Workouts() {
         return (
           <Row justify="center" align="center">
             <Col css={{ d: 'flex' }}>
-              <Tooltip content="Edit record">
-                <Link href={{
-                  pathname: '/workout-detail/[id]',
-                  query: {
-                    id: item.workoutId,
-                  },
-                }}
-                >
-                  <IconButton>
-                    <EditIcon size={20} fill="#4ADE7B" />
-                  </IconButton>
-                </Link>
-              </Tooltip>
+              {/* <Tooltip content="Edit record"> */}
+              {/*   <Link href={{ */}
+              {/*     pathname: '/workout-detail/[id]', */}
+              {/*     query: { */}
+              {/*       id: item.workoutId, */}
+              {/*     }, */}
+              {/*   }} */}
+              {/*   > */}
+              {/*     <IconButton> */}
+              {/*       <EditIcon size={20} fill="#4ADE7B" /> */}
+              {/*     </IconButton> */}
+              {/*   </Link> */}
+              {/* </Tooltip> */}
             </Col>
             <Col css={{ d: 'flex' }}>
               <Tooltip
                 content="Delete record"
                 color="error"
-                onClick={() => console.log('here')}
+                onClick={() => deleteRecord(item.workoutId)}
               >
                 <IconButton>
                   <DeleteIcon size={20} fill="#e73535" />
