@@ -7,8 +7,8 @@ function WorkoutTrackerV2() {
   return (
     <div className={styles.container}>
       <main>
-        <title>Table Tracker</title>
-        <center><h1>Workout Tracker! 💪</h1></center>
+        <title>Exercise Tracker</title>
+        <center><h1>Exercise Tracker! 💪</h1></center>
         <WorkoutHistoryV2 />
         <div className={styles.footer}>
           <Link block color="primary" href="/">

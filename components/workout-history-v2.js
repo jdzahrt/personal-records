@@ -19,7 +19,7 @@ function WorkoutHistoryV2() {
     },
     {
       key: 'exerciseType',
-      label: 'EXERCISE TYPE',
+      label: 'TYPE',
     },
     {
       key: 'reps',
@@ -127,7 +127,7 @@ function WorkoutHistoryV2() {
                   shadow
                   noMargin
                   align="center"
-                  rowsPerPage={10}
+                  rowsPerPage={20}
                 />
               </Table>
             </Grid.Container>

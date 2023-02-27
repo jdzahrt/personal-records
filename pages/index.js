@@ -23,10 +23,10 @@ export default function Home() {
             <p>Take you to the page to track your drinks 🍻</p>
           </a>
 
-          <a href="/workout-tracker" className={styles.card}>
-            <h3>Workout Personal Records &rarr;</h3>
-            <p>Take you to the page to track your personal workout records 💪</p>
-          </a>
+          {/* <a href="/workout-tracker" className={styles.card}> */}
+          {/*   <h3>Workout Personal Records &rarr;</h3> */}
+          {/*   <p>Take you to the page to track your personal workout records 💪</p> */}
+          {/* </a> */}
 
           <a href="/fast-food-tracker" className={styles.card}>
             <h3>Fast Food Tracker &rarr;</h3>
@@ -39,8 +39,8 @@ export default function Home() {
           </a>
 
           <a href="/workout-tracker-v2" className={styles.card}>
-            <h3>Workout Tracker V2 &rarr;</h3>
-            <p>NextUI Form</p>
+            <h3>Exercises &rarr;</h3>
+            <p>💪</p>
           </a>
         </div>
       </main>
