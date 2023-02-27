@@ -45,8 +45,6 @@ function ExerciseList({ workoutId }) {
   useEffect(() => {
     getWorkoutExercises(workoutId)
       .then((data) => {
-        // data.sort((a, b) => new Date(b.date) - new Date(a.date));
-
         setWorkoutData(data);
       })
       .finally(() => setIsLoading(false));

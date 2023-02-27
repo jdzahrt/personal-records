@@ -39,8 +39,8 @@ export default function Home() {
           </a>
 
           <a href="/workout-tracker-v2" className={styles.card}>
-            <h3>Exercises &rarr;</h3>
-            <p>💪</p>
+            <h3>Exercises 💪 &rarr;</h3>
+            <p>All exercises listed in one location</p>
           </a>
         </div>
       </main>

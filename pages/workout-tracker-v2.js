@@ -1,5 +1,4 @@
 import { Link } from '@nextui-org/react';
-import { useState } from 'react';
 import styles from '../styles/Home.module.css';
 import WorkoutHistoryV2 from '../components/workout-history-v2';
 
