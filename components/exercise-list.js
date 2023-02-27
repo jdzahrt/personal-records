@@ -121,77 +121,106 @@ function ExerciseList({ workoutId }) {
 
   return (
     <div>
-      <Tooltip
-        content="Add record"
-        color="error"
-        onClick={addRecord}
-      >
-        <IconButton>Add</IconButton>
-      </Tooltip>
       {isAdding ? (
-        <form onSubmit={createWorkoutExercise}>
-          <Grid.Container gap={2}>
-            <Grid>
-              <Input
-                labelLeft="exercise"
-                aria-label="exercise-input"
-                rounded
-                bordered
-                type="text"
-                id="exerciseInput"
-                name="exercise"
-                required
-              />
-            </Grid>
-          </Grid.Container>
-          <Grid.Container gap={2}>
-            <Grid>
-              <Input
-                labelLeft="reps"
-                aria-label="reps-input"
-                rounded
-                bordered
-                type="number"
-                id="repsInput"
-                name="reps"
-                width="120px"
-                required
-              />
-            </Grid>
-            <Grid>
-              <Input
-                labelLeft="weight"
-                aria-label="weight-input"
-                rounded
-                bordered
-                type="number"
-                id="weightInput"
-                name="weight"
-                width="120px"
-                required
-              />
-            </Grid>
-            <Grid>
-              <Input
-                labelLeft="date"
-                aria-label="date-input"
-                rounded
-                bordered
-                type="date"
-                id="dateInput"
-                name="date"
-                width="120px"
-                required
-              />
-            </Grid>
-          </Grid.Container>
-          <div align="center">
-            <Button className={styles.button} type="submit" aria-label="submit-button">
-              Submit
+        <div>
+
+          <form onSubmit={createWorkoutExercise}>
+            <Grid.Container gap={2}>
+              <Grid>
+                <Input
+                  labelLeft="exercise"
+                  aria-label="exercise-input"
+                  rounded
+                  bordered
+                  type="text"
+                  id="exerciseInput"
+                  name="exercise"
+                  required
+                />
+              </Grid>
+            </Grid.Container>
+            <Grid.Container gap={2}>
+              <Grid>
+                <Input
+                  labelLeft="reps"
+                  aria-label="reps-input"
+                  rounded
+                  bordered
+                  type="number"
+                  id="repsInput"
+                  name="reps"
+                  width="120px"
+                  required
+                />
+              </Grid>
+              <Grid>
+                <Input
+                  labelLeft="weight"
+                  aria-label="weight-input"
+                  rounded
+                  bordered
+                  type="number"
+                  id="weightInput"
+                  name="weight"
+                  width="120px"
+                  required
+                />
+              </Grid>
+              <Grid>
+                <Input
+                  labelLeft="date"
+                  aria-label="date-input"
+                  rounded
+                  bordered
+                  type="date"
+                  id="dateInput"
+                  name="date"
+                  width="120px"
+                  required
+                />
+              </Grid>
+            </Grid.Container>
+            <div align="center">
+              <Button
+                className={styles.button}
+                type="submit"
+                aria-label="submit-button"
+                size="xs"
+                shadow
+                color="success"
+              >
+                Add Exercise
+              </Button>
+            </div>
+          </form>
+          <center>
+            <Button
+              className={styles.button}
+              onClick={() => setAddRecord(false)}
+              shadow
+              size="xs"
+              color="error"
+              auto
+              aria-label="cancel-button"
+            >
+              Cancel
             </Button>
-          </div>
-        </form>
-      ) : null}
+          </center>
+
+        </div>
+      ) : (
+        <center className={styles.button}>
+          <Tooltip
+            content="Add record"
+            color="error"
+            onClick={addRecord}
+          >
+            <Button size="xs">
+              Add New Exercise
+            </Button>
+          </Tooltip>
+        </center>
+      )}
       {
         isLoading
           ? (<Loading>Loading the squat rack with dataz</Loading>)

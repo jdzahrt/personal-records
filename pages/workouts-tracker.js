@@ -19,7 +19,7 @@ function WorkoutsTracker() {
     <div className={styles.container}>
       <main>
         <title>Workouts Tracker</title>
-        <h1>Workouts</h1>
+        <center><h1>Workouts</h1></center>
         <Workouts />
         <div className={styles.footer}>
           <Link href="/" className={styles.footer}>Home</Link>

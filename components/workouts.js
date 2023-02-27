@@ -7,12 +7,15 @@ import Link from 'next/link';
 import EditIcon from './Buttons/EditIcon';
 import { DeleteIcon } from './Buttons/DeleteIcon';
 import { IconButton } from './Buttons/IconButton';
+import styles from '../styles/Home.module.css';
 import { addWorkout, getWorkouts, deleteWorkout } from '../services/workouts';
 
 function Workouts() {
   const [workoutData, setWorkouts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isAdding, setAddRecord] = useState(false);
+  const [workout, setWorkout] = useState('');
+  const [workoutType, setWorkoutType] = useState('');
 
   const columns = [
     {
@@ -21,7 +24,7 @@ function Workouts() {
     },
     {
       key: 'workoutType',
-      label: 'WORKOUT TYPE',
+      label: 'TYPE',
     },
     {
       key: 'actions',
@@ -46,6 +49,9 @@ function Workouts() {
     setWorkouts(fullWorkout);
 
     await addWorkout(workoutPayload);
+
+    setWorkout('');
+    setWorkoutType('');
   };
 
   useEffect(() => {
@@ -120,42 +126,75 @@ function Workouts() {
 
   return (
     <div>
-      <Tooltip
-        content="Add record"
-        color="error"
-        onClick={addRecord}
-      >
-        <IconButton>Add</IconButton>
-      </Tooltip>
       {isAdding ? (
-        <form onSubmit={createWorkout}>
-          <Grid.Container>
-            <Grid xs={12}>
-              <Input
-                placeholder="Workout"
-                type="text"
-                id="workoutInput"
-                name="workout-input"
-                aria-label="workout-input"
-                required
-              />
-            </Grid>
-            <Grid xs={12}>
-              <Input
-                placeholder="Type"
-                type="text"
-                id="workoutTypeInput"
-                name="workout-type"
-                aria-label="workout-type"
-                required
-              />
-            </Grid>
-          </Grid.Container>
-          <Button type="submit" aria-label="submit-button" size="xs">
-            Submit
-          </Button>
-        </form>
-      ) : null}
+        <div>
+          <form onSubmit={createWorkout}>
+            <Grid.Container gap={2}>
+              <Grid>
+                <Input
+                  labelLeft="workout"
+                  rounded
+                  bordered
+                  type="text"
+                  id="workoutInput"
+                  name="workout-input"
+                  aria-label="workout-input"
+                  required
+                  value={workout}
+                  onChange={(event) => setWorkout(event.target.value)}
+                />
+              </Grid>
+              <Grid>
+                <Input
+                  labelLeft="type"
+                  rounded
+                  bordered
+                  type="text"
+                  id="workoutTypeInput"
+                  name="workout-type"
+                  aria-label="workout-type"
+                  required
+                  value={workoutType}
+                  onChange={(event) => setWorkoutType(event.target.value)}
+                />
+              </Grid>
+            </Grid.Container>
+            <center className={styles.button}>
+              <Button
+                type="submit"
+                size="xs"
+                shadow
+                color="success"
+              >
+                Add
+              </Button>
+            </center>
+          </form>
+          <center>
+            <Button
+              className={styles.button}
+              onClick={() => setAddRecord(false)}
+              size="xs"
+              shadow
+              color="error"
+            >
+              Cancel
+            </Button>
+          </center>
+        </div>
+      ) : (
+        <center className={styles.button}>
+          <Tooltip
+            content="Add record"
+            color="error"
+            onClick={addRecord}
+          >
+            <Button size="xs">
+              Add New Workout
+            </Button>
+          </Tooltip>
+        </center>
+      )}
       {
         isLoading
           ? (<Loading>Loading the squat rack with data</Loading>)
