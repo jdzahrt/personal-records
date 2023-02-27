@@ -111,6 +111,7 @@ function Workouts() {
               pathname: '/workout-list/[id]',
               query: {
                 id: item.workoutId,
+                name: item.workout,
               },
             }}
             >
