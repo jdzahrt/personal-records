@@ -5,6 +5,7 @@ import { insertWorkout } from '../../../db/workouts';
 export default async (req, res) => {
   const session = await getSession({ req });
   const user = session.user.email;
+  console.log('add workout', req.body);
 
   try {
     const insertPayload = {
