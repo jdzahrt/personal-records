@@ -4,14 +4,6 @@ import { GetDbConnection } from './db';
 const db = await GetDbConnection();
 const workoutExercisesCollection = db.collection('workout-exercises');
 
-export const getExercises = async (user) => workoutExercisesCollection
-  .find({ email: user })
-  .sort({ active: -1 })
-  .toArray();
-
-export const getExerciseRecord = async (exerciseId) => workoutExercisesCollection
-  .findOne({ exerciseId });
-
 export const getWorkoutExercise = async (workoutExerciseId) => workoutExercisesCollection
   .findOne({ workoutExerciseId });
 
@@ -21,7 +13,6 @@ export const getWorkoutExercises = async (workoutId) => workoutExercisesCollecti
   .toArray();
 
 export const insertWorkoutExercise = async (payload) => {
-  console.log('inserting workout exercise', payload);
   const result = await workoutExercisesCollection.insertOne(payload);
 
   logger.info(
@@ -31,11 +22,11 @@ export const insertWorkoutExercise = async (payload) => {
   return result.ops[0];
 };
 
-export const deleteExercise = async (exerciseId) => {
-  const result = await workoutExercisesCollection.deleteOne({ exerciseId });
+export const deleteWorkoutExercise = async (workoutExerciseId) => {
+  const result = await workoutExercisesCollection.deleteOne({ workoutExerciseId });
 
   logger.info(
-    `${result.deletedCount} workout document deleted with the _id: ${exerciseId}`,
+    `${result.deletedCount} workout exercise document deleted with the _id: ${workoutExerciseId}`,
   );
 };
 

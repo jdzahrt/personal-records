@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import EditIcon from './Buttons/EditIcon';
 import { IconButton } from './Buttons/IconButton';
 import { DeleteIcon } from './Buttons/DeleteIcon';
-import { getWorkoutExercises, addWorkoutExercise } from '../services/exercise';
+import { getWorkoutExercises, addWorkoutExercise, deleteWorkoutExercise } from '../services/exercise';
 import styles from '../styles/Home.module.css';
 
 function ExerciseList({ workoutId }) {
@@ -16,7 +16,7 @@ function ExerciseList({ workoutId }) {
     workoutId: PropTypes.string.isRequired,
   };
 
-  const [workoutData, setWorkoutData] = useState([]);
+  const [exerciseData, setExerciseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setAddRecord] = useState(false);
 
@@ -50,7 +50,7 @@ function ExerciseList({ workoutId }) {
   useEffect(() => {
     getWorkoutExercises(workoutId)
       .then((data) => {
-        setWorkoutData(data);
+        setExerciseData(data);
       })
       .finally(() => setIsLoading(false));
   }, []);
@@ -71,17 +71,17 @@ function ExerciseList({ workoutId }) {
       date: event.target.dateInput.value,
     };
 
-    const fullWorkout = [...workoutData, workoutPayload];
-    setWorkoutData(fullWorkout);
+    const fullWorkout = [...exerciseData, workoutPayload];
+    setExerciseData(fullWorkout);
 
     await addWorkoutExercise(workoutPayload);
   };
 
-  // const deleteRecord = async (workoutId) => {
-  //   await deleteWorkout(workoutId);
-  //
-  //   setWorkoutHistory((ah) => ah.filter((a) => a.workoutId !== workoutId));
-  // };
+  const deleteRecord = async (workoutExerciseId) => {
+    await deleteWorkoutExercise(workoutExerciseId);
+
+    setExerciseData((ah) => ah.filter((a) => a.workoutExerciseId !== workoutExerciseId));
+  };
 
   const renderCell = (item, columnKey) => {
     const cellValue = item[columnKey];
@@ -108,7 +108,7 @@ function ExerciseList({ workoutId }) {
               <Tooltip
                 content="Delete record"
                 color="error"
-                onClick={() => deleteRecord(item.workoutId)}
+                onClick={() => deleteRecord(item.workoutExerciseId)}
               >
                 <IconButton>
                   <DeleteIcon size={20} fill="#e73535" />
@@ -244,7 +244,7 @@ function ExerciseList({ workoutId }) {
                     <Table.Column width="100" id={column.key} key={column.key}>{column.label}</Table.Column>
                   )}
                 </Table.Header>
-                <Table.Body items={workoutData}>
+                <Table.Body items={exerciseData}>
                   {(item) => (
                     <Table.Row id={item.workoutExerciseId} key={item.workoutExerciseId}>
                       {(columnKey) => <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>}

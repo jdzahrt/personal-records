@@ -26,6 +26,14 @@ export const addWorkoutExercise = async (payload) => {
   }
 };
 
+export const deleteWorkoutExercise = async (id) => {
+  try {
+    await fetchApi(`/api/exercise/delete-workout-exercise?id=${id}`, 'DELETE');
+  } catch (e) {
+    throw new Error(`Could not delete exercise record. ${e}`);
+  }
+};
+
 // export const getExerciseDetail = async (exerciseDetailId) => {
 //   try {
 //     const response = await fetchApi(`/api/exercise/get-exercise-detail?id=${exerciseDetailId}`, 'GET');
