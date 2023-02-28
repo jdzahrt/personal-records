@@ -1,6 +1,6 @@
 import { getSession } from 'next-auth/react';
 import logger from '../../../logger/logger';
-import { insertWorkout } from '../../../db/workouts';
+import { insertWorkoutExercise } from '../../../db/exercises';
 
 export default async (req, res) => {
   const session = await getSession({ req });
@@ -9,13 +9,15 @@ export default async (req, res) => {
 
   try {
     const insertPayload = {
+      workoutExerciseId: req.body.workoutExerciseId,
       workoutId: req.body.workoutId,
-      email: user,
-      workout: req.body.workout,
-      workoutType: req.body.workoutType,
+      exercise: req.body.exercise,
+      reps: req.body.reps,
+      weight: req.body.weight,
+      date: req.body.date,
     };
 
-    await insertWorkout(insertPayload);
+    await insertWorkoutExercise(insertPayload);
 
     res.status(200)
       .json({ status: 'Success' });

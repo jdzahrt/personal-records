@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css';
 import AccessDenied from '../components/access-denied';
 import Workouts from '../components/workouts';
 
-function WorkoutsList() {
+function WorkoutsTracker() {
   const { data: session } = useSession();
 
   if (!session) {
@@ -19,6 +19,7 @@ function WorkoutsList() {
     <div className={styles.container}>
       <main>
         <title>Workouts Tracker</title>
+        <center><h1>Workouts</h1></center>
         <Workouts />
         <div className={styles.footer}>
           <Link href="/" className={styles.footer}>Home</Link>
@@ -28,4 +29,4 @@ function WorkoutsList() {
   );
 }
 
-export default WorkoutsList;
+export default WorkoutsTracker;

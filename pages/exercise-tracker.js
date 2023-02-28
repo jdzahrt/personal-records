@@ -1,14 +1,14 @@
 import { Link } from '@nextui-org/react';
 import styles from '../styles/Home.module.css';
-import WorkoutHistoryV2 from '../components/workout-history-v2';
+import ExerciseList from '../components/exercise-list';
 
-function WorkoutTrackerV2() {
+function ExerciseTracker() {
   return (
     <div className={styles.container}>
       <main>
         <title>Exercise Tracker</title>
         <center><h1>Exercise Tracker! 💪</h1></center>
-        <WorkoutHistoryV2 />
+        <ExerciseList />
         <div className={styles.footer}>
           <Link block color="primary" href="/">
             Home
@@ -19,4 +19,4 @@ function WorkoutTrackerV2() {
   );
 }
 
-export default WorkoutTrackerV2;
+export default ExerciseTracker;

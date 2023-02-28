@@ -1,30 +1,40 @@
-import { v4 } from 'uuid';
 import {
   Col, Loading, Row, Table, Tooltip, Grid, Input, Button,
 } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { v4 } from 'uuid';
 import EditIcon from './Buttons/EditIcon';
-import { DeleteIcon } from './Buttons/DeleteIcon';
 import { IconButton } from './Buttons/IconButton';
+import { DeleteIcon } from './Buttons/DeleteIcon';
+import { getWorkoutExercises, addWorkoutExercise } from '../services/exercise';
 import styles from '../styles/Home.module.css';
-import { addWorkout, getWorkouts, deleteWorkout } from '../services/workouts';
 
-function Workouts() {
-  const [workoutData, setWorkouts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+function ExerciseList({ workoutId }) {
+  const [workoutData, setWorkoutData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setAddRecord] = useState(false);
-  const [workout, setWorkout] = useState('');
-  const [workoutType, setWorkoutType] = useState('');
 
   const columns = [
     {
-      key: 'workout',
-      label: 'WORKOUT',
+      key: 'exercise',
+      label: 'EXERCISE',
     },
     {
-      key: 'workoutType',
-      label: 'TYPE',
+      key: 'exerciseType',
+      label: 'EXERCISE TYPE',
+    },
+    {
+      key: 'reps',
+      label: 'REPS',
+    },
+    {
+      key: 'weight',
+      label: 'WEIGHT',
+    },
+    {
+      key: 'date',
+      label: 'DATE',
     },
     {
       key: 'actions',
@@ -32,43 +42,41 @@ function Workouts() {
     },
   ];
 
-  const addRecord = () => {
-    setAddRecord(true);
-  };
-
-  const createWorkout = async (event) => {
-    event.preventDefault();
-
-    const workoutPayload = {
-      workoutId: v4(),
-      workout: event.target.workoutInput.value,
-      workoutType: event.target.workoutTypeInput.value,
-    };
-
-    const fullWorkout = [...workoutData, workoutPayload];
-    setWorkouts(fullWorkout);
-
-    await addWorkout(workoutPayload);
-
-    setWorkout('');
-    setWorkoutType('');
-  };
-
   useEffect(() => {
-    getWorkouts()
+    getWorkoutExercises(workoutId)
       .then((data) => {
-        // data.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-        setWorkouts(data);
+        setWorkoutData(data);
       })
       .finally(() => setIsLoading(false));
   }, []);
 
-  const deleteRecord = async (workoutId) => {
-    await deleteWorkout(workoutId);
-
-    setWorkouts((ah) => ah.filter((a) => a.workoutId !== workoutId));
+  const addRecord = () => {
+    setAddRecord(true);
   };
+
+  const createWorkoutExercise = async (event) => {
+    event.preventDefault();
+
+    const workoutPayload = {
+      workoutExerciseId: v4(),
+      workoutId,
+      exercise: event.target.exerciseInput.value,
+      reps: event.target.repsInput.value,
+      weight: event.target.weightInput.value,
+      date: event.target.dateInput.value,
+    };
+
+    const fullWorkout = [...workoutData, workoutPayload];
+    setWorkoutData(fullWorkout);
+
+    await addWorkoutExercise(workoutPayload);
+  };
+
+  // const deleteRecord = async (workoutId) => {
+  //   await deleteWorkout(workoutId);
+  //
+  //   setWorkoutHistory((ah) => ah.filter((a) => a.workoutId !== workoutId));
+  // };
 
   const renderCell = (item, columnKey) => {
     const cellValue = item[columnKey];
@@ -77,19 +85,19 @@ function Workouts() {
         return (
           <Row justify="center" align="center">
             <Col css={{ d: 'flex' }}>
-              {/* <Tooltip content="Edit record"> */}
-              {/*   <Link href={{ */}
-              {/*     pathname: '/workout-detail/[id]', */}
-              {/*     query: { */}
-              {/*       id: item.workoutId, */}
-              {/*     }, */}
-              {/*   }} */}
-              {/*   > */}
-              {/*     <IconButton> */}
-              {/*       <EditIcon size={20} fill="#4ADE7B" /> */}
-              {/*     </IconButton> */}
-              {/*   </Link> */}
-              {/* </Tooltip> */}
+              <Tooltip content="Edit record">
+                <Link href={{
+                  pathname: '/workout-detail/[id]',
+                  query: {
+                    id: item.workoutId,
+                  },
+                }}
+                >
+                  <IconButton>
+                    <EditIcon size={20} fill="#4ADE7B" />
+                  </IconButton>
+                </Link>
+              </Tooltip>
             </Col>
             <Col css={{ d: 'flex' }}>
               <Tooltip
@@ -104,22 +112,6 @@ function Workouts() {
             </Col>
           </Row>
         );
-      case 'workout':
-        return (
-          <Tooltip content="Details">
-            <Link href={{
-              pathname: '/workout-list/[id]',
-              query: {
-                id: item.workoutId,
-                name: item.workout,
-              },
-            }}
-            >
-              {cellValue}
-            </Link>
-          </Tooltip>
-        );
-
       default:
         return cellValue;
     }
@@ -129,59 +121,90 @@ function Workouts() {
     <div>
       {isAdding ? (
         <div>
-          <form onSubmit={createWorkout}>
+
+          <form onSubmit={createWorkoutExercise}>
             <Grid.Container gap={2}>
               <Grid>
                 <Input
-                  labelLeft="workout"
+                  labelLeft="exercise"
+                  aria-label="exercise-input"
                   rounded
                   bordered
                   type="text"
-                  id="workoutInput"
-                  name="workout-input"
-                  aria-label="workout-input"
+                  id="exerciseInput"
+                  name="exercise"
                   required
-                  value={workout}
-                  onChange={(event) => setWorkout(event.target.value)}
+                />
+              </Grid>
+            </Grid.Container>
+            <Grid.Container gap={2}>
+              <Grid>
+                <Input
+                  labelLeft="reps"
+                  aria-label="reps-input"
+                  rounded
+                  bordered
+                  type="number"
+                  id="repsInput"
+                  name="reps"
+                  width="120px"
+                  required
                 />
               </Grid>
               <Grid>
                 <Input
-                  labelLeft="type"
+                  labelLeft="weight"
+                  aria-label="weight-input"
                   rounded
                   bordered
-                  type="text"
-                  id="workoutTypeInput"
-                  name="workout-type"
-                  aria-label="workout-type"
+                  type="number"
+                  id="weightInput"
+                  name="weight"
+                  width="120px"
                   required
-                  value={workoutType}
-                  onChange={(event) => setWorkoutType(event.target.value)}
+                />
+              </Grid>
+              <Grid>
+                <Input
+                  labelLeft="date"
+                  aria-label="date-input"
+                  rounded
+                  bordered
+                  type="date"
+                  id="dateInput"
+                  name="date"
+                  width="120px"
+                  required
                 />
               </Grid>
             </Grid.Container>
-            <center className={styles.button}>
+            <div align="center">
               <Button
+                className={styles.button}
                 type="submit"
+                aria-label="submit-button"
                 size="xs"
                 shadow
                 color="success"
               >
-                Add
+                Add Exercise
               </Button>
-            </center>
+            </div>
           </form>
           <center>
             <Button
               className={styles.button}
               onClick={() => setAddRecord(false)}
-              size="xs"
               shadow
+              size="xs"
               color="error"
+              auto
+              aria-label="cancel-button"
             >
               Cancel
             </Button>
           </center>
+
         </div>
       ) : (
         <center className={styles.button}>
@@ -191,17 +214,16 @@ function Workouts() {
             onClick={addRecord}
           >
             <Button size="xs">
-              Add New Workout
+              Add New Exercise
             </Button>
           </Tooltip>
         </center>
       )}
       {
         isLoading
-          ? (<Loading>Loading the squat rack with data</Loading>)
+          ? (<Loading>Loading the squat rack with dataz</Loading>)
           : (
             <Grid.Container xs={12}>
-
               <Table
                 bordered
                 id="main-table"
@@ -238,4 +260,4 @@ function Workouts() {
   );
 }
 
-export default Workouts;
+export default ExerciseList;
