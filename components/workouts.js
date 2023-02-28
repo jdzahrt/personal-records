@@ -8,7 +8,9 @@ import EditIcon from './Buttons/EditIcon';
 import { DeleteIcon } from './Buttons/DeleteIcon';
 import { IconButton } from './Buttons/IconButton';
 import styles from '../styles/Home.module.css';
-import { addWorkout, getWorkouts, deleteWorkout } from '../services/workouts';
+import {
+  addWorkout, getWorkouts, deleteWorkout, getWorkoutsTest,
+} from '../services/workouts';
 
 function Workouts() {
   const [workoutData, setWorkouts] = useState([]);
@@ -25,6 +27,10 @@ function Workouts() {
     {
       key: 'workoutType',
       label: 'TYPE',
+    },
+    {
+      key: 'date',
+      label: 'DATE',
     },
     {
       key: 'actions',
@@ -55,9 +61,10 @@ function Workouts() {
   };
 
   useEffect(() => {
-    getWorkouts()
+    getWorkoutsTest()
       .then((data) => {
         // data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        console.log('data.', data);
 
         setWorkouts(data);
       })

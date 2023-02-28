@@ -9,6 +9,19 @@ export const getWorkouts = async () => {
   }
 };
 
+export const getWorkoutsTest = async () => {
+  try {
+    const response = await fetchApi('/api/workouts/get-workouts', 'GET');
+    const data = await response.json();
+    // console.log('data', data);
+    // const ts = data[0];
+
+    return data;
+  } catch (e) {
+    throw new Error(`Could not fetch workout history. ${e}`);
+  }
+};
+
 export const getWorkout = async (workoutId) => {
   try {
     const response = await fetchApi(`/api/workouts/get-workout?id=${workoutId}`, 'GET');

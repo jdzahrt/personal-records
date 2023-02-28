@@ -4,6 +4,7 @@ import {
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { v4 } from 'uuid';
+import PropTypes from 'prop-types';
 import EditIcon from './Buttons/EditIcon';
 import { IconButton } from './Buttons/IconButton';
 import { DeleteIcon } from './Buttons/DeleteIcon';
@@ -11,6 +12,10 @@ import { getWorkoutExercises, addWorkoutExercise } from '../services/exercise';
 import styles from '../styles/Home.module.css';
 
 function ExerciseList({ workoutId }) {
+  ExerciseList.propTypes = {
+    workoutId: PropTypes.string.isRequired,
+  };
+
   const [workoutData, setWorkoutData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setAddRecord] = useState(false);
@@ -241,7 +246,7 @@ function ExerciseList({ workoutId }) {
                 </Table.Header>
                 <Table.Body items={workoutData}>
                   {(item) => (
-                    <Table.Row id={item.workoutId} key={item.workoutId}>
+                    <Table.Row id={item.workoutExerciseId} key={item.workoutExerciseId}>
                       {(columnKey) => <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>}
                     </Table.Row>
                   )}
