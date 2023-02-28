@@ -1,18 +1,19 @@
 import Link from 'next/link';
 import styles from '../../styles/Home.module.css';
+import ExerciseDetail from '../../components/exercise-detail';
 
 // eslint-disable-next-line react/prop-types
-function WorkoutDetailId({ workoutId }) {
+function WorkoutExerciseDetail({ workoutExerciseId }) {
   return (
     <div className={styles.container}>
       <main>
-        <title>Workout Detail</title>
-        <center><h1>Workout Detail! 💪</h1></center>
-        <ExcerciseDetail
-          workoutId={workoutId}
+        <title>Exercise Detail</title>
+        <center><h1>Exercise Detail</h1></center>
+        <ExerciseDetail
+          workoutExerciseId={workoutExerciseId}
         />
         <div className={styles.footer}>
-          <Link href="/workout-tracker-v2">Back</Link>
+          <Link href="/workouts-tracker">Back</Link>
         </div>
       </main>
     </div>
@@ -21,7 +22,7 @@ function WorkoutDetailId({ workoutId }) {
 
 export const getServerSideProps = (context) => ({
   props: {
-    workoutId: context.params.id,
+    workoutExerciseId: context.params.id,
   },
 });
-export default WorkoutDetailId;
+export default WorkoutExerciseDetail;

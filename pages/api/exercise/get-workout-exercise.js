@@ -1,6 +1,6 @@
 import { getSession } from 'next-auth/react';
 import logger from '../../../logger/logger';
-import { getWorkoutExercises } from '../../../db/exercises';
+import { getWorkoutExercise } from '../../../db/exercises';
 
 // eslint-disable-next-line consistent-return
 export default async (req, res) => {
@@ -11,7 +11,7 @@ export default async (req, res) => {
   }
 
   try {
-    const results = await getWorkoutExercises(req.query.workoutId);
+    const results = await getWorkoutExercise(req.query.workoutExerciseId);
 
     res.status(200)
       .json(results);

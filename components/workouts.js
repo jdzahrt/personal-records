@@ -64,8 +64,6 @@ function Workouts() {
     getWorkoutsTest()
       .then((data) => {
         // data.sort((a, b) => new Date(b.date) - new Date(a.date));
-        console.log('data.', data);
-
         setWorkouts(data);
       })
       .finally(() => setIsLoading(false));
@@ -115,7 +113,7 @@ function Workouts() {
         return (
           <Tooltip content="Details">
             <Link href={{
-              pathname: '/workout-list/[id]',
+              pathname: '/workout-exercise-list/[id]',
               query: {
                 id: item.workoutId,
                 name: item.workout,

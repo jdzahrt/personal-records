@@ -12,6 +12,9 @@ export const getExercises = async (user) => workoutExercisesCollection
 export const getExerciseRecord = async (exerciseId) => workoutExercisesCollection
   .findOne({ exerciseId });
 
+export const getWorkoutExercise = async (workoutExerciseId) => workoutExercisesCollection
+  .findOne({ workoutExerciseId });
+
 export const getWorkoutExercises = async (workoutId) => workoutExercisesCollection
   .find({ workoutId })
   .sort({ active: -1 })

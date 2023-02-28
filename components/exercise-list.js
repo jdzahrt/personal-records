@@ -92,9 +92,9 @@ function ExerciseList({ workoutId }) {
             <Col css={{ d: 'flex' }}>
               <Tooltip content="Edit record">
                 <Link href={{
-                  pathname: '/workout-detail/[id]',
+                  pathname: '/exercise-detail/[id]',
                   query: {
-                    id: item.workoutId,
+                    id: item.workoutExerciseId,
                   },
                 }}
                 >

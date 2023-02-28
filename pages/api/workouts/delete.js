@@ -5,7 +5,6 @@ export default async (req, res) => {
   const workoutId = req.query.id;
 
   try {
-    console.log('workoutId', workoutId, req.query);
     await deleteWorkout(workoutId);
 
     res.status(200)

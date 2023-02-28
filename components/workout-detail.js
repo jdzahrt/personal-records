@@ -36,7 +36,6 @@ function WorkoutDetail({ workoutId }) {
     };
 
     await updateWorkout(payload);
-    // console.log('Payload output', payload);
   };
 
   return (
@@ -109,11 +108,11 @@ function WorkoutDetail({ workoutId }) {
           />
         </Grid>
       </Grid.Container>
-      <div align="center">
+      <center>
         <Button className={styles.button} type="submit" aria-label="submit-button">
           Submit
         </Button>
-      </div>
+      </center>
     </form>
   );
 }
