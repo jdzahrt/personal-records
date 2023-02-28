@@ -6,15 +6,15 @@ import PropTypes from 'prop-types';
 import styles from '../styles/Home.module.css';
 import { getExercise, updateExercise } from '../services/exercise';
 
-function ExerciseDetail({ exerciseId }) {
+function ExerciseDetail({ workoutExerciseId }) {
   ExerciseDetail.propTypes = {
-    exerciseId: PropTypes.string.isRequired,
+    workoutExerciseId: PropTypes.string.isRequired,
   };
 
   const [exerciseDetail, setExerciseDetail] = useState({});
 
   useEffect(() => {
-    getExercise()
+    getExercise(workoutExerciseId)
       .then((data) => {
         setExerciseDetail(data);
       });
@@ -24,7 +24,7 @@ function ExerciseDetail({ exerciseId }) {
     event.preventDefault();
 
     const payload = {
-      exerciseId,
+      workoutExerciseId,
       exercise: event.target.exercise.value,
       exerciseType: event.target.exerciseType.value,
       date: event.target.date.value,
@@ -33,7 +33,6 @@ function ExerciseDetail({ exerciseId }) {
     };
 
     await updateExercise(payload);
-    // console.log('Payload output', payload);
   };
 
   return (

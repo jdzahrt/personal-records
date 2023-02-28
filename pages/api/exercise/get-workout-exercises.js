@@ -13,8 +13,6 @@ export default async (req, res) => {
   try {
     const results = await getWorkoutExercises(req.query.workoutId);
 
-    console.log('results', results);
-
     res.status(200)
       .json(results);
   } catch (error) {

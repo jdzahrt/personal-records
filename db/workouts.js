@@ -3,11 +3,14 @@ import { GetDbConnection } from './db';
 
 const db = await GetDbConnection();
 const workoutsCollection = db.collection('workouts');
+const workoutsCollectionTest = db.collection('workoutsExerciseView');
 
 export const getWorkouts = async (user) => workoutsCollection
   .find({ email: user })
   .sort({ active: -1 })
   .toArray();
+
+export const getWorkoutsTest = async (user) => workoutsCollectionTest.find({ email: user }).toArray();
 
 export const getWorkoutRecord = async (workoutId) => workoutsCollection
   .findOne({ workoutId });

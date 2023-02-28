@@ -89,7 +89,6 @@ function History(props) {
           holdDates.push(calcDaysQuit(v.quitDate, v.endDate));
           holdDates.sort((a, b) => b - a);
         });
-        console.log(holdDates);
 
         const mDate = Math.max(...holdDates);
         setMaxDate(mDate);
