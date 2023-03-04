@@ -30,22 +30,22 @@ export const deleteWorkoutExercise = async (workoutExerciseId) => {
   );
 };
 
-export const updateExercise = async ({
-  exercise, reps, date, weight, exerciseType, exerciseId,
+export const updateWorkoutExercise = async ({
+  exercise, reps, date, weight, exerciseType, workoutExerciseId,
 }) => {
   const mongoUpdateRecord = {
     $set: {
       exercise,
       reps,
-      date: new Date(date),
+      date,
       weight,
       exerciseType,
     },
   };
 
-  const result = await workoutExercisesCollection.updateOne({ _id: exerciseId }, mongoUpdateRecord);
+  const result = await workoutExercisesCollection.updateOne({ workoutExerciseId }, mongoUpdateRecord);
 
   logger.info(
-    `${result.matchedCount} documents were updated with the _id: ${exerciseId}`,
+    `${result.matchedCount} documents were updated with the _id: ${workoutExerciseId}`,
   );
 };

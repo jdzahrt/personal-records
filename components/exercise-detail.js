@@ -2,16 +2,19 @@ import {
   Input, Button, Grid,
 } from '@nextui-org/react';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import styles from '../styles/Home.module.css';
 import { getExercise, updateExercise } from '../services/exercise';
 
-function ExerciseDetail({ workoutExerciseId }) {
+function ExerciseDetail({ workoutExerciseId, workoutId }) {
   ExerciseDetail.propTypes = {
     workoutExerciseId: PropTypes.string.isRequired,
+    workoutId: PropTypes.string.isRequired,
   };
 
   const [exerciseDetail, setExerciseDetail] = useState({});
+  const router = useRouter();
 
   useEffect(() => {
     getExercise(workoutExerciseId)
@@ -26,13 +29,14 @@ function ExerciseDetail({ workoutExerciseId }) {
     const payload = {
       workoutExerciseId,
       exercise: event.target.exercise.value,
-      exerciseType: event.target.exerciseType.value,
       date: event.target.date.value,
       reps: event.target.reps.value,
       weight: event.target.weight.value,
     };
 
     await updateExercise(payload);
+
+    await router.push(`/workout-exercise-list/${workoutId}`);
   };
 
   return (
@@ -48,19 +52,6 @@ function ExerciseDetail({ workoutExerciseId }) {
             id="exercise"
             name="exercise"
             initialValue={exerciseDetail.exercise}
-          />
-        </Grid>
-        <Grid>
-          <Input
-            labelLeft="type"
-            aria-label="type-input"
-            rounded
-            bordered
-            type="text"
-            id="exerciseType"
-            name="exercise-type"
-            initialValue={exerciseDetail.exerciseType}
-            width="120px"
           />
         </Grid>
       </Grid.Container>
@@ -105,11 +96,15 @@ function ExerciseDetail({ workoutExerciseId }) {
           />
         </Grid>
       </Grid.Container>
-      <div align="center">
-        <Button className={styles.button} type="submit" aria-label="submit-button">
+      <center>
+        <Button
+          className={styles.button}
+          type="submit"
+          aria-label="submit-button"
+        >
           Submit
         </Button>
-      </div>
+      </center>
     </form>
   );
 }

@@ -11,6 +11,7 @@ function WorkoutList({ workoutId, workoutName }) {
         <center><h1>{workoutName}</h1></center>
         <ExerciseList
           workoutId={workoutId}
+          workoutName={workoutName}
         />
         <div className={styles.footer}>
           <Link href="/workouts-tracker">Back</Link>
