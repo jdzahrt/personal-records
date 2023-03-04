@@ -53,7 +53,7 @@ export const addExercise = async (payload) => {
 
 export const updateExercise = async (payload) => {
   try {
-    await fetchApi(`/api/exercise/update?id=${payload.exerciseId}`, 'PUT', payload);
+    await fetchApi(`/api/exercise/update-workout-exercise?id=${payload.workoutExerciseId}`, 'PUT', payload);
   } catch (e) {
     throw new Error(`Could not update exercise record. ${e}`);
   }

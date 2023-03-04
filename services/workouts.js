@@ -24,10 +24,10 @@ export const getWorkoutsTest = async () => {
 
 export const getWorkout = async (workoutId) => {
   try {
-    const response = await fetchApi(`/api/workouts/get-workout?id=${workoutId}`, 'GET');
+    const response = await fetchApi(`/api/workouts/get-workout?workoutId=${workoutId}`, 'GET');
     return response.json();
   } catch (e) {
-    throw new Error(`Could not fetch workout detail. ${e}`);
+    throw new Error(`Could not fetch workout. ${e}`);
   }
 };
 

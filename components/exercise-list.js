@@ -26,10 +26,6 @@ function ExerciseList({ workoutId }) {
       label: 'EXERCISE',
     },
     {
-      key: 'exerciseType',
-      label: 'EXERCISE TYPE',
-    },
-    {
       key: 'reps',
       label: 'REPS',
     },
@@ -95,6 +91,7 @@ function ExerciseList({ workoutId }) {
                   pathname: '/exercise-detail/[id]',
                   query: {
                     id: item.workoutExerciseId,
+                    workoutId: item.workoutId,
                   },
                 }}
                 >
