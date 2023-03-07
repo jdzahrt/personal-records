@@ -1,4 +1,5 @@
 import { fetchApi } from '../utils/fetch-api';
+import { calcDaysQuit } from '../utils/days';
 
 export const getWorkouts = async () => {
   try {
@@ -13,10 +14,35 @@ export const getWorkoutsTest = async () => {
   try {
     const response = await fetchApi('/api/workouts/get-workouts', 'GET');
     const data = await response.json();
-    // console.log('data', data);
-    // const ts = data[0];
+    const holdData = [];
 
-    return data;
+    data.forEach((e) => {
+      holdData.push({
+        workoutId: e.workoutId,
+        days: 0,
+        date: '',
+        exerciseCount: e.exercises.length,
+      });
+
+      e.exercises.forEach((f) => {
+        const ix = holdData.findIndex((x) => x.workoutId === e.workoutId);
+
+        if (new Date(f.date) > holdData[ix].date) {
+          holdData[ix].days = calcDaysQuit(f.date);
+          holdData[ix].date = f.date;
+        }
+      });
+    });
+
+    const cResult = [];
+    data.forEach((d) => {
+      const workoutSummary = holdData.find((x) => x.workoutId === d.workoutId);
+      const combinedResults = { ...d, ...workoutSummary };
+
+      cResult.push(combinedResults);
+    });
+
+    return cResult;
   } catch (e) {
     throw new Error(`Could not fetch workout history. ${e}`);
   }

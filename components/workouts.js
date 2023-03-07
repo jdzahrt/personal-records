@@ -22,19 +22,23 @@ function Workouts() {
   const columns = [
     {
       key: 'workout',
-      label: 'WORKOUT',
+      label: 'Workout',
+    },
+    {
+      key: 'exerciseCount',
+      label: 'Exercises',
     },
     {
       key: 'workoutType',
-      label: 'TYPE',
+      label: 'Type',
     },
     {
       key: 'date',
-      label: 'DATE',
+      label: 'Date',
     },
     {
       key: 'actions',
-      label: 'ACTIONS',
+      label: 'Actions',
     },
   ];
 
