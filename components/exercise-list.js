@@ -8,7 +8,12 @@ import PropTypes from 'prop-types';
 import EditIcon from './Buttons/EditIcon';
 import { IconButton } from './Buttons/IconButton';
 import { DeleteIcon } from './Buttons/DeleteIcon';
-import { getWorkoutExercises, addWorkoutExercise, deleteWorkoutExercise } from '../services/exercise';
+import {
+  getWorkoutExercises,
+  addWorkoutExercise,
+  deleteWorkoutExercise,
+  getExercises,
+} from '../services/exercise';
 import styles from '../styles/Home.module.css';
 
 function ExerciseList({ workoutId }) {

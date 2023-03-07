@@ -3,10 +3,11 @@ import {
 } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { deleteWorkout, getWorkoutHistory } from '../services/workout';
+import { deleteWorkout } from '../services/workout';
 import EditIcon from './Buttons/EditIcon';
 import { IconButton } from './Buttons/IconButton';
 import { DeleteIcon } from './Buttons/DeleteIcon';
+import { getExercises } from '../services/exercise';
 
 function WorkoutHistoryV2() {
   const [workoutData, setWorkoutHistory] = useState([]);
@@ -40,7 +41,7 @@ function WorkoutHistoryV2() {
   ];
 
   useEffect(() => {
-    getWorkoutHistory()
+    getExercises()
       .then((data) => {
         data.sort((a, b) => new Date(b.date) - new Date(a.date));
 
@@ -64,9 +65,10 @@ function WorkoutHistoryV2() {
             <Col css={{ d: 'flex' }}>
               <Tooltip content="Edit record">
                 <Link href={{
-                  pathname: '/workout-detail/[id]',
+                  pathname: '/exercise-detail/[id]',
                   query: {
-                    id: item.workoutId,
+                    id: item.workoutExerciseId,
+                    workoutId: item.workoutId,
                   },
                 }}
                 >
@@ -118,7 +120,7 @@ function WorkoutHistoryV2() {
                 </Table.Header>
                 <Table.Body items={workoutData}>
                   {(item) => (
-                    <Table.Row id={item.workoutId} key={item.workoutId}>
+                    <Table.Row id={item.workoutExerciseId} key={item.workoutExerciseId}>
                       {(columnKey) => <Table.Cell>{renderCell(item, columnKey)}</Table.Cell>}
                     </Table.Row>
                   )}

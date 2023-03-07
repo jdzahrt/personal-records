@@ -9,6 +9,15 @@ export const getExercise = async (workoutExerciseId) => {
   }
 };
 
+export const getExercises = async () => {
+  try {
+    const response = await fetchApi('/api/exercise/get-exercises', 'GET');
+    return response.json();
+  } catch (e) {
+    throw new Error(`Could not fetch exercises. ${e}`);
+  }
+};
+
 export const getWorkoutExercises = async (workoutId) => {
   try {
     const response = await fetchApi(`/api/exercise/get-workout-exercises?workoutId=${workoutId}`, 'GET');
