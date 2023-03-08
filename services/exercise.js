@@ -20,7 +20,11 @@ export const getExercises = async () => {
 
 export const getWorkoutExercises = async (workoutId) => {
   try {
-    const response = await fetchApi(`/api/exercise/get-workout-exercises?workoutId=${workoutId}`, 'GET');
+    if (workoutId) {
+      const response = await fetchApi(`/api/exercise/get-workout-exercises?workoutId=${workoutId}`, 'GET');
+      return response.json();
+    }
+    const response = await fetchApi('/api/exercise/get-exercises', 'GET');
     return response.json();
   } catch (e) {
     throw new Error(`Could not fetch exercise info. ${e}`);

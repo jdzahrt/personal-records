@@ -12,13 +12,13 @@ import {
   getWorkoutExercises,
   addWorkoutExercise,
   deleteWorkoutExercise,
-  getExercises,
 } from '../services/exercise';
 import styles from '../styles/Home.module.css';
 
 function ExerciseList({ workoutId }) {
   ExerciseList.propTypes = {
-    workoutId: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/require-default-props
+    workoutId: PropTypes.string,
   };
 
   const [exerciseData, setExerciseData] = useState([]);
