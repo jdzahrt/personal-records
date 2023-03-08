@@ -8,12 +8,17 @@ import PropTypes from 'prop-types';
 import EditIcon from './Buttons/EditIcon';
 import { IconButton } from './Buttons/IconButton';
 import { DeleteIcon } from './Buttons/DeleteIcon';
-import { getWorkoutExercises, addWorkoutExercise, deleteWorkoutExercise } from '../services/exercise';
+import {
+  getWorkoutExercises,
+  addWorkoutExercise,
+  deleteWorkoutExercise,
+} from '../services/exercise';
 import styles from '../styles/Home.module.css';
 
 function ExerciseList({ workoutId }) {
   ExerciseList.propTypes = {
-    workoutId: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/require-default-props
+    workoutId: PropTypes.string,
   };
 
   const [exerciseData, setExerciseData] = useState([]);

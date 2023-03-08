@@ -12,6 +12,22 @@ export const getWorkoutExercises = async (workoutId) => workoutExercisesCollecti
   .sort({ active: -1 })
   .toArray();
 
+export const getExercises = async (user) => workoutExercisesCollection
+  .aggregate([
+    {
+      $lookup: {
+        localField: 'workoutId',
+        from: 'workouts',
+        foreignField: 'workoutId',
+        as: 'w',
+      },
+    },
+    {
+      $match: { 'w.email': { $eq: user } },
+    },
+  ])
+  .toArray();
+
 export const insertWorkoutExercise = async (payload) => {
   const result = await workoutExercisesCollection.insertOne(payload);
 

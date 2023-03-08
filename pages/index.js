@@ -35,12 +35,12 @@ export default function Home() {
 
           <a href="/workouts-tracker" className={styles.card}>
             <h3>Workouts &rarr;</h3>
-            <p>List all of your workouts in one location.</p>
+            <p>All of your workouts in one location 🏋️</p>
           </a>
 
-          <a href="/workout-tracker-v2" className={styles.card}>
-            <h3>Exercises 💪 &rarr;</h3>
-            <p>All exercises listed in one location</p>
+          <a href="/exercise-tracker" className={styles.card}>
+            <h3>Exercises  &rarr;</h3>
+            <p>All exercises listed in one location 💪</p>
           </a>
         </div>
       </main>

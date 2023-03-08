@@ -128,6 +128,12 @@ function Workouts() {
             </Link>
           </Tooltip>
         );
+      case 'exerciseCount':
+        return (
+          <Row justify="center" align="center">
+            {cellValue}
+          </Row>
+        );
 
       default:
         return cellValue;
