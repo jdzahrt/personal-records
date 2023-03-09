@@ -3,20 +3,46 @@ import { GetDbConnection } from './db';
 
 const db = await GetDbConnection();
 const workoutsCollection = db.collection('workouts');
-const workoutsCollectionTest = db.collection('workoutsExerciseView');
 
-export const getWorkouts = async (user) => workoutsCollection
-  .find({ email: user })
-  .sort({ active: -1 })
-  .toArray();
-
-export const getWorkoutsTest = async (user) => workoutsCollectionTest.find({ email: user }).toArray();
+export const getWorkouts = async (user) => workoutsCollection.aggregate([
+  {
+    $project: { w: '$$ROOT', _id: 0 },
+  },
+  {
+    $lookup: {
+      localField: 'w.workoutId',
+      from: 'workout-exercises',
+      foreignField: 'workoutId',
+      as: 'we',
+    },
+  },
+  {
+    $unwind: {
+      path: '$we',
+      preserveNullAndEmptyArrays: true,
+    },
+  },
+  {
+    $match: { 'w.email': { $eq: user } },
+  },
+  {
+    $group: {
+      _id: { workoutId: '$w.workoutId', workout: '$w.workout', workoutType: '$w.workoutType' },
+      'max(we_date)': { $max: '$we.date' },
+      'count(*)': { $sum: 1 },
+    },
+  },
+  {
+    $project: {
+      workoutId: '$_id.workoutId', workout: '$_id.workout', workoutType: '$_id.workoutType', date: '$max(we_date)', exerciseCount: '$count(*)', _id: 0,
+    },
+  },
+]).toArray();
 
 export const getWorkoutRecord = async (workoutId) => workoutsCollection
   .findOne({ workoutId });
 
 export const insertWorkout = async (payload) => {
-  console.log('inserting workout', payload);
   const result = await workoutsCollection.insertOne(payload);
 
   logger.info(
