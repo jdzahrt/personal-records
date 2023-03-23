@@ -39,6 +39,10 @@ function ExerciseList({ workoutId }) {
       label: 'WEIGHT',
     },
     {
+      key: 'oneRepMax',
+      label: '1RM',
+    },
+    {
       key: 'date',
       label: 'DATE',
     },
@@ -119,6 +123,12 @@ function ExerciseList({ workoutId }) {
             </Col>
           </Row>
         );
+      case 'oneRepMax':
+        return (
+          <div>
+            {((item.weight || 1) * (1 + (item.reps / 30))).toFixed(2)}
+          </div>
+        );
       default:
         return cellValue;
     }
@@ -169,6 +179,19 @@ function ExerciseList({ workoutId }) {
                   name="weight"
                   width="120px"
                   required
+                />
+              </Grid>
+              <Grid>
+                <Input
+                  labelLeft="one rep max"
+                  // aria-label="reps-input"
+                  rounded
+                  bordered
+                  type="number"
+                  id="oneRepMax"
+                  name="OneRepMax"
+                  width="120px"
+                  readOnly
                 />
               </Grid>
               <Grid>
