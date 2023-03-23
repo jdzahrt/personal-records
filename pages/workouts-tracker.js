@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@nextui-org/react';
 import { useSession } from 'next-auth/react';
 import styles from '../styles/Home.module.css';
 import AccessDenied from '../components/access-denied';
@@ -22,7 +22,7 @@ function WorkoutsTracker() {
         <center><h1>Workouts 🏋️</h1></center>
         <Workouts />
         <div className={styles.footer}>
-          <Link href="/" className={styles.footer}>Home</Link>
+          <Link href="/" color="primary">Home</Link>
         </div>
       </main>
     </div>

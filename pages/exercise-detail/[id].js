@@ -1,9 +1,15 @@
-import Link from 'next/link';
+import NextLink from 'next/link';
+import { Link } from '@nextui-org/react';
+
 import styles from '../../styles/Home.module.css';
 import ExerciseDetail from '../../components/exercise-detail';
 
 // eslint-disable-next-line react/prop-types
-function WorkoutExerciseDetail({ workoutExerciseId, workoutId, workoutName }) {
+function WorkoutExerciseDetail({
+  workoutExerciseId,
+  workoutId,
+  workoutName,
+}) {
   return (
     <div className={styles.container}>
       <main>
@@ -13,7 +19,7 @@ function WorkoutExerciseDetail({ workoutExerciseId, workoutId, workoutName }) {
           workoutId={workoutId}
         />
         <div className={styles.footer}>
-          <Link href={{
+          <NextLink href={{
             pathname: '/workout-exercise-list/[id]',
             query: {
               id: workoutId,
@@ -21,8 +27,8 @@ function WorkoutExerciseDetail({ workoutExerciseId, workoutId, workoutName }) {
             },
           }}
           >
-            Back
-          </Link>
+            <Link block color="primary">Back</Link>
+          </NextLink>
         </div>
       </main>
     </div>

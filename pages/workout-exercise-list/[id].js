@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import styles from '../../styles/Home.module.css';
 import ExerciseList from '../../components/exercise-list';
@@ -25,7 +25,7 @@ function WorkoutList({ workoutId }) {
           workoutName={workoutData.workout}
         />
         <div className={styles.footer}>
-          <Link href="/workouts-tracker">Back</Link>
+          <Link href="/workouts-tracker" color="primary">Back</Link>
         </div>
       </main>
     </div>
