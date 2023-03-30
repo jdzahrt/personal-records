@@ -21,6 +21,7 @@ function ExerciseList({ workoutId }) {
     workoutId: PropTypes.string,
   };
 
+  const [allExerciseData, setAllExerciseData] = useState([]);
   const [exerciseData, setExerciseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setAddRecord] = useState(false);
@@ -52,9 +53,16 @@ function ExerciseList({ workoutId }) {
     },
   ];
 
+  const searchRecords = async (searchText) => {
+    const filtered = allExerciseData.filter((workout) => workout.exercise.toLowerCase().includes(searchText.toLowerCase()));
+
+    setExerciseData(filtered);
+  };
+
   useEffect(() => {
     getWorkoutExercises(workoutId)
       .then((data) => {
+        setAllExerciseData(data);
         setExerciseData(data);
       })
       .finally(() => setIsLoading(false));
@@ -138,7 +146,6 @@ function ExerciseList({ workoutId }) {
     <div>
       {isAdding ? (
         <div>
-
           <form onSubmit={createWorkoutExercise}>
             <Grid.Container gap={2}>
               <Grid>
@@ -249,6 +256,16 @@ function ExerciseList({ workoutId }) {
           </Tooltip>
         </center>
       )}
+      <Input
+        labelPlaceholder="Search"
+        id="searchInput"
+        name="search"
+        bordered
+        clearable
+        onChange={(e) => searchRecords(e.target.value)}
+        css={{ width: '100%' }}
+        status="success"
+      />
       {
         isLoading
           ? (<Loading>Loading the squat rack with dataz</Loading>)
@@ -280,7 +297,7 @@ function ExerciseList({ workoutId }) {
                   shadow
                   noMargin
                   align="center"
-                  rowsPerPage={10}
+                  rowsPerPage={12}
                 />
               </Table>
             </Grid.Container>
