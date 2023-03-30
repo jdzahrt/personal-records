@@ -36,10 +36,10 @@ function Workouts() {
       key: 'date',
       label: 'Date',
     },
-    {
-      key: 'actions',
-      label: 'Actions',
-    },
+    // {
+    //   key: 'actions',
+    //   label: 'Actions',
+    // },
   ];
 
   const addRecord = () => {
@@ -82,37 +82,37 @@ function Workouts() {
   const renderCell = (item, columnKey) => {
     const cellValue = item[columnKey];
     switch (columnKey) {
-      case 'actions':
-        return (
-          <Row justify="center" align="center">
-            <Col css={{ d: 'flex' }}>
-              {/* <Tooltip content="Edit record"> */}
-              {/*   <Link href={{ */}
-              {/*     pathname: '/workout-detail/[id]', */}
-              {/*     query: { */}
-              {/*       id: item.workoutId, */}
-              {/*     }, */}
-              {/*   }} */}
-              {/*   > */}
-              {/*     <IconButton> */}
-              {/*       <EditIcon size={20} fill="#4ADE7B" /> */}
-              {/*     </IconButton> */}
-              {/*   </Link> */}
-              {/* </Tooltip> */}
-            </Col>
-            <Col css={{ d: 'flex' }}>
-              <Tooltip
-                content="Delete record"
-                color="error"
-                onClick={() => deleteRecord(item.workoutId)}
-              >
-                <IconButton>
-                  <DeleteIcon size={20} fill="#e73535" />
-                </IconButton>
-              </Tooltip>
-            </Col>
-          </Row>
-        );
+      // case 'actions':
+      //   return (
+      //     <Row justify="center" align="center">
+      //       <Col css={{ d: 'flex' }}>
+      //         {/* <Tooltip content="Edit record"> */}
+      //         {/*   <Link href={{ */}
+      //         {/*     pathname: '/workout-detail/[id]', */}
+      //         {/*     query: { */}
+      //         {/*       id: item.workoutId, */}
+      //         {/*     }, */}
+      //         {/*   }} */}
+      //         {/*   > */}
+      //         {/*     <IconButton> */}
+      //         {/*       <EditIcon size={20} fill="#4ADE7B" /> */}
+      //         {/*     </IconButton> */}
+      //         {/*   </Link> */}
+      //         {/* </Tooltip> */}
+      //       </Col>
+      //       <Col css={{ d: 'flex' }}>
+      //         <Tooltip
+      //           content="Delete record"
+      //           color="error"
+      //           onClick={() => deleteRecord(item.workoutId)}
+      //         >
+      //           <IconButton>
+      //             <DeleteIcon size={20} fill="#e73535" />
+      //           </IconButton>
+      //         </Tooltip>
+      //       </Col>
+      //     </Row>
+      //   );
       case 'workout':
         return (
           <Tooltip content="Details">
