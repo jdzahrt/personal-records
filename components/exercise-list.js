@@ -173,19 +173,6 @@ function ExerciseList({ workoutId }) {
                   required
                 />
               </Grid>
-              {/* <Grid> */}
-              {/*   <Input */}
-              {/*     labelLeft="one rep max" */}
-              {/*     // aria-label="reps-input" */}
-              {/*     rounded */}
-              {/*     bordered */}
-              {/*     type="number" */}
-              {/*     id="oneRepMax" */}
-              {/*     name="OneRepMax" */}
-              {/*     width="120px" */}
-              {/*     readOnly */}
-              {/*   /> */}
-              {/* </Grid> */}
               <Grid>
                 <Input
                   labelLeft="date"
@@ -200,7 +187,7 @@ function ExerciseList({ workoutId }) {
                 />
               </Grid>
             </Grid.Container>
-            <div align="center">
+            <center>
               <Button
                 className={styles.button}
                 type="submit"
@@ -211,7 +198,7 @@ function ExerciseList({ workoutId }) {
               >
                 Add Exercise
               </Button>
-            </div>
+            </center>
           </form>
           <center>
             <Button
