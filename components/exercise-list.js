@@ -7,13 +7,12 @@ import { v4 } from 'uuid';
 import PropTypes from 'prop-types';
 import EditIcon from './Buttons/EditIcon';
 import { IconButton } from './Buttons/IconButton';
-import { DeleteIcon } from './Buttons/DeleteIcon';
 import {
   getWorkoutExercises,
   addWorkoutExercise,
-  deleteWorkoutExercise,
 } from '../services/exercise';
 import styles from '../styles/Home.module.css';
+import { calcOneRepMax } from '../utils/calculations';
 
 function ExerciseList({ workoutId }) {
   ExerciseList.propTypes = {
@@ -54,7 +53,10 @@ function ExerciseList({ workoutId }) {
   ];
 
   const searchRecords = async (searchText) => {
-    const filtered = allExerciseData.filter((workout) => workout.exercise.toLowerCase().includes(searchText.toLowerCase()));
+    const filtered = allExerciseData.filter(
+      (workout) => workout.exercise.toLowerCase()
+        .includes(searchText.toLowerCase()),
+    );
 
     setExerciseData(filtered);
   };
@@ -90,12 +92,6 @@ function ExerciseList({ workoutId }) {
     await addWorkoutExercise(workoutPayload);
   };
 
-  const deleteRecord = async (workoutExerciseId) => {
-    await deleteWorkoutExercise(workoutExerciseId);
-
-    setExerciseData((ah) => ah.filter((a) => a.workoutExerciseId !== workoutExerciseId));
-  };
-
   const renderCell = (item, columnKey) => {
     const cellValue = item[columnKey];
     switch (columnKey) {
@@ -118,23 +114,12 @@ function ExerciseList({ workoutId }) {
                 </Link>
               </Tooltip>
             </Col>
-            <Col css={{ d: 'flex' }}>
-              <Tooltip
-                content="Delete record"
-                color="error"
-                onClick={() => deleteRecord(item.workoutExerciseId)}
-              >
-                <IconButton>
-                  <DeleteIcon size={20} fill="#e73535" />
-                </IconButton>
-              </Tooltip>
-            </Col>
           </Row>
         );
       case 'oneRepMax':
         return (
           <div>
-            {((item.weight || 1) * (1 + (item.reps / 30))).toFixed(2)}
+            {calcOneRepMax(item.reps, item.weight)}
           </div>
         );
       default:
@@ -147,7 +132,7 @@ function ExerciseList({ workoutId }) {
       {isAdding ? (
         <div>
           <form onSubmit={createWorkoutExercise}>
-            <Grid.Container gap={2}>
+            <Grid.Container gap={2} justify="center">
               <Grid>
                 <Input
                   labelLeft="exercise"
@@ -161,7 +146,7 @@ function ExerciseList({ workoutId }) {
                 />
               </Grid>
             </Grid.Container>
-            <Grid.Container gap={2}>
+            <Grid.Container gap={2} justify="center">
               <Grid>
                 <Input
                   labelLeft="reps"
@@ -188,19 +173,19 @@ function ExerciseList({ workoutId }) {
                   required
                 />
               </Grid>
-              <Grid>
-                <Input
-                  labelLeft="one rep max"
-                  // aria-label="reps-input"
-                  rounded
-                  bordered
-                  type="number"
-                  id="oneRepMax"
-                  name="OneRepMax"
-                  width="120px"
-                  readOnly
-                />
-              </Grid>
+              {/* <Grid> */}
+              {/*   <Input */}
+              {/*     labelLeft="one rep max" */}
+              {/*     // aria-label="reps-input" */}
+              {/*     rounded */}
+              {/*     bordered */}
+              {/*     type="number" */}
+              {/*     id="oneRepMax" */}
+              {/*     name="OneRepMax" */}
+              {/*     width="120px" */}
+              {/*     readOnly */}
+              {/*   /> */}
+              {/* </Grid> */}
               <Grid>
                 <Input
                   labelLeft="date"
@@ -231,7 +216,7 @@ function ExerciseList({ workoutId }) {
           <center>
             <Button
               className={styles.button}
-              onClick={() => setAddRecord(false)}
+              onPress={() => setAddRecord(false)}
               shadow
               size="xs"
               color="error"
@@ -283,7 +268,13 @@ function ExerciseList({ workoutId }) {
               >
                 <Table.Header columns={columns}>
                   {(column) => (
-                    <Table.Column width="100" id={column.key} key={column.key}>{column.label}</Table.Column>
+                    <Table.Column
+                      width="100"
+                      id={column.key}
+                      key={column.key}
+                    >
+                      {column.label}
+                    </Table.Column>
                   )}
                 </Table.Header>
                 <Table.Body items={exerciseData}>
