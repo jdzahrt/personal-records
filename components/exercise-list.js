@@ -7,9 +7,11 @@ import { v4 } from 'uuid';
 import PropTypes from 'prop-types';
 import EditIcon from './Buttons/EditIcon';
 import { IconButton } from './Buttons/IconButton';
+import { DeleteIcon } from './Buttons/DeleteIcon';
 import {
   getWorkoutExercises,
   addWorkoutExercise,
+  deleteWorkoutExercise,
 } from '../services/exercise';
 import styles from '../styles/Home.module.css';
 import { calcOneRepMax } from '../utils/calculations';
@@ -64,6 +66,8 @@ function ExerciseList({ workoutId }) {
   useEffect(() => {
     getWorkoutExercises(workoutId)
       .then((data) => {
+        data.sort((a, b) => new Date(b.date) - new Date(a.date));
+
         setAllExerciseData(data);
         setExerciseData(data);
       })
@@ -72,6 +76,14 @@ function ExerciseList({ workoutId }) {
 
   const addRecord = () => {
     setAddRecord(true);
+  };
+
+  const deleteRecord = async (workoutExerciseId) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete?');
+    if (!confirmDelete) return;
+    await deleteWorkoutExercise(workoutExerciseId);
+
+    setExerciseData((ah) => ah.filter((a) => a.workoutExerciseId !== workoutExerciseId));
   };
 
   const createWorkoutExercise = async (event) => {
@@ -114,12 +126,23 @@ function ExerciseList({ workoutId }) {
                 </Link>
               </Tooltip>
             </Col>
+            <Col css={{ d: 'flex' }}>
+              <Tooltip
+                content="Delete record"
+                color="error"
+                onClick={() => deleteRecord(item.workoutExerciseId)}
+              >
+                <IconButton>
+                  <DeleteIcon size={20} fill="#e73535" />
+                </IconButton>
+              </Tooltip>
+            </Col>
           </Row>
         );
       case 'oneRepMax':
         return (
           <div>
-            {calcOneRepMax(item.reps, item.weight)}
+            {calcOneRepMax(item.weight, item.reps)}
           </div>
         );
       default:
