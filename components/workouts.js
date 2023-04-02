@@ -189,7 +189,7 @@ function Workouts() {
           <center>
             <Button
               className={styles.button}
-              onClick={() => setAddRecord(false)}
+              onPress={() => setAddRecord(false)}
               size="xs"
               shadow
               color="error"
