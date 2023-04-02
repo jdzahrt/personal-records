@@ -25,7 +25,8 @@ function ExerciseDetail({
     getExercise(workoutExerciseId)
       .then((data) => {
         setExerciseDetail(data);
-      }).finally(() => setIsLoading(false));
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const handleSubmit = async (event) => {
@@ -76,6 +77,8 @@ function ExerciseDetail({
                 width="120px"
                 onChange={(e) => {
                   document.getElementById('1rm').value = calcOneRepMax(exerciseDetail.weight, e.target.value);
+                  document.getElementById('date').value = new Date().toISOString()
+                    .slice(0, 10);
                 }}
               />
             </Grid>
@@ -92,6 +95,8 @@ function ExerciseDetail({
                 width="120px"
                 onChange={(e) => {
                   document.getElementById('1rm').value = calcOneRepMax(e.target.value, exerciseDetail.reps);
+                  document.getElementById('date').value = new Date().toISOString()
+                    .slice(0, 10);
                 }}
               />
             </Grid>
@@ -105,7 +110,6 @@ function ExerciseDetail({
                 readOnly
                 id="1rm"
                 name="1rm"
-            // initialValue={1}
                 value={calcOneRepMax(exerciseDetail.weight, exerciseDetail.reps)}
                 width="120px"
               />
