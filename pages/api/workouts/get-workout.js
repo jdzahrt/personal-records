@@ -1,10 +1,11 @@
-import { getSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth/next';
 import logger from '../../../logger/logger';
 import { getWorkoutRecord } from '../../../db/workouts';
+import { authOptions } from '../auth/[...nextauth]';
 
 // eslint-disable-next-line consistent-return
 export default async (req, res) => {
-  const session = await getSession({ req });
+  const session = await getServerSession(req, res, authOptions);
   if (!session) {
     return res.status(200)
       .json([]);
