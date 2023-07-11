@@ -1,11 +1,13 @@
-import { getSession } from 'next-auth/react';
 import logger from '../../../logger/logger';
 import { insertWorkout } from '../../../db/workouts';
+import { getSessionUser } from '../../../utils/get-session';
 
 export default async (req, res) => {
-  const session = await getSession({ req });
-  const user = session.user.email;
-  console.log('add workout', req.body);
+  const user = await getSessionUser(req, res);
+  if (!user) {
+    return res.status(200)
+      .json([]);
+  }
 
   try {
     const insertPayload = {
