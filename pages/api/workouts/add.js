@@ -1,11 +1,13 @@
-import { getServerSession } from 'next-auth/next';
 import logger from '../../../logger/logger';
 import { insertWorkout } from '../../../db/workouts';
-import { authOptions } from '../auth/[...nextauth]';
+import { getSessionUser } from '../../../utils/get-session';
 
 export default async (req, res) => {
-  const session = await getServerSession(req, res, authOptions);
-  const user = session.user.email;
+  const user = await getSessionUser(req, res);
+  if (!user) {
+    return res.status(200)
+      .json([]);
+  }
 
   try {
     const insertPayload = {

@@ -1,10 +1,9 @@
-import { getSession } from 'next-auth/react';
 import logger from '../../../logger/logger';
 import { insertRecord } from '../../../db/fast-food';
+import { getSessionUser } from '../../../utils/get-session';
 
 export default async (req, res) => {
-  const session = await getSession({ req });
-  const user = session.user.email;
+  const user = await getSessionUser(req, res);
   const { quitDate } = req.body;
 
   try {
