@@ -1,4 +1,4 @@
-import logger from '../../../logger/logger';
+import logger from '../../../src/logger/logger';
 import { getHistory } from '../../../db/alcohol';
 
 import { getSessionUser } from '../../../utils/get-session';

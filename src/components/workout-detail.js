@@ -7,7 +7,7 @@ import styles from '../../styles/Home.module.css';
 
 import {
   getWorkoutDetail, updateWorkout,
-} from '../../services/workout';
+} from '../services/workout';
 
 function WorkoutDetail({ workoutId }) {
   WorkoutDetail.propTypes = {

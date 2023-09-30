@@ -1,4 +1,4 @@
-import logger from '../../../logger/logger';
+import logger from '../../../src/logger/logger';
 import { deleteWorkout } from '../../../db/workouts';
 
 export default async (req, res) => {

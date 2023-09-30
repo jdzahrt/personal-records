@@ -1,4 +1,4 @@
-import logger from '../../../logger/logger';
+import logger from '../../../src/logger/logger';
 import { getHistoryRecord } from '../../../db/workout';
 import { dataToModel } from '../../../models/dto';
 import { getSessionUser } from '../../../utils/get-session';

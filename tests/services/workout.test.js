@@ -4,7 +4,7 @@ import {
   getWorkoutDetail,
   getWorkoutHistory,
   updateWorkout,
-} from '../../services/workout';
+} from '../../src/services/workout';
 import { fetchApi } from '../../utils/fetch-api';
 
 jest.mock('../../utils/fetch-api');

@@ -2,7 +2,7 @@ import { Link } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import styles from '../../styles/Home.module.css';
 import ExerciseList from '../../src/components/exercise-list';
-import { getWorkout } from '../../services/workouts';
+import { getWorkout } from '../../src/services/workouts';
 
 // eslint-disable-next-line react/prop-types
 function WorkoutList({ workoutId }) {

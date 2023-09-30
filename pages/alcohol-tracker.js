@@ -6,7 +6,7 @@ import {
   getAlcoholHistory,
   addAlcohol,
   updateAlcohol,
-} from '../services/alcohol';
+} from '../src/services/alcohol';
 
 function AlcoholTracker() {
   return (

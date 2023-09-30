@@ -1,5 +1,5 @@
-import { fetchApi } from '../utils/fetch-api';
-import { historyListMapper, historyObjectMapper } from '../models/history';
+import { fetchApi } from '../../utils/fetch-api';
+import { historyListMapper, historyObjectMapper } from '../../models/history';
 
 export const getFastFoodHistory = async () => {
   try {

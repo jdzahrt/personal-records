@@ -1,4 +1,4 @@
-import logger from '../../../logger/logger';
+import logger from '../../../src/logger/logger';
 import { updateRecord } from '../../../db/fast-food';
 
 export default async (req, res) => {

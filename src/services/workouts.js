@@ -1,4 +1,4 @@
-import { fetchApi } from '../utils/fetch-api';
+import { fetchApi } from '../../utils/fetch-api';
 
 export const getWorkouts = async () => {
   try {

@@ -3,7 +3,7 @@ import {
   deleteAlcohol,
   getAlcoholHistory,
   updateAlcohol,
-} from '../../services/alcohol';
+} from '../../src/services/alcohol';
 import { fetchApi } from '../../utils/fetch-api';
 
 jest.mock('../../utils/fetch-api');

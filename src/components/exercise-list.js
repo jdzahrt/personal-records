@@ -12,7 +12,7 @@ import {
   getWorkoutExercises,
   addWorkoutExercise,
   deleteWorkoutExercise,
-} from '../../services/exercise';
+} from '../services/exercise';
 import styles from '../../styles/Home.module.css';
 import { calcOneRepMax } from '../../utils/calculations';
 

@@ -1,4 +1,4 @@
-import logger from '../../../logger/logger';
+import logger from '../../../src/logger/logger';
 import { insertWorkoutExercise } from '../../../db/exercises';
 import { getSessionUser } from '../../../utils/get-session';
 

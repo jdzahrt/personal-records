@@ -3,7 +3,7 @@ import {
   deleteFastFood,
   getFastFoodHistory,
   updateFastFood,
-} from '../../services/fast-food';
+} from '../../src/services/fast-food';
 import { fetchApi } from '../../utils/fetch-api';
 
 jest.mock('../../utils/fetch-api');
