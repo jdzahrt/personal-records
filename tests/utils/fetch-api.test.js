@@ -1,4 +1,4 @@
-import { fetchApi } from '../../utils/fetch-api';
+import { fetchApi } from '../../src/utils/fetch-api';
 
 global.fetch = jest.fn(() => Promise.resolve({
   json: () => Promise.resolve(),

@@ -47,15 +47,6 @@ export const deleteWorkoutExercise = async (id) => {
   }
 };
 
-// export const getExerciseDetail = async (exerciseDetailId) => {
-//   try {
-//     const response = await fetchApi(`/api/exercise/get-exercise-detail?id=${exerciseDetailId}`, 'GET');
-//     return response.json();
-//   } catch (e) {
-//     throw new Error(`Could not fetch exercise detail. ${e}`);
-//   }
-// };
-
 export const addExercise = async (payload) => {
   try {
     await fetchApi('/api/exercise/add', 'POST', payload);

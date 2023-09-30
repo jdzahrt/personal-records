@@ -1,5 +1,5 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
-import styles from '../styles/header.module.css';
+import styles from '../../styles/header.module.css';
 import logger from '../logger/logger';
 
 // The approach used in this component shows how to build a sign in and sign out

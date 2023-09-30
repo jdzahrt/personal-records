@@ -1,5 +1,5 @@
-import logger from '../../../logger/logger';
-import { deleteRecord } from '../../../db/fast-food';
+import logger from '../../../src/logger/logger';
+import { deleteRecord } from '../../../src/db/fast-food';
 
 export default async (req, res) => {
   const fastFoodId = req.query.id;

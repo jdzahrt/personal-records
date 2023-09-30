@@ -1,6 +1,6 @@
-import logger from '../../../logger/logger';
-import { insertWorkout } from '../../../db/workouts';
-import { getSessionUser } from '../../../utils/get-session';
+import logger from '../../../src/logger/logger';
+import { insertWorkout } from '../../../src/db/workouts';
+import { getSessionUser } from '../../../src/utils/get-session';
 
 export default async (req, res) => {
   const user = await getSessionUser(req, res);

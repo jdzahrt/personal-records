@@ -3,11 +3,11 @@ import {
   deleteAlcohol,
   getAlcoholHistory,
   updateAlcohol,
-} from '../../services/alcohol';
-import { fetchApi } from '../../utils/fetch-api';
+} from '../../src/services/alcohol';
+import { fetchApi } from '../../src/utils/fetch-api';
 
-jest.mock('../../utils/fetch-api');
-jest.mock('../../models/history');
+jest.mock('../../src/utils/fetch-api');
+jest.mock('../../src/models/history');
 
 describe('alcohol-service', () => {
   test('getAlcoholHistory', async () => {

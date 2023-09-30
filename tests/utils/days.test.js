@@ -1,4 +1,4 @@
-import { calcDaysQuit } from '../../utils/days';
+import { calcDaysQuit } from '../../src/utils/days';
 
 describe('days', () => {
   test('calcDaysQuit with endDate', () => {

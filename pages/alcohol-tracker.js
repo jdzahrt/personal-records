@@ -1,12 +1,12 @@
 import { Link } from '@nextui-org/react';
 import styles from '../styles/Home.module.css';
-import History from '../components/history-tracker';
+import History from '../src/components/history-tracker';
 import {
   deleteAlcohol,
   getAlcoholHistory,
   addAlcohol,
   updateAlcohol,
-} from '../services/alcohol';
+} from '../src/services/alcohol';
 
 function AlcoholTracker() {
   return (

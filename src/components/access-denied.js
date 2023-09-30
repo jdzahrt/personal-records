@@ -1,6 +1,6 @@
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import styles from '../styles/Home.module.css';
+import styles from '../../styles/Home.module.css';
 
 export default function AccessDenied() {
   return (

@@ -1,7 +1,7 @@
-import logger from '../../../logger/logger';
-import { getHistoryRecord } from '../../../db/workout';
-import { dataToModel } from '../../../models/dto';
-import { getSessionUser } from '../../../utils/get-session';
+import logger from '../../../src/logger/logger';
+import { getHistoryRecord } from '../../../src/db/workout';
+import { dataToModel } from '../../../src/models/dto';
+import { getSessionUser } from '../../../src/utils/get-session';
 
 // eslint-disable-next-line consistent-return
 export default async (req, res) => {

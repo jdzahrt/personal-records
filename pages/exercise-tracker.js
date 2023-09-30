@@ -1,6 +1,6 @@
 import { Link } from '@nextui-org/react';
 import styles from '../styles/Home.module.css';
-import ExerciseList from '../components/exercise-list';
+import ExerciseList from '../src/components/exercise-list';
 
 function ExerciseTracker() {
   return (

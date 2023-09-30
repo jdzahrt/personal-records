@@ -1,7 +1,7 @@
-import logger from '../../../logger/logger';
-import { getHistory } from '../../../db/alcohol';
+import logger from '../../../src/logger/logger';
+import { getHistory } from '../../../src/db/alcohol';
 
-import { getSessionUser } from '../../../utils/get-session';
+import { getSessionUser } from '../../../src/utils/get-session';
 
 // eslint-disable-next-line consistent-return
 export default async (req, res) => {

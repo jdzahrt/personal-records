@@ -1,5 +1,5 @@
-import logger from '../../../logger/logger';
-import { updateWorkoutExercise } from '../../../db/exercises';
+import logger from '../../../src/logger/logger';
+import { updateWorkoutExercise } from '../../../src/db/exercises';
 
 export default async (req, res) => {
   try {

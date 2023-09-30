@@ -1,5 +1,5 @@
-import logger from '../../../logger/logger';
-import { updateRecord } from '../../../db/alcohol';
+import logger from '../../../src/logger/logger';
+import { updateRecord } from '../../../src/db/alcohol';
 
 export default async (req, res) => {
   try {

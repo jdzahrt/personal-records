@@ -4,7 +4,7 @@ import {
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import styles from '../styles/Home.module.css';
+import styles from '../../styles/Home.module.css';
 import { getExercise, updateExercise } from '../services/exercise';
 import { calcOneRepMax } from '../utils/calculations';
 

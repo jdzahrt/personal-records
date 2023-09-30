@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Button, Input, Loading, Text,
 } from '@nextui-org/react';
-import styles from '../styles/Home.module.css';
+import styles from '../../styles/Home.module.css';
 import { calcDaysQuit } from '../utils/days';
 
 function History(props) {

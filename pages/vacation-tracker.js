@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import styles from '../styles/Home.module.css';
-import Vacation from '../components/vacation';
-import AccessDenied from '../components/access-denied';
+import Vacation from '../src/components/vacation';
+import AccessDenied from '../src/components/access-denied';
 
 function VacationTracker() {
   const { data: session } = useSession();

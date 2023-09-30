@@ -1,5 +1,5 @@
-import logger from '../../../logger/logger';
-import { deleteWorkoutExercise } from '../../../db/exercises';
+import logger from '../../../src/logger/logger';
+import { deleteWorkoutExercise } from '../../../src/db/exercises';
 
 export default async (req, res) => {
   const workoutExerciseId = req.query.id;
