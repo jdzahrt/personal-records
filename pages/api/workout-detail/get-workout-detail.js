@@ -1,6 +1,6 @@
 import logger from '../../../src/logger/logger';
 import { getHistoryRecord } from '../../../src/db/workout';
-import { dataToModel } from '../../../models/dto';
+import { dataToModel } from '../../../src/models/dto';
 import { getSessionUser } from '../../../src/utils/get-session';
 
 // eslint-disable-next-line consistent-return

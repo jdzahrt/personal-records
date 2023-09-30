@@ -7,7 +7,7 @@ import {
 import { fetchApi } from '../../src/utils/fetch-api';
 
 jest.mock('../../src/utils/fetch-api');
-jest.mock('../../models/history');
+jest.mock('../../src/models/history');
 
 describe('workout-service', () => {
   test('getFastFoodHistory', async () => {
