@@ -6,7 +6,7 @@ import {
 } from '../../src/services/fast-food';
 import { fetchApi } from '../../src/utils/fetch-api';
 
-jest.mock('../../utils/fetch-api');
+jest.mock('../../src/utils/fetch-api');
 jest.mock('../../models/history');
 
 describe('workout-service', () => {

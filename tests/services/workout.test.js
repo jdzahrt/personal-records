@@ -7,7 +7,7 @@ import {
 } from '../../src/services/workout';
 import { fetchApi } from '../../src/utils/fetch-api';
 
-jest.mock('../../utils/fetch-api');
+jest.mock('../../src/utils/fetch-api');
 
 describe('workout-service', () => {
   test('getWorkoutDetail', async () => {
