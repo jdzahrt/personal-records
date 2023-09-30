@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
-import History from '../components/history-tracker';
+import History from '../src/components/history-tracker';
 import {
   addFastFood,
   deleteFastFood,

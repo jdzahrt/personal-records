@@ -7,10 +7,10 @@ import Link from 'next/link';
 import EditIcon from './Buttons/EditIcon';
 import { DeleteIcon } from './Buttons/DeleteIcon';
 import { IconButton } from './Buttons/IconButton';
-import styles from '../styles/Home.module.css';
+import styles from '../../styles/Home.module.css';
 import {
   addWorkout, getWorkouts, deleteWorkout,
-} from '../services/workouts';
+} from '../../services/workouts';
 
 function Workouts() {
   const [workoutData, setWorkouts] = useState([]);

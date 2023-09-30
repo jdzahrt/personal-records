@@ -3,11 +3,11 @@ import {
 } from '@nextui-org/react';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styles from '../styles/Home.module.css';
+import styles from '../../styles/Home.module.css';
 
 import {
   getWorkoutDetail, updateWorkout,
-} from '../services/workout';
+} from '../../services/workout';
 
 function WorkoutDetail({ workoutId }) {
   WorkoutDetail.propTypes = {

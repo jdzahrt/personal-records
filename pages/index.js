@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Link } from '@nextui-org/react';
 import { useSession } from 'next-auth/react';
 import styles from '../styles/Home.module.css';
-import Header from '../components/header';
+import Header from '../src/components/header';
 
 export default function Home() {
   const { data: session } = useSession();

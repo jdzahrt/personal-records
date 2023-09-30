@@ -1,8 +1,8 @@
 import { Link } from '@nextui-org/react';
 import { useSession } from 'next-auth/react';
 import styles from '../styles/Home.module.css';
-import AccessDenied from '../components/access-denied';
-import Workouts from '../components/workouts';
+import AccessDenied from '../src/components/access-denied';
+import Workouts from '../src/components/workouts';
 
 function WorkoutsTracker() {
   const { data: session } = useSession();

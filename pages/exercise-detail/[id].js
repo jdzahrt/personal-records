@@ -2,7 +2,7 @@ import { Link } from '@nextui-org/react';
 
 import PropTypes from 'prop-types';
 import styles from '../../styles/Home.module.css';
-import ExerciseDetail from '../../components/exercise-detail';
+import ExerciseDetail from '../../src/components/exercise-detail';
 
 function WorkoutExerciseDetail({
   workoutExerciseId,

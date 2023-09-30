@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from '../../styles/Home.module.css';
-import ExerciseList from '../../components/exercise-list';
+import ExerciseList from '../../src/components/exercise-list';
 
 // eslint-disable-next-line react/prop-types
 function WorkoutList({ workoutId, workoutName }) {
