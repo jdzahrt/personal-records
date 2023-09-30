@@ -1,6 +1,6 @@
 import logger from '../../../src/logger/logger';
-import { getHistory } from '../../../db/fast-food';
-import { getSessionUser } from '../../../utils/get-session';
+import { getHistory } from '../../../src/db/fast-food';
+import { getSessionUser } from '../../../src/utils/get-session';
 
 // eslint-disable-next-line consistent-return
 export default async (req, res) => {

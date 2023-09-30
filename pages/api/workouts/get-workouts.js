@@ -1,8 +1,8 @@
 import { getServerSession } from 'next-auth/next';
 import logger from '../../../src/logger/logger';
-import { getWorkouts } from '../../../db/workouts';
+import { getWorkouts } from '../../../src/db/workouts';
 import { authOptions } from '../auth/[...nextauth]';
-import { getSessionUser } from '../../../utils/get-session';
+import { getSessionUser } from '../../../src/utils/get-session';
 
 // eslint-disable-next-line consistent-return
 export default async (req, res) => {

@@ -1,4 +1,4 @@
-import logger from '../src/logger/logger';
+import logger from '../logger/logger';
 import { GetDbConnection } from './db';
 
 const db = await GetDbConnection();

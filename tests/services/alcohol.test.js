@@ -4,7 +4,7 @@ import {
   getAlcoholHistory,
   updateAlcohol,
 } from '../../src/services/alcohol';
-import { fetchApi } from '../../utils/fetch-api';
+import { fetchApi } from '../../src/utils/fetch-api';
 
 jest.mock('../../utils/fetch-api');
 jest.mock('../../models/history');

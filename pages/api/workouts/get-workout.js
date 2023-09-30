@@ -1,6 +1,6 @@
 import logger from '../../../src/logger/logger';
-import { getWorkoutRecord } from '../../../db/workouts';
-import { getSessionUser } from '../../../utils/get-session';
+import { getWorkoutRecord } from '../../../src/db/workouts';
+import { getSessionUser } from '../../../src/utils/get-session';
 
 // eslint-disable-next-line consistent-return
 export default async (req, res) => {

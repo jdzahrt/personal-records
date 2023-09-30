@@ -1,4 +1,4 @@
-import { GetDbConnection } from '../../db/db';
+import { GetDbConnection } from '../../src/db/db';
 
 const { MongoClient } = require('mongodb');
 

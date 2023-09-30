@@ -1,5 +1,5 @@
 import logger from '../../../src/logger/logger';
-import { deleteRecord } from '../../../db/alcohol';
+import { deleteRecord } from '../../../src/db/alcohol';
 
 export default async (req, res) => {
   const alcoholId = req.query.id;

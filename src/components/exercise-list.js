@@ -14,7 +14,7 @@ import {
   deleteWorkoutExercise,
 } from '../services/exercise';
 import styles from '../../styles/Home.module.css';
-import { calcOneRepMax } from '../../utils/calculations';
+import { calcOneRepMax } from '../utils/calculations';
 
 function ExerciseList({ workoutId }) {
   ExerciseList.propTypes = {
