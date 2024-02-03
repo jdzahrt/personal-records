@@ -27,6 +27,7 @@ function History(props) {
     .substring(0, 10);
 
   const [historyList, setHistory] = useState([]);
+  const [activeList, setActiveList] = useState([]);
   const [quitDate, setQuitDate] = useState(defaultDate);
   const [isLoading, setIsLoading] = useState(true);
   const [maxDate, setMaxDate] = useState(0);
@@ -81,7 +82,14 @@ function History(props) {
     setIsLoading(true);
     getHistory()
       .then((data) => {
-        setHistory(data);
+        // filter to only active records
+        const active = data.filter((e) => e.active === true);
+        setActiveList(active);
+
+        const inactive = data.filter((e) => e.active === false);
+        // filter to inactive and sort by days quit
+        const inactiveSorted = inactive.sort((b, a) => calcDaysQuit(a.quitDate, a.endDate) - calcDaysQuit(b.quitDate, b.endDate));
+        setHistory(inactiveSorted);
 
         const holdDates = [];
         data.forEach((v) => {
@@ -111,31 +119,31 @@ function History(props) {
               initialValue={defaultDate}
               onChange={handleDateChange}
             />
-            <br />
+            <br/>
             <div align="center" className={styles.button}>
               <Button color="gradient" type="submit">Start Tracking</Button>
             </div>
           </div>
         </form>
-      ) : (<br />)}
+      ) : (<br/>)}
       <center><h2>{`${type} List`}</h2></center>
       <div className={styles.card}>
-        {!isLoading ? historyList.map((record) => (
-          <ul key={record.id}>
-            <div>
+        {!isLoading ? activeList.map((record) => (
+            <ul key={record.id}>
+              <div>
               <span className={record.active ? styles.active : styles.inactive}>
-                {record.active ? (
-                  <div className={styles.card}>
-                    <Text weight="bold">
-                      {`Quit on ${record.quitDate} - ${calcDaysQuit(record.quitDate, record.endDate)} Days ${type} FREE!`}
-                    </Text>
-                    <Text color="success" weight="bold">
-                      {(maxDate - calcDaysQuit(record.quitDate, record.endDate)) <= 0
-                        ? `ACTIVE - You broke your record on ${dateTil(lastMaxDate - maxDate)}.
-                        You have broken your personal by ${maxDate - lastMaxDate} days! `
-                        : `ACTIVE - In ${maxDate - calcDaysQuit(record.quitDate, record.endDate)}
-                  more days you will break your personal record on ${dateTil(maxDate - calcDaysQuit(record.quitDate, record.endDate))}!`}
-                    </Text>
+                <Text h2={record.active} color="success">Active</Text>
+                <Text weight="bold">
+                  {`Quit on ${record.quitDate}`}
+                </Text>
+                <Text>{`${calcDaysQuit(record.quitDate, record.endDate)} Days ${type} FREE!`}</Text>
+                <Text color="success" weight="bold">
+                  {(maxDate - calcDaysQuit(record.quitDate, record.endDate)) <= 0
+                    ? `ACTIVE - You broke your record on ${dateTil(lastMaxDate - maxDate)}.
+                    You have broken your personal by ${maxDate - lastMaxDate} days! `
+                    : `In ${maxDate - calcDaysQuit(record.quitDate, record.endDate)}
+              more days you will break your personal record on ${dateTil(maxDate - calcDaysQuit(record.quitDate, record.endDate))}!`}
+                </Text>
                     <div align="center">
                       <Button
                         color="warning"
@@ -145,45 +153,43 @@ function History(props) {
                         STOP TRACKING
                       </Button>
                     </div>
-                  </div>
-                )
-                  : (
-                    <div>
-                      <Text
-                        weight="bold"
-                      >
-                        {`Quit on ${record.quitDate} - ${calcDaysQuit(record.quitDate, record.endDate)} Days ${type} FREE!`}
-                      </Text>
-                      <Text
-                        color="error"
-                      >
-                        {`INACTIVE - Streak ended on ${record.endDate}`}
-                      </Text>
-                    </div>
-                  )}
               </span>
-            </div>
-            {record.active
-              ? (
-                <b />
-              ) : (
-                <div align="center" className={styles.button}>
-                  <Button
-                    color="error"
-                    value={record.id}
-                    onPress={(e) => handleDelete(e.target.value)}
-                  >
-                    DELETE RECORD
-                  </Button>
-                </div>
-              )}
-          </ul>
-        ))
+              </div>
+            </ul>
+          ))
           : (
             <div>
               <Loading>Loading weight rack....</Loading>
             </div>
           )}
+      </div>
+      <div className={styles.card}>
+        <table align="center" border="solid black 1px">
+          <thead>
+          <tr>
+            <th>Quit Date</th>
+            <th>Days Quit</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          {historyList.map((record) => (
+            <tr key={record.id}>
+              <td>{record.quitDate}</td>
+              <td>{calcDaysQuit(record.quitDate, record.endDate)}</td>
+              <td>
+                <Button className={styles.button}
+                        color="error"
+                        value={record.id}
+                        onClick={(e) => handleDelete(e.target.value)}
+                >
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
