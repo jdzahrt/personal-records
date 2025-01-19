@@ -148,7 +148,7 @@ function History(props) {
                       <Button
                         color="warning"
                         value={record.id}
-                        onPress={(e) => handleStop(e.target.value)}
+                        onClick={(e) => handleStop(e.target.value)}
                       >
                         STOP TRACKING
                       </Button>
@@ -181,7 +181,7 @@ function History(props) {
                 <Button className={styles.button}
                         color="error"
                         value={record.id}
-                        onPress={(e) => handleDelete(e.target.value)}
+                        onClick={(e) => handleDelete(e.target.value)}
                 >
                   Delete
                 </Button>
