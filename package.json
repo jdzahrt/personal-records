@@ -32,13 +32,12 @@
     "@nextui-org/react": "^1.0.0-beta.12",
     "moment": "^2.29.4",
     "mongodb": "^3.6.6",
-    "next": "^13.3.0",
-    "next-auth": "4.22.1",
+    "next": "^14.2.35",
+    "next-auth": "^4.24.13",
     "pino": "^8.4.1",
-
     "prop-types": "^15.8.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -46,6 +45,7 @@
     "@next/eslint-plugin-next": "^12.2.3",
     "eslint": "^8.34.0",
     "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-next": "^14.2.35",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.30.1",
