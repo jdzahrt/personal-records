@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button, Input, Loading, Text,
-} from '@nextui-org/react';
+import { Button, Input, Spinner } from '@nextui-org/react';
 import styles from '../../styles/Home.module.css';
 import { calcDaysQuit } from '../utils/days';
 
@@ -35,7 +33,7 @@ function History(props) {
   const [activeRecord, setActiveRecord] = useState(false);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
 
     const jsonData = await addHistory({ quitDate });
 
@@ -119,18 +117,22 @@ function History(props) {
               initialValue={defaultDate}
               onChange={handleDateChange}
             />
-            <br/>
+            <br />
             <div align="center" className={styles.button}>
-              <Button color="gradient" type="submit">Start Tracking</Button>
+              <Button
+                color="gradient"
+              >
+                Start Tracking
+              </Button>
             </div>
           </div>
         </form>
-      ) : (<br/>)}
+      ) : (<br />)}
       <center><h2>{`${type} List`}</h2></center>
       <div className={styles.card}>
         {!isLoading ? activeList.map((record) => (
-            <ul key={record.id}>
-              <div>
+          <ul key={record.id}>
+            <div>
               <span className={record.active ? styles.active : styles.inactive}>
                 <Text h2={record.active} color="success">Active</Text>
                 <Text weight="bold">
@@ -144,50 +146,52 @@ function History(props) {
                     : `In ${maxDate - calcDaysQuit(record.quitDate, record.endDate)}
               more days you will break your personal record on ${dateTil(maxDate - calcDaysQuit(record.quitDate, record.endDate))}!`}
                 </Text>
-                    <div align="center">
-                      <Button
-                        color="warning"
-                        value={record.id}
-                        onPress={(e) => handleStop(e.target.value)}
-                      >
-                        STOP TRACKING
-                      </Button>
-                    </div>
+                <div align="center">
+                  <Button
+                    // type="submit"
+                    color="warning"
+                    value={record.id}
+                    onPress={(e) => handleStop(e.target.value)}
+                  >
+                    STOP TRACKING
+                  </Button>
+                </div>
               </span>
-              </div>
-            </ul>
-          ))
+            </div>
+          </ul>
+        ))
           : (
             <div>
-              <Loading>Loading weight rack....</Loading>
+              <Spinner>Loading weight rack....</Spinner>
             </div>
           )}
       </div>
       <div className={styles.card}>
         <table align="center" border="solid black 1px">
           <thead>
-          <tr>
-            <th>Quit Date</th>
-            <th>Days Quit</th>
-            <th>Action</th>
-          </tr>
+            <tr>
+              <th>Quit Date</th>
+              <th>Days Quit</th>
+              <th>Action</th>
+            </tr>
           </thead>
           <tbody>
-          {historyList.map((record) => (
-            <tr key={record.id}>
-              <td>{record.quitDate}</td>
-              <td>{calcDaysQuit(record.quitDate, record.endDate)}</td>
-              <td>
-                <Button className={styles.button}
-                        color="error"
-                        value={record.id}
-                        onPress={(e) => handleDelete(e.target.value)}
-                >
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          ))}
+            {historyList.map((record) => (
+              <tr key={record.id}>
+                <td>{record.quitDate}</td>
+                <td>{calcDaysQuit(record.quitDate, record.endDate)}</td>
+                <td>
+                  <Button
+                    className={styles.button}
+                    color="error"
+                    value={record.id}
+                    onPress={(e) => handleDelete(e.target.value)}
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

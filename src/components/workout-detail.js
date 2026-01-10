@@ -1,5 +1,5 @@
 import {
-  Input, Button, Grid,
+  Input, Button, Flex
 } from '@nextui-org/react';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -40,8 +40,8 @@ function WorkoutDetail({ workoutId }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Grid.Container gap={2}>
-        <Grid>
+      <Flex gap={2}>
+        <Flex>
           <Input
             labelLeft="exercise"
             aria-label="exercise-input"
@@ -52,8 +52,8 @@ function WorkoutDetail({ workoutId }) {
             name="exercise"
             initialValue={workoutDetail.exercise}
           />
-        </Grid>
-        <Grid>
+        </Flex>
+        <Flex>
           <Input
             labelLeft="type"
             aria-label="type-input"
@@ -65,10 +65,10 @@ function WorkoutDetail({ workoutId }) {
             initialValue={workoutDetail.exerciseType}
             width="120px"
           />
-        </Grid>
-      </Grid.Container>
-      <Grid.Container gap={2}>
-        <Grid>
+        </Flex>
+      </Flex>
+      <Flex gap={2}>
+        <Flex>
           <Input
             labelLeft="reps"
             aria-label="reps-input"
@@ -80,8 +80,8 @@ function WorkoutDetail({ workoutId }) {
             initialValue={workoutDetail.reps}
             width="120px"
           />
-        </Grid>
-        <Grid>
+        </Flex>
+        <Flex>
           <Input
             labelLeft="weight"
             aria-label="weight-input"
@@ -93,8 +93,8 @@ function WorkoutDetail({ workoutId }) {
             initialValue={workoutDetail.weight}
             width="120px"
           />
-        </Grid>
-        <Grid>
+        </Flex>
+        <Flex>
           <Input
             labelLeft="date"
             aria-label="date-input"
@@ -106,8 +106,8 @@ function WorkoutDetail({ workoutId }) {
             initialValue={workoutDetail.date}
             width="120px"
           />
-        </Grid>
-      </Grid.Container>
+        </Flex>
+      </Flex>
       <center>
         <Button className={styles.button} type="submit" aria-label="submit-button">
           Submit

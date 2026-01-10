@@ -1,6 +1,4 @@
-import {
-  Col, Loading, Row, Table, Tooltip, Grid, Input, Button,
-} from '@nextui-org/react';
+import { Table, Tooltip, Input, Button, } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { v4 } from 'uuid';

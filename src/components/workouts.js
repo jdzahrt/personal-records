@@ -1,12 +1,7 @@
 import { v4 } from 'uuid';
-import {
-  Col, Loading, Row, Table, Tooltip, Grid, Input, Button,
-} from '@nextui-org/react';
+import { Table, Tooltip, Input, Button, Spinner, Flex } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import EditIcon from './Buttons/EditIcon';
-import { DeleteIcon } from './Buttons/DeleteIcon';
-import { IconButton } from './Buttons/IconButton';
 import styles from '../../styles/Home.module.css';
 import {
   addWorkout, getWorkouts, deleteWorkout,
@@ -114,8 +109,8 @@ function Workouts() {
       {isAdding ? (
         <div>
           <form onSubmit={createWorkout}>
-            <Grid.Container gap={2}>
-              <Grid>
+            <Flex gap={2}>
+              <Flex>
                 <Input
                   labelLeft="workout"
                   rounded
@@ -128,8 +123,8 @@ function Workouts() {
                   value={workout}
                   onChange={(event) => setWorkout(event.target.value)}
                 />
-              </Grid>
-              <Grid>
+              </Flex>
+              <Flex>
                 <Input
                   labelLeft="type"
                   rounded
@@ -142,8 +137,8 @@ function Workouts() {
                   value={workoutType}
                   onChange={(event) => setWorkoutType(event.target.value)}
                 />
-              </Grid>
-            </Grid.Container>
+              </Flex>
+            </Flex>
             <center className={styles.button}>
               <Button
                 type="submit"
@@ -182,9 +177,9 @@ function Workouts() {
       )}
       {
         isLoading
-          ? (<Loading>Loading the squat rack with data</Loading>)
+          ? (<Spinner>Loading the squat rack with data</Spinner>)
           : (
-            <Grid.Container xs={12}>
+            <Flex xs={12}>
 
               <Table
                 bordered
@@ -215,7 +210,7 @@ function Workouts() {
                   rowsPerPage={10}
                 />
               </Table>
-            </Grid.Container>
+            </Flex>
           )
       }
     </div>
