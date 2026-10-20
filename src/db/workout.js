@@ -1,18 +1,21 @@
 import logger from '../logger/logger';
-import { GetDbConnection } from './db';
+import { getCollection } from './db';
 
-const db = await GetDbConnection();
-const workoutCollection = db.collection('workout');
+export const getHistory = async (user) => {
+  const workoutCollection = await getCollection('workout');
+  return workoutCollection
+    .find({ email: user })
+    .sort({ active: -1 })
+    .toArray();
+};
 
-export const getHistory = async (user) => workoutCollection
-  .find({ email: user })
-  .sort({ active: -1 })
-  .toArray();
-
-export const getHistoryRecord = async (workoutId) => workoutCollection
-  .findOne({ _id: workoutId });
+export const getHistoryRecord = async (workoutId) => {
+  const workoutCollection = await getCollection('workout');
+  return workoutCollection.findOne({ _id: workoutId });
+};
 
 export const insertRecord = async (payload) => {
+  const workoutCollection = await getCollection('workout');
   const result = await workoutCollection.insertOne(payload);
 
   logger.info(
@@ -23,6 +26,7 @@ export const insertRecord = async (payload) => {
 };
 
 export const deleteRecord = async (workoutId) => {
+  const workoutCollection = await getCollection('workout');
   const result = await workoutCollection.deleteOne({ _id: workoutId });
 
   logger.info(
@@ -33,6 +37,7 @@ export const deleteRecord = async (workoutId) => {
 export const updateRecord = async ({
   exercise, reps, date, weight, exerciseType, workoutId,
 }) => {
+  const workoutCollection = await getCollection('workout');
   const mongoUpdateRecord = {
     $set: {
       exercise,

@@ -1,19 +1,22 @@
 import logger from '../logger/logger';
-import { GetDbConnection } from './db';
+import { getCollection } from './db';
 
-const db = await GetDbConnection();
-const workoutExercisesCollection = db.collection('workout-exercises');
+export const getWorkoutExercise = async (workoutExerciseId) => {
+  const workoutExercisesCollection = await getCollection('workout-exercises');
+  return workoutExercisesCollection.findOne({ workoutExerciseId });
+};
 
-export const getWorkoutExercise = async (workoutExerciseId) => workoutExercisesCollection
-  .findOne({ workoutExerciseId });
+export const getWorkoutExercises = async (workoutId) => {
+  const workoutExercisesCollection = await getCollection('workout-exercises');
+  return workoutExercisesCollection
+    .find({ workoutId })
+    .sort({ active: -1 })
+    .toArray();
+};
 
-export const getWorkoutExercises = async (workoutId) => workoutExercisesCollection
-  .find({ workoutId })
-  .sort({ active: -1 })
-  .toArray();
-
-export const getExercises = async (user) => workoutExercisesCollection
-  .aggregate([
+export const getExercises = async (user) => {
+  const workoutExercisesCollection = await getCollection('workout-exercises');
+  return workoutExercisesCollection.aggregate([
     {
       $lookup: {
         localField: 'workoutId',
@@ -25,10 +28,11 @@ export const getExercises = async (user) => workoutExercisesCollection
     {
       $match: { 'w.email': { $eq: user } },
     },
-  ])
-  .toArray();
+  ]).toArray();
+};
 
 export const insertWorkoutExercise = async (payload) => {
+  const workoutExercisesCollection = await getCollection('workout-exercises');
   const result = await workoutExercisesCollection.insertOne(payload);
 
   logger.info(
@@ -39,6 +43,7 @@ export const insertWorkoutExercise = async (payload) => {
 };
 
 export const deleteWorkoutExercise = async (workoutExerciseId) => {
+  const workoutExercisesCollection = await getCollection('workout-exercises');
   const result = await workoutExercisesCollection.deleteOne({ workoutExerciseId });
 
   logger.info(
@@ -49,6 +54,7 @@ export const deleteWorkoutExercise = async (workoutExerciseId) => {
 export const updateWorkoutExercise = async ({
   exercise, reps, date, weight, exerciseType, workoutExerciseId,
 }) => {
+  const workoutExercisesCollection = await getCollection('workout-exercises');
   const mongoUpdateRecord = {
     $set: {
       exercise,

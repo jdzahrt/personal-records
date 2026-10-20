@@ -1,17 +1,9 @@
 import mongodb from 'mongodb';
 import logger from '../logger/logger';
-import { GetDbConnection } from './db';
-
-const getFastFoodCollection = async () => {
-  const db = await GetDbConnection();
-  if (!db || db instanceof Error || typeof db.collection !== 'function') {
-    throw (db instanceof Error ? db : new Error('Database connection failed'));
-  }
-  return db.collection('fastfood');
-};
+import { getCollection } from './db';
 
 export const insertRecord = async (user, quitDate) => {
-  const collection = await getFastFoodCollection();
+  const collection = await getCollection('fastfood');
   const insertPayload = {
     email: user,
     quitDate: new Date(quitDate),
@@ -28,7 +20,7 @@ export const insertRecord = async (user, quitDate) => {
 };
 
 export const getHistory = async (user) => {
-  const collection = await getFastFoodCollection();
+  const collection = await getCollection('fastfood');
   return collection
     .find({ email: user })
     .sort({ active: -1 })
@@ -36,7 +28,7 @@ export const getHistory = async (user) => {
 };
 
 export const deleteRecord = async (fastFoodId) => {
-  const collection = await getFastFoodCollection();
+  const collection = await getCollection('fastfood');
   const newId = new mongodb.ObjectId(fastFoodId);
 
   const result = await collection.deleteOne({ _id: newId });
@@ -47,7 +39,7 @@ export const deleteRecord = async (fastFoodId) => {
 };
 
 export const updateRecord = async (req) => {
-  const collection = await getFastFoodCollection();
+  const collection = await getCollection('fastfood');
   const fastFoodId = req.query.id;
   const newId = new mongodb.ObjectId(fastFoodId);
 

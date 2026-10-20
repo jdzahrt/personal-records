@@ -1,4 +1,4 @@
-import { GetDbConnection } from '../../src/db/db';
+import { GetDbConnection, getCollection, _resetClient } from '../../src/db/db';
 
 const { MongoClient } = require('mongodb');
 
@@ -10,6 +10,9 @@ beforeEach(() => {
 
 afterEach(() => {
   jest.resetAllMocks();
+  if (_resetClient) {
+    _resetClient();
+  }
 });
 
 describe('db', () => {
@@ -40,5 +43,25 @@ describe('db', () => {
     await GetDbConnection();
 
     expect(MongoClient.connect).toHaveBeenCalledTimes(1);
+  });
+
+  test('getCollection returns collection when connected', async () => {
+    const mockCollection = {};
+    const client = {
+      db: jest.fn().mockReturnValue({
+        collection: jest.fn().mockReturnValue(mockCollection),
+      }),
+    };
+    MongoClient.connect.mockReturnValue(client);
+
+    const col = await getCollection('test');
+    expect(col).toBe(mockCollection);
+  });
+
+  test('getCollection throws when connection fails', async () => {
+    const error = 'Connection dropped';
+    MongoClient.connect.mockRejectedValue(error);
+
+    await expect(getCollection('test')).rejects.toThrow('Could not connect. Connection dropped');
   });
 });

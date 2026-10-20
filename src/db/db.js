@@ -36,8 +36,22 @@ function DbConnection() {
     }
   }
 
+  async function getCollection(collectionName) {
+    const db = await GetDbConnection();
+    if (!db || db instanceof Error || typeof db.collection !== 'function') {
+      throw (db instanceof Error ? db : new Error('Database connection failed'));
+    }
+    return db.collection(collectionName);
+  }
+
+  function _resetClient() {
+    client = null;
+  }
+
   return {
     GetDbConnection,
+    getCollection,
+    _resetClient,
   };
 }
 

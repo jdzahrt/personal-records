@@ -1,32 +1,24 @@
 import mongodb from 'mongodb';
 import logger from '../logger/logger';
-import { GetDbConnection } from './db';
-
-const getAlcoholCollection = async () => {
-  const db = await GetDbConnection();
-  if (!db || db instanceof Error || typeof db.collection !== 'function') {
-    throw (db instanceof Error ? db : new Error('Database connection failed'));
-  }
-  return db.collection('alcohol');
-};
+import { getCollection } from './db';
 
 export const getHistory = async (user) => {
-  const alcoholCollection = await getAlcoholCollection();
-  return alcoholCollection
+  const collection = await getCollection('alcohol');
+  return collection
     .find({ email: user })
     .sort({ active: -1 })
     .toArray();
 };
 
 export const insertRecord = async (user, quitDate) => {
-  const alcoholCollection = await getAlcoholCollection();
+  const collection = await getCollection('alcohol');
   const insertPayload = {
     email: user,
     quitDate: new Date(quitDate),
     active: true,
   };
 
-  const result = await alcoholCollection.insertOne(insertPayload);
+  const result = await collection.insertOne(insertPayload);
 
   logger.info(
     `${result.insertedCount} documents were inserted with the _id: ${result.insertedId}`,
@@ -36,10 +28,10 @@ export const insertRecord = async (user, quitDate) => {
 };
 
 export const deleteRecord = async (alcoholId) => {
-  const alcoholCollection = await getAlcoholCollection();
+  const collection = await getCollection('alcohol');
   const newId = new mongodb.ObjectId(alcoholId);
 
-  const result = await alcoholCollection.deleteOne({ _id: newId });
+  const result = await collection.deleteOne({ _id: newId });
 
   logger.info(
     `${result.deletedCount} documents were deleted with the _id: ${alcoholId}`,
@@ -47,7 +39,7 @@ export const deleteRecord = async (alcoholId) => {
 };
 
 export const updateRecord = async (req) => {
-  const alcoholCollection = await getAlcoholCollection();
+  const collection = await getCollection('alcohol');
   const alcoholId = req.query.id;
   const newId = new mongodb.ObjectId(alcoholId);
 
@@ -58,7 +50,7 @@ export const updateRecord = async (req) => {
     },
   };
 
-  const result = await alcoholCollection.findOneAndUpdate(
+  const result = await collection.findOneAndUpdate(
     { _id: newId },
     mongoUpdateRecord,
     { returnOriginal: false },

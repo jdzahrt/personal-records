@@ -1,48 +1,51 @@
 import logger from '../logger/logger';
-import { GetDbConnection } from './db';
+import { getCollection } from './db';
 
-const db = await GetDbConnection();
-const workoutsCollection = db.collection('workouts');
+export const getWorkouts = async (user) => {
+  const workoutsCollection = await getCollection('workouts');
+  return workoutsCollection.aggregate([
+    {
+      $project: { w: '$$ROOT', _id: 0 },
+    },
+    {
+      $lookup: {
+        localField: 'w.workoutId',
+        from: 'workout-exercises',
+        foreignField: 'workoutId',
+        as: 'we',
+      },
+    },
+    {
+      $unwind: {
+        path: '$we',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $match: { 'w.email': { $eq: user } },
+    },
+    {
+      $group: {
+        _id: { workoutId: '$w.workoutId', workout: '$w.workout', workoutType: '$w.workoutType' },
+        'max(we_date)': { $max: '$we.date' },
+        'count(*)': { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        workoutId: '$_id.workoutId', workout: '$_id.workout', workoutType: '$_id.workoutType', date: '$max(we_date)', exerciseCount: '$count(*)', _id: 0,
+      },
+    },
+  ]).toArray();
+};
 
-export const getWorkouts = async (user) => workoutsCollection.aggregate([
-  {
-    $project: { w: '$$ROOT', _id: 0 },
-  },
-  {
-    $lookup: {
-      localField: 'w.workoutId',
-      from: 'workout-exercises',
-      foreignField: 'workoutId',
-      as: 'we',
-    },
-  },
-  {
-    $unwind: {
-      path: '$we',
-      preserveNullAndEmptyArrays: true,
-    },
-  },
-  {
-    $match: { 'w.email': { $eq: user } },
-  },
-  {
-    $group: {
-      _id: { workoutId: '$w.workoutId', workout: '$w.workout', workoutType: '$w.workoutType' },
-      'max(we_date)': { $max: '$we.date' },
-      'count(*)': { $sum: 1 },
-    },
-  },
-  {
-    $project: {
-      workoutId: '$_id.workoutId', workout: '$_id.workout', workoutType: '$_id.workoutType', date: '$max(we_date)', exerciseCount: '$count(*)', _id: 0,
-    },
-  },
-]).toArray();
-
-export const getWorkoutRecord = async (workoutId) => workoutsCollection
-  .findOne({ workoutId });
+export const getWorkoutRecord = async (workoutId) => {
+  const workoutsCollection = await getCollection('workouts');
+  return workoutsCollection.findOne({ workoutId });
+};
 
 export const insertWorkout = async (payload) => {
+  const workoutsCollection = await getCollection('workouts');
   const result = await workoutsCollection.insertOne(payload);
 
   logger.info(
@@ -53,6 +56,7 @@ export const insertWorkout = async (payload) => {
 };
 
 export const deleteWorkout = async (workoutId) => {
+  const workoutsCollection = await getCollection('workouts');
   const result = await workoutsCollection.deleteOne({ workoutId });
 
   logger.info(
@@ -63,6 +67,7 @@ export const deleteWorkout = async (workoutId) => {
 export const updateWorkout = async ({
   exercise, reps, date, weight, exerciseType, workoutId,
 }) => {
+  const workoutsCollection = await getCollection('workouts');
   const mongoUpdateRecord = {
     $set: {
       exercise,
