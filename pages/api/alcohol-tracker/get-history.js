@@ -14,9 +14,10 @@ export default async (req, res) => {
   try {
     const results = await getHistory(user);
 
-    res.status(200)
+    return res.status(200)
       .json(results);
   } catch (error) {
     logger.error(error);
+    return res.status(500).json({ error: error.message || 'Failed to get history' });
   }
 };

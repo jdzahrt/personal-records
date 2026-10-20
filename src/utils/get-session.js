@@ -5,6 +5,6 @@ import { authOptions } from '../../pages/api/auth/[...nextauth]';
 export const getSessionUser = async (req, res) => {
   const session = await getServerSession(req, res, authOptions);
 
-  if (session.user.email) { return session.user.email; }
+  if (session?.user?.email) { return session.user.email; }
   return null;
 };

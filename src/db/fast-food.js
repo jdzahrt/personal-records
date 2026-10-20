@@ -2,17 +2,23 @@ import mongodb from 'mongodb';
 import logger from '../logger/logger';
 import { GetDbConnection } from './db';
 
-const db = await GetDbConnection();
-const fastFoodCollection = db.collection('fastfood');
+const getFastFoodCollection = async () => {
+  const db = await GetDbConnection();
+  if (!db || db instanceof Error || typeof db.collection !== 'function') {
+    throw (db instanceof Error ? db : new Error('Database connection failed'));
+  }
+  return db.collection('fastfood');
+};
 
 export const insertRecord = async (user, quitDate) => {
+  const collection = await getFastFoodCollection();
   const insertPayload = {
     email: user,
     quitDate: new Date(quitDate),
     active: true,
   };
 
-  const result = await fastFoodCollection.insertOne(insertPayload);
+  const result = await collection.insertOne(insertPayload);
 
   logger.info(
     `${result.insertedCount} documents were inserted with the _id: ${result.insertedId}`,
@@ -21,15 +27,19 @@ export const insertRecord = async (user, quitDate) => {
   return result.ops[0];
 };
 
-export const getHistory = async (user) => fastFoodCollection
-  .find({ email: user })
-  .sort({ active: -1 })
-  .toArray();
+export const getHistory = async (user) => {
+  const collection = await getFastFoodCollection();
+  return collection
+    .find({ email: user })
+    .sort({ active: -1 })
+    .toArray();
+};
 
 export const deleteRecord = async (fastFoodId) => {
+  const collection = await getFastFoodCollection();
   const newId = new mongodb.ObjectId(fastFoodId);
 
-  const result = await fastFoodCollection.deleteOne({ _id: newId });
+  const result = await collection.deleteOne({ _id: newId });
 
   logger.info(
     `${result.deletedCount} documents were deleted with the _id: ${fastFoodId}`,
@@ -37,6 +47,7 @@ export const deleteRecord = async (fastFoodId) => {
 };
 
 export const updateRecord = async (req) => {
+  const collection = await getFastFoodCollection();
   const fastFoodId = req.query.id;
   const newId = new mongodb.ObjectId(fastFoodId);
 
@@ -47,7 +58,7 @@ export const updateRecord = async (req) => {
     },
   };
 
-  const result = await fastFoodCollection.findOneAndUpdate(
+  const result = await collection.findOneAndUpdate(
     { _id: newId },
     mongoUpdateRecord,
     { returnOriginal: false },

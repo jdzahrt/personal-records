@@ -2,15 +2,24 @@ import mongodb from 'mongodb';
 import logger from '../logger/logger';
 import { GetDbConnection } from './db';
 
-const db = await GetDbConnection();
-const alcoholCollection = db.collection('alcohol');
+const getAlcoholCollection = async () => {
+  const db = await GetDbConnection();
+  if (!db || db instanceof Error || typeof db.collection !== 'function') {
+    throw (db instanceof Error ? db : new Error('Database connection failed'));
+  }
+  return db.collection('alcohol');
+};
 
-export const getHistory = async (user) => alcoholCollection
-  .find({ email: user })
-  .sort({ active: -1 })
-  .toArray();
+export const getHistory = async (user) => {
+  const alcoholCollection = await getAlcoholCollection();
+  return alcoholCollection
+    .find({ email: user })
+    .sort({ active: -1 })
+    .toArray();
+};
 
 export const insertRecord = async (user, quitDate) => {
+  const alcoholCollection = await getAlcoholCollection();
   const insertPayload = {
     email: user,
     quitDate: new Date(quitDate),
@@ -27,6 +36,7 @@ export const insertRecord = async (user, quitDate) => {
 };
 
 export const deleteRecord = async (alcoholId) => {
+  const alcoholCollection = await getAlcoholCollection();
   const newId = new mongodb.ObjectId(alcoholId);
 
   const result = await alcoholCollection.deleteOne({ _id: newId });
@@ -37,6 +47,7 @@ export const deleteRecord = async (alcoholId) => {
 };
 
 export const updateRecord = async (req) => {
+  const alcoholCollection = await getAlcoholCollection();
   const alcoholId = req.query.id;
   const newId = new mongodb.ObjectId(alcoholId);
 
